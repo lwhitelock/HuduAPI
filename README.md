@@ -44,7 +44,7 @@ Currently implemented commands are:
 
 name and companyid are manditory for New-HuduWebsite
 
-    Set-HuduMagicDash -title "My Dash" -company_name "Example Company" -message "Example message" -icon "fas fa-circle" -image_url "https://example.com/example.png" -content_link "https://example.com" -content "<p> This can be html or text and reveals when clicked</p>" -share "success"
+    Set-HuduMagicDash -title "My Dash" -company_name "Example Company" -message "Example message" -icon "fas fa-circle" -image_url "https://example.com/example.png" -content_link "https://example.com" -content "<p> This can be html or text and reveals when clicked</p>" -shade "success"
 
 title, message and company_name are mandatory. You can only use one of icon or image_url. You can only use one of content_link or content
 
