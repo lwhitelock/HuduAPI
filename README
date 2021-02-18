@@ -6,8 +6,11 @@ The filter options on get commands are all optional.
 
 For more information on what Hudu provides and expects you can look at https://your.hudu.domain/developer/1.0/
 
+Installation:
+install-module HuduAPI
+
 Usage:
-After installing the module you will need to run:
+After installing the module you will need to get an api key from https://your.hudu.domain/admin/api_keys
 New-HuduAPIKey "YourKey"
 New-HuduBaseURL "https://your.hudu.domain"
 
