@@ -40,7 +40,7 @@ Currently implemented commands are:
 
     Get-HuduWebsites -name "https://example.com" -websiteid 1
 
-    New-HuduWebsite -name "https://eample.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
+    New-HuduWebsite -name "https://example.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
 
 name and companyid are manditory for New-HuduWebsite
 
