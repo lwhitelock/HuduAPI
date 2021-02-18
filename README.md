@@ -21,25 +21,25 @@ After installing the module you will need to get an api key from https://your.hu
 Currently implemented commands are:
 
     New-HuduAPIKey
-
+ 
     Get-HuduAPIKey
-
+ 
     Remove-HuduAPIKey
-
+ 
     New-HuduBaseURL
-
+ 
     Get-HuduBaseURL
-
+ 
     Remove-HuduBaseURL
-
+ 
     Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
-
+ 
     Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https://example.com" -city "Town" -state "State" -id_in_integration "1234"
-
+ 
     Get-HuduAssetLayouts -name "People" -layoutid 1
-
+ 
     Get-HuduWebsites -name "https://example.com" -websiteid 1
-
+ 
     New-HuduWebsite -name "https://example.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
 
 name and companyid are manditory for New-HuduWebsite
