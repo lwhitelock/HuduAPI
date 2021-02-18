@@ -6,21 +6,30 @@ The filter options on get commands are all optional.
 
 For more information on what Hudu provides and expects you can look at https://your.hudu.domain/developer/1.0/
 
-Installation:
+#Installation:
+
 install-module HuduAPI
 
-Usage:
+#Usage:
+
 After installing the module you will need to get an api key from https://your.hudu.domain/admin/api_keys
+
 New-HuduAPIKey "YourKey"
+
 New-HuduBaseURL "https://your.hudu.domain"
 
 Currently implemented commands are:
 
 New-HuduAPIKey
+
 Get-HuduAPIKey
+
 Remove-HuduAPIKey
+
 New-HuduBaseURL
+
 Get-HuduBaseURL
+
 Remove-HuduBaseURL
 
 Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
@@ -30,11 +39,15 @@ Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https:/
 Get-HuduAssetLayouts -name "People" -layoutid 1
 
 Get-HuduWebsites -name "https://example.com" -websiteid 1
+
 New-HuduWebsite -name "https://eample.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
+
     name and companyid are manditory for New-HuduWebsite
 
 Set-HuduMagicDash -title "My Dash" -company_name "Example Company" -message "Example message" -icon "fas fa-circle" -image_url "https://example.com/example.png" -content_link "https://example.com" -content "<p> This can be html or text and reveals when clicked</p>" -share "success"
+
     title, message and company_name are mandatory. You can only use one of icon or image_url. You can only use one of content_link or content
 
 Remove-HuduMagicDash -title "My Dash" -company_name "Example Company" -id 1
+
     You can either user id or you can use title and company_name together
