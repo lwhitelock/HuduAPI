@@ -8,46 +8,46 @@ For more information on what Hudu provides and expects you can look at https://y
 
 Installation:
 
-install-module HuduAPI
+    install-module HuduAPI
 
 Usage:
 
 After installing the module you will need to get an api key from https://your.hudu.domain/admin/api_keys
 
-New-HuduAPIKey "YourKey"
+    New-HuduAPIKey "YourKey"
 
-New-HuduBaseURL "https://your.hudu.domain"
+    New-HuduBaseURL "https://your.hudu.domain"
 
 Currently implemented commands are:
 
-New-HuduAPIKey
+    New-HuduAPIKey
 
-Get-HuduAPIKey
+    Get-HuduAPIKey
 
-Remove-HuduAPIKey
+    Remove-HuduAPIKey
 
-New-HuduBaseURL
+    New-HuduBaseURL
 
-Get-HuduBaseURL
+    Get-HuduBaseURL
 
-Remove-HuduBaseURL
+    Remove-HuduBaseURL
 
-Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
+    Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
 
-Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https://example.com" -city "Town" -state "State" -id_in_integration "1234"
+    Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https://example.com" -city "Town" -state "State" -id_in_integration "1234"
 
-Get-HuduAssetLayouts -name "People" -layoutid 1
+    Get-HuduAssetLayouts -name "People" -layoutid 1
 
-Get-HuduWebsites -name "https://example.com" -websiteid 1
+    Get-HuduWebsites -name "https://example.com" -websiteid 1
 
-New-HuduWebsite -name "https://eample.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
+    New-HuduWebsite -name "https://eample.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false"
 
-    name and companyid are manditory for New-HuduWebsite
+name and companyid are manditory for New-HuduWebsite
 
-Set-HuduMagicDash -title "My Dash" -company_name "Example Company" -message "Example message" -icon "fas fa-circle" -image_url "https://example.com/example.png" -content_link "https://example.com" -content "<p> This can be html or text and reveals when clicked</p>" -share "success"
+    Set-HuduMagicDash -title "My Dash" -company_name "Example Company" -message "Example message" -icon "fas fa-circle" -image_url "https://example.com/example.png" -content_link "https://example.com" -content "<p> This can be html or text and reveals when clicked</p>" -share "success"
 
-    title, message and company_name are mandatory. You can only use one of icon or image_url. You can only use one of content_link or content
+title, message and company_name are mandatory. You can only use one of icon or image_url. You can only use one of content_link or content
 
-Remove-HuduMagicDash -title "My Dash" -company_name "Example Company" -id 1
+    Remove-HuduMagicDash -title "My Dash" -company_name "Example Company" -id 1
 
-    You can either user id or you can use title and company_name together
+You can either user id or you can use title and company_name together
