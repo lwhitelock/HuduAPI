@@ -4,7 +4,7 @@ function Get-HuduAssets {
 		[Int]$assetlayoutid = '',
 		[Int]$companyid = '',
 		[String]$name ='',
-		[String]$primaryserial =''
+		[String]$primaryserial
 	
 	)
 	Add-Type -AssemblyName System.Web
@@ -55,3 +55,73 @@ function Get-HuduAssets {
 	
 }
 		
+function New-HuduAsset {
+        param(
+        [String]$name,
+	[Int]$asset_layout_id,
+        [Array]$fields,
+        [Int]$companyid
+    )
+
+    $RequestParams = @{ 
+        asset = @{fields= @() }
+    }
+    if ($name) {
+        $RequestParams.asset.add('name',$name)
+    }
+    
+    if ($fields -is [Array]) {
+      foreach ($field in $asset_fields) {
+        if (($field['id']) -and ($field['value'])) {
+          $RequestParams.asset.fields.add(@{id=$field['id']; value=$field['value']})
+        }
+      }
+    }
+
+    #remove empty keys
+    $RequestParams.GetEnumerator() | ? Value
+    
+    return hudu_request -resource "/api/v1/companies/$companyid/assets" -method "POST"  -body  $(ConvertTo-Json $RequestParams)
+    
+}
+
+function Set-HuduAsset {
+    param(
+    	[int]$companyid,
+	[int]$id,
+	[string]name,
+	[int]assetlayoutid,
+	[array]$fields
+	)
+    
+    $RequestParams = @{ 
+        asset = @{fields= @() }
+    }
+
+    if ($name) {
+        $RequestParams.asset.add('name',$name)
+    }
+    if ($assetlayoutid) {
+        $RequestParams.asset.add('asset_layout_id',asset_layout_id)
+    }
+    
+    if ($fields -is [Array]) {
+      foreach ($field in $fields) {
+        if (($field.id) -and ($field.value)) {
+          $RequestParams.asset.fields += @{id=$field.id;value=$field.value }
+        }
+      }
+    }
+
+    #remove empty keys
+    $RequestParams.GetEnumerator() | ? Value
+    
+    return hudu_request -resource "/api/v1/companies/$companyid/assets/$id" -method "PUT" -Body $(ConvertTo-Json $RequestParams -Depth 5)
+
+}
+function Remove-HuduAsset {
+    param(
+    	[int]$companyid,
+	[int]$id
+	)
+    return hudu_request -resource "/api/v1/companies/$companyid/assets/$id" -method "DELETE" 
