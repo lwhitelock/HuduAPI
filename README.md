@@ -6,6 +6,8 @@ The filter options on get commands are all optional.
 
 For more information on what Hudu provides and expects you can look at https://your.hudu.domain/developer/1.0/
 
+For examples please see my blog: https://mspp.io/category/hudu/
+
 Installation:
 
     install-module HuduAPI
@@ -36,7 +38,7 @@ Currently implemented commands are:
     
     New-HuduAsset -name "Computer-01 - Backup Plan 1" -company_id 10 -asset_layout_id 2 -fields $fields
     $fields = @(
-    		@{
+		@{
 			asset_layout_field_id = $(Get-HuduAssetLayoutFieldID -name 'Plan Name' -asset_layout_id 2)
 			value = "Backup Plan1"
 		},
@@ -45,6 +47,7 @@ Currently implemented commands are:
 			value = "Computer-01"
 		})
     
+    Set-HuduAsset -name "Computer-01 - Backup Plan 1" -company_id 10 -asset_layout_id 2 -fields $fields -asset_id 100
  
     Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https://example.com" -city "Town" -state "State" -id_in_integration "1234"
  
@@ -62,6 +65,7 @@ Currently implemented commands are:
 			field_type = 'Text'
 			position = 2
 		})
+	
  
     Get-HuduAssetLayoutFieldID -name "Plan Name" -asset_layout_id 2
  	
@@ -80,9 +84,9 @@ title, message and company_name are mandatory. You can only use one of icon or i
 You can either user id or you can use title and company_name together
 
 
-Get-HuduAssetLayoutFieldID
-New-HuduAsset
-Set-HuduAsset
-Get-HuduArticles
-New-HuduArticle
-Set-HuduArticle
+    Get-HuduArticles -name "Test" -id 10 -company_id 20
+    
+    New-HuduArticle -name "Test" -content "<p>Html content of article</p>" -folder_id 100 -company_id 20
+Name and Content are mandatory, folder_id and company_id are optional. Setting no company ID adds to the global KB
+    
+    Set-HuduArticle -name "Test" -content "<p>Html content of article</p>" -folder_id 100 -company_id 20 -article_id 10
