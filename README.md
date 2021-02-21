@@ -6,7 +6,7 @@ The filter options on get commands are all optional.
 
 For more information on what Hudu provides and expects you can look at https://your.hudu.domain/developer/1.0/
 
-For examples please see my blog: https://mspp.io/category/hudu/
+For examples please see my blog: https://mspp.io/category/hudu/ or this repository https://github.com/lwhitelock/HuduAutomation
 
 Installation:
 
