@@ -18,7 +18,7 @@ function New-HuduAPIKey {
 
 function Get-HuduApiKey {
 	if($Int_HuduAPIKey -eq $null) {
-		Write-Error "No API key had been set. Please use Add-HuduAPIKey to set it."
+		Write-Error "No API key has been set. Please use New-HuduAPIKey to set it."
 	}
 	else{
 	$Int_HuduAPIKey
@@ -46,7 +46,7 @@ function New-HuduBaseURL {
 
 function Get-HuduBaseURL {
 	if($Int_HuduBaseURL -eq $null) {
-		Write-Error "No API key had been set. Please use Add-HuduAPIKey to set it."
+		Write-Error "No Base URL has been set. Please use New-HuduBaseURL to set it."
 	}
 	else{
 	$Int_HuduBaseURL

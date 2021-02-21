@@ -8,12 +8,11 @@ function Get-HuduAssets {
 	)
 	
 	#
-	$i = 0;
+	$i = 1;
 		$AllAssets = do {
 		$Assets = hudu_request -Method get -Resource "/api/v1/assets?page=$i&page_size=1000"
 		$i++
 		$Assets.Assets
-		Write-Host "Retrieved $($Assets.Assets.count) Assets" -ForegroundColor Yellow
 		} while ($Assets.Assets.count % 1000 -eq 0 -and $Assets.Assets.count -ne 0)
 		
 		
@@ -37,4 +36,62 @@ function Get-HuduAssets {
 	return $AllAssets
 	
 }
+
+function New-HuduAsset {
+	Param (
+		[Parameter(Mandatory=$true)]
+		[String]$name ='',
+		[Parameter(Mandatory=$true)]
+		[Int]$company_id='',
+		[Parameter(Mandatory=$true)]
+		[Int]$asset_layout_id='',
+		[Parameter(Mandatory=$true)]
+		[Array]$fields=''
+	)
+	
+
+	$asset = @{asset = @{}}
+	
+	$asset.asset.add('name',$name)
+	$asset.asset.add('asset_layout_id',$asset_layout_id)
+	$asset.asset.add('fields',$fields)
+	
+	$json = $asset | convertto-json -Depth 10
+	
+	$response = hudu_request -Method post -Resource "/api/v1/companies/$company_id/assets" -body $json
+	
+	$response
+	
+	
+}
 		
+function Set-HuduAsset {
+	Param (
+		[Parameter(Mandatory=$true)]
+		[String]$name ='',
+		[Parameter(Mandatory=$true)]
+		[Int]$company_id='',
+		[Parameter(Mandatory=$true)]
+		[Int]$asset_layout_id='',
+		[Parameter(Mandatory=$true)]
+		[Array]$fields='',
+		[Parameter(Mandatory=$true)]
+		[Int]$asset_id=''
+		
+	)
+	
+
+	$asset = @{asset = @{}}
+	
+	$asset.asset.add('name',$name)
+	$asset.asset.add('asset_layout_id',$asset_layout_id)
+	$asset.asset.add('fields',$fields)
+	
+	$json = $asset | convertto-json -Depth 10
+	
+	$response = hudu_request -Method put -Resource "/api/v1/companies/$company_id/assets/$asset_id" -body $json
+	
+	$response
+	
+	
+}

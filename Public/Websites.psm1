@@ -16,7 +16,7 @@ function Get-HuduWebsites {
 		$resourcefilter = "&name=$($name)"	
 	}
 		
-	$i = 0;
+	$i = 1;
 		$AllWebsites = do {
 		$Websites = hudu_request -Method get -Resource "/api/v1/websites?page=$i&page_size=1000$($resourcefilter)"
 		$i++
@@ -45,10 +45,8 @@ function New-HuduWebsite {
 	
 	$website = @{website = @{}}
 	
-	if ($name) {
-		$website.website.add('name',$name)
-	}
-	
+	$website.website.add('name',$name)
+		
 	if ($notes) {
 		$website.website.add('notes',$notes)
 	}
@@ -57,9 +55,7 @@ function New-HuduWebsite {
 		$website.website.add('paused',$paused)
 	}
 	
-	if ($companyid) {
-		$website.website.add('company_id',$companyid)
-	}
+	$website.website.add('company_id',$companyid)
 	
 	if ($disabledns) {
 		$website.website.add('disable_dns',$disabledns)
