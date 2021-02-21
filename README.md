@@ -33,6 +33,18 @@ Currently implemented commands are:
     Remove-HuduBaseURL
  
     Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
+    
+    New-HuduAsset -name "Computer-01 - Backup Plan 1" -company_id 10 -asset_layout_id 2 -fields $fields
+    $fields = @(
+    		@{
+			asset_layout_field_id = $(Get-HuduAssetLayoutFieldID -name 'Plan Name' -asset_layout_id 2)
+			value = "Backup Plan1"
+		},
+		@{
+			asset_layout_field_id = $(Get-HuduAssetLayoutFieldID -name 'Computer Name' -asset_layout_id 2)
+			value = "Computer-01"
+		})
+    
  
     Get-HuduCompanies -name "Example Co" -phonenumber "0123456789" -website "https://example.com" -city "Town" -state "State" -id_in_integration "1234"
  
@@ -51,6 +63,8 @@ Currently implemented commands are:
 			position = 2
 		})
  
+    Get-HuduAssetLayoutFieldID -name "Plan Name" -asset_layout_id 2
+ 	
     Get-HuduWebsites -name "https://example.com" -websiteid 1
  
     New-HuduWebsite -name "https://example.com" -companyid 1 -notes "Main website" -paused "false" -disabledns "false" -disablessl "false" -disablewhois "false" 
