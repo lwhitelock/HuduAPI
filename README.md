@@ -49,7 +49,7 @@ Currently implemented commands are:
 			label = 'Computer Name'
 			field_type = 'Text'
 			position = 2
-		}
+		})
  
     Get-HuduWebsites -name "https://example.com" -websiteid 1
  
