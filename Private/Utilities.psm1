@@ -68,8 +68,6 @@ function hudu_request {
 		try {
 		$HuduAPIKey = Get-HuduApiKey
 		$HuduBaseURL = Get-HuduBaseURL
-		
-		write-warning ($HuduBaseURL + $Resource)
 
 		$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
 			-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
