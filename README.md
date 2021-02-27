@@ -1,5 +1,24 @@
 This is an unofficial powershell module to allow access to the Hudu API. I am not associated with Hudu other than as a customer.
 
+NOTE:
+Hudu have updated their API with some better filtering options. They have also updated their Asset creation API with breaking changes. If you install/update Hudu after 26th of Feb you need to use version 1.11 of the powershell module or above. If you are using a version prior to that you will need to use version 1.10.
+
+The main change is you now need to provide fields to an asset as:
+
+"field_name": "value"
+
+Where field name is the asset layout field name in lower case with spaces converted to _
+
+In the prior version you needed to provide
+
+"asset_layout_field_id": 1
+
+"value": "value"
+
+I have updated my MSP360 script in Github with the changes to work with the latest version. This version is much faster due to the new filtering options and shows the new asset field style needed:
+
+https://github.com/lwhitelock/HuduAutomation/blob/main/Hudu-M365-Sync.ps1
+
 Currently the API is missing some filtering options so I have had to implement them locally. This means especially the Get-HuduAssets command is very slow as no matter which options you specify it will have to download every asset and then filter it. I have a ticket with support to hopefully resolve this so I can fix it in a future version.
 
 The filter options on get commands are all optional.
