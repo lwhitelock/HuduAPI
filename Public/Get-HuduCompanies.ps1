@@ -39,7 +39,7 @@ function Get-HuduCompanies{
 	
 	$i = 1;
 		$AllCompanies = do {
-		$Companies = hudu_request -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($resourcefilter)"
+		$Companies = Invoke-HuduRequest -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($resourcefilter)"
 		$i++
 		$Companies.Companies
 		} while ($Companies.Companies.count % 1000 -eq 0 -and $Companies.Companies.count -ne 0)
@@ -48,5 +48,3 @@ function Get-HuduCompanies{
 	return $AllCompanies
 	
 }
-
-		

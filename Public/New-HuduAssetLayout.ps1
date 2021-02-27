@@ -1,31 +1,3 @@
-function Get-HuduAssetLayouts {
-	Param (
-		[String]$name ='',
-		[String]$layoutid=''
-	)
-	
-	if ($layoutid) {
-		$AssetLayout = hudu_request -Method get -Resource "/api/v1/asset_layouts/$($layoutid)"
-		return $AssetLayout.asset_layout
-	} else {
-		
-		$i = 1;
-		$AllAssetLayouts = do {
-		$AssetLayouts = hudu_request -Method get -Resource "/api/v1/asset_layouts?page=$i&page_size=1000"
-		$i++
-		$AssetLayouts.Asset_Layouts
-		} while ($AssetLayouts.asset_layouts.count % 1000 -eq 0 -and $AssetLayouts.asset_layouts.count -ne 0)
-		
-		
-		if ($name) {
-		$AllAssetLayouts = $AllAssetLayouts | where-object {$_.name -eq $name}
-		}
-		
-		return $AllAssetLayouts
-	}
-}
-		
-
 function New-HuduAssetLayout {
 	Param (
 		[Parameter(Mandatory=$true)]
@@ -79,7 +51,7 @@ function New-HuduAssetLayout {
 	
 	$json = $asset_layout | convertto-json -Depth 10
 	
-	$response = hudu_request -Method post -Resource "/api/v1/asset_layouts" -body $json
+	$response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_layouts" -body $json
 	
 	$response
 	
@@ -87,23 +59,3 @@ function New-HuduAssetLayout {
 	
 	
 }
-
-function Get-HuduAssetLayoutFieldID {
-	Param (
-		[Parameter(Mandatory=$true)]
-		[String]$name ='',
-		[Parameter(Mandatory=$true)]
-		[Int]$asset_layout_id=''
-	)
-	
-	$layout = Get-HuduAssetLayouts -layoutid $asset_layout_id
-	
-	$fields = [Collections.Generic.List[Object]]($layout.fields)
-	$index = $fields.FindIndex( {$args[0].label -eq $name} )
-	$fields[$index].id
-	
-	
-}
-	
-	
-	
