@@ -60,12 +60,10 @@ Currently implemented commands are:
     New-HuduAsset -name "Computer-01 - Backup Plan 1" -company_id 10 -asset_layout_id 2 -fields $fields
     $fields = @(
 		@{
-			asset_layout_field_id = $(Get-HuduAssetLayoutFieldID -name 'Plan Name' -asset_layout_id 2)
-			value = "Backup Plan1"
+			plan_name = "Backup Plan1"
 		},
 		@{
-			asset_layout_field_id = $(Get-HuduAssetLayoutFieldID -name 'Computer Name' -asset_layout_id 2)
-			value = "Computer-01"
+			computer_name = "Computer-01"
 		})
     
     Set-HuduAsset -name "Computer-01 - Backup Plan 1" -company_id 10 -asset_layout_id 2 -fields $fields -asset_id 100
