@@ -15,7 +15,7 @@ function New-HuduAsset {
 	
 	$asset.asset.add('name',$name)
 	$asset.asset.add('asset_layout_id',$asset_layout_id)
-	$asset.asset.add('fields',$fields)
+	$asset.asset.add('custom_fields',$fields)
 	
 	$json = $asset | convertto-json -Depth 10
 	
