@@ -19,8 +19,6 @@ I have updated my MSP360 script in Github with the changes to work with the late
 
 https://github.com/lwhitelock/HuduAutomation/blob/main/Hudu-M365-Sync.ps1
 
-Currently the API is missing some filtering options so I have had to implement them locally. This means especially the Get-HuduAssets command is very slow as no matter which options you specify it will have to download every asset and then filter it. I have a ticket with support to hopefully resolve this so I can fix it in a future version.
-
 The filter options on get commands are all optional.
 
 For more information on what Hudu provides and expects you can look at https://your.hudu.domain/developer/1.0/
