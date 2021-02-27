@@ -5,9 +5,16 @@ function Get-HuduCompanies{
 		[String]$website ='',
 		[String]$city ='',
 		[String]$state ='',
-		[Int]$id_in_integration =''
+		[Int]$id_in_integration ='',
+		[Int]$id = ''
 	
 	)
+
+
+	if ($id) {
+		$Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$id"
+		return $Company
+	} else {
 	
 	$resourcefilter = ''
 	
@@ -47,4 +54,5 @@ function Get-HuduCompanies{
 			
 	return $AllCompanies
 	
+	}
 }
