@@ -31,6 +31,11 @@ function Get-HuduActivityLogs{
 	if ($action_message) {
 		$resourcefilter = "$($resourcefilter)&action_message=$($action_message)"
 	}
+
+	if ($start_date) {
+		$iso8601date = $start_date.ToString("o");
+        $resourcefilter = "$($resourcefilter)&start_date=$($iso8601date)"
+    }
 	
 	$i = 1;
 		
@@ -39,12 +44,7 @@ function Get-HuduActivityLogs{
 		$i++
 		$Activity
 	} while ($Activity.count % 1000 -eq 0 -and $Activity.count -ne 0)
-		
-
-    if ($start_date) {
-        $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -ge $start_date}
-    }
-    
+		 
     
     if ($end_date) {
         $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -le $end_date}
