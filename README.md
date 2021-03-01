@@ -1,5 +1,7 @@
 This is an unofficial powershell module to allow access to the Hudu API. I am not associated with Hudu other than as a customer.
 
+NOTE 4: The bug has been fixed and we now have sub version numbers. Update 2.1.5.3 released last night is the fixed version. They also added pretty much all the filters needed to get rid of local filtering, so I will update the powershell module to take advantage of them shortly.
+
 NOTE 3:
 Do not update to this version of Hudu there is a nasty bug: When you now update asset fields, it is only tracking one set across all Assets of a type. So you set fields for one asset. Then update the fields on another asset in a different company of the same type. The first set of fields will be wiped and only the most recently updated version of the fields will be kept. This ends up with you only having fields on one asset of a type at a time. It looks like this is only when you update/create through the API.
 
