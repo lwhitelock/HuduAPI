@@ -1,48 +1,61 @@
 function Set-HuduPassword {
   Param (
-    [Parameter(Mandatory=$true)][Int]$id ='',
-    [Parameter(Mandatory=$true)][Int]$company_id='',
+    [Parameter(Mandatory=$true)] 
+    [Int]$id='',
+    [Parameter(Mandatory=$true)]
+    [String]$name ='',
+    [Parameter(Mandatory=$true)]
+    [Int]$company_id='',
     [String]$passwordable_type='',
     [int]$passwordable_id='',
-    [bool]$in_portal,
-    [Parameter(Mandatory=$true)][String]$password='',
+    [Bool]$in_portal = $false,
+    [Parameter(Mandatory=$true)]
+    [String]$password='',
     [string]$otp_secret='',
     [String]$url='',
     [String]$username='',
     [String]$description='',
-    [String]$password_type='',
-    [String]$name=''
-    
+    [String]$password_type=''
   )
-
-  $PasswordObject = @{
-    asset_password = @{
   
-      name = $name
-      company_id = $company_id
-      passwordable_type = $passwordable_type
-      passwordable_id = $passwordable_id
-      in_portal= $in_portal
-      password = $password
-      otp_secret = $otp_secret
-      url = $url
-      username = $username
-      description = $description
-      password_type = $password_type
 
-    }
+  $asset_password = @{asset_password = @{}}
+  
+  $asset_password.asset_password.add('name',$name)
+  $asset_password.asset_password.add('company_id',$company_id)
+  $asset_password.asset_password.add('password',$password)
+  $asset_password.asset_password.add('in_portal',$in_portal)
+
+  if ($passwordable_type){
+    $asset_password.asset_password.add('passwordable_type',$passwordable_type)
+  }
+  if ($passwordable_id){
+    $asset_password.asset_password.add('passwordable_id',$passwordable_id)
+  }
+ 
+  if ($otp_secret){
+    $asset_password.asset_password.add('otp_secret',$otp_secret)
   }
 
-  #remove Empty Keys
+  if ($url){
+    $asset_password.asset_password.add('url',$url)
+  }
 
-  ($PasswordObject.asset_password.GetEnumerator() | ? { -not $_.Value }) | % { $PasswordObject.asset_password.Remove($_.Name) }
+  if ($username){
+    $asset_password.asset_password.add('username',$username)
+  }
 
+  if ($description){
+    $asset_password.asset_password.add('description',$description)
+  }
+
+  if ($password_type){
+    $asset_password.asset_password.add('password_type',$password_type)
+  }
   
-  #$json = $Password | convertto-json -Depth 5
-
-  write-host $(convertto-json $PasswordObject)
+  $json = $asset_password | convertto-json -Depth 10
   
-  $response = Invoke-HuduRequest -Method 'put' -Resource "/api/v1/asset_passwords/$id" -body $(convertto-json $PasswordObject)
+  $response = Invoke-HuduRequest -Method put -Resource "/api/v1/asset_passwords/$id" -body $json
   
   $response
   
