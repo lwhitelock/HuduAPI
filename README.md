@@ -1,5 +1,7 @@
 Version 1.13
+
 Rate Limiting and Version Check
+
 This update adds in handling for Hudu's API rate limiting. It also adds support for the new AppInfo endpoint and will check your version when both BaseURL and API key have been set. It also fixes the Get-HuduCard command.
 
 
