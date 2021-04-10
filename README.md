@@ -1,9 +1,12 @@
-Version 1.13
+
+## Release Notes
+### Version 1.13
 
 Rate Limiting and Version Check
 
 This update adds in handling for Hudu's API rate limiting. It also adds support for the new AppInfo endpoint and will check your version when both BaseURL and API key have been set. It also fixes the Get-HuduCard command.
 
+## Notes
 
 This is an unofficial powershell module to allow access to the Hudu API. I am not associated with Hudu other than as a customer.
 
@@ -30,31 +33,63 @@ For more information on what Hudu provides and expects you can look at https://y
 
 For examples please see my blog: https://mspp.io/category/hudu/ or this repository https://github.com/lwhitelock/HuduAutomation
 
-Installation:
+
+
+## Installation
 
     install-module HuduAPI
 
-Usage:
+## Implemented Commands
+		New-HuduAPIKey
+		Get-HuduAPIKey
+		Remove-HuduAPIKey
+		New-HuduBaseURL
+		Get-HuduBaseURL
+		Remove-HuduBaseURL
+		Get-HuduAssets
+		Invoke-HuduRequest
+		Get-HuduCompanies
+		Get-HuduAssetLayouts
+		Get-HuduWebsites
+		New-HuduWebsite
+		Set-HuduMagicDash
+		Remove-HuduMagicDash
+		New-HuduAssetLayout
+		Get-HuduAssetLayoutFieldID
+		New-HuduAsset
+		Set-HuduAsset
+		Get-HuduArticles
+		New-HuduArticle
+		Set-HuduArticle
+		Get-HuduPasswords
+		Set-HuduPassword
+		New-HuduPassword
+		Remove-HuduPassword
+		Get-HuduActivityLogs
+		Set-HuduAssetLayout
+		Get-HuduCard
+		New-HuduCompany
+		Remove-HuduArticle
+		Remove-HuduAsset
+		Remove-HuduPassword
+		Remove-HuduWebsite
+		Set-HuduArticleArchive
+		Set-HuduAssetArchive
+		Set-HuduAssetLayout
+		Set-HuduCompany
+		Set-HuduCompanyArchive
+		Set-HuduPasswordArchive
+		Set-HuduWebsite
+		Get-HuduAppInfo
+
+## Usage
+For examples of implemented commands please see my other repository https://github.com/lwhitelock/HuduAutomation
 
 After installing the module you will need to get an api key from https://your.hudu.domain/admin/api_keys
 
     New-HuduAPIKey "YourKey"
 
     New-HuduBaseURL "https://your.hudu.domain"
-
-Currently implemented commands are:
-
-    New-HuduAPIKey
- 
-    Get-HuduAPIKey
- 
-    Remove-HuduAPIKey
- 
-    New-HuduBaseURL
- 
-    Get-HuduBaseURL
- 
-    Remove-HuduBaseURL
  
     Get-HuduAssets -name "Computer-01" -id 1 -assetlayoutid 1 -companyid 1 
     
