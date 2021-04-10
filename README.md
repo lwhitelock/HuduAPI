@@ -83,7 +83,7 @@ For examples please see my blog: https://mspp.io/category/hudu/ or this reposito
 		Get-HuduAppInfo
 
 ## Usage
-For examples of implemented commands please see my other repository https://github.com/lwhitelock/HuduAutomation
+For examples please see my blog: https://mspp.io/category/hudu/ or this repository https://github.com/lwhitelock/HuduAutomation
 
 After installing the module you will need to get an api key from https://your.hudu.domain/admin/api_keys
 
