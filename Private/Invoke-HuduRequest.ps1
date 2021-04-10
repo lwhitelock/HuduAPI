@@ -5,26 +5,30 @@ function Invoke-HuduRequest {
 		[string]$Body
 	)
 	
-	if (($Method -eq "put") -or ($Method -eq "post") -or ($Method -eq "delete")) {
-		try {
-		$HuduAPIKey = Get-HuduApiKey
-		$HuduBaseURL = Get-HuduBaseURL
+	try {
+		if (($Method -eq "put") -or ($Method -eq "post") -or ($Method -eq "delete")) {
+			$HuduAPIKey = Get-HuduApiKey
+			$HuduBaseURL = Get-HuduBaseURL
+			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
+				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
+				-ContentType 'application/json' -body $Body			
 
-		$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
-			-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
-			-ContentType 'application/json' -body $Body
-		} catch {
-			Write-Error $_
+		} else {	
+			$HuduAPIKey = Get-HuduApiKey
+			$HuduBaseURL = Get-HuduBaseURL
+			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
+				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
+				-ContentType 'application/json'
 		}
-	} else {	
-		try {
-		$HuduAPIKey = Get-HuduApiKey
-		$HuduBaseURL = Get-HuduBaseURL
-		$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
-			-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
-			-ContentType 'application/json'
-		} catch {
-			Write-Error $_
+
+
+	} catch {
+		if ("$_".trim() -eq "Retry later"){
+			Write-Host "Hudu API Rate limited. Waiting 30 Seconds then trying again" -foregroundcolor red
+			Start-Sleep 30
+			$HuduResult = Invoke-HuduRequest -Method $method -Resource $resource -Body $Body
+		} else {
+			Write-Error "'$_'"
 		}
 	}
 	
