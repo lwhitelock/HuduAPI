@@ -19,7 +19,7 @@ function Set-HuduCompany {
 	)
 	
 
-	$company = [ordered]@{company = @{}}
+	$company = [ordered]@{company = [ordered]@{}}
 	
 	$company.company.add('name',$name)
 	$company.company.add('nickname',$nickname)

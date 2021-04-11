@@ -19,7 +19,7 @@ function New-HuduAssetLayout {
 	)
 	
 
-	$asset_layout = [ordered]@{asset_layout = @{}}
+	$asset_layout = [ordered]@{asset_layout = [ordered]@{}}
 	
 	$asset_layout.asset_layout.add('name',$name)
 	$asset_layout.asset_layout.add('icon',$icon)

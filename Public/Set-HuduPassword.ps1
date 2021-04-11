@@ -19,7 +19,7 @@ function Set-HuduPassword {
   )
   
 
-  $asset_password = [ordered]@{asset_password = @{}}
+  $asset_password = [ordered]@{asset_password = [ordered]@{}}
   
   $asset_password.asset_password.add('name',$name)
   $asset_password.asset_password.add('company_id',$company_id)

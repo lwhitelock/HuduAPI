@@ -11,7 +11,7 @@ function New-HuduWebsite {
 		[String]$disablewhois=''
 	)
 	
-	$website = [ordered]@{website = @{}}
+	$website = [ordered]@{website = [ordered]@{}}
 	
 	$website.website.add('name',$name)
 		

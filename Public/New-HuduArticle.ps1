@@ -9,7 +9,7 @@ function New-HuduArticle {
 	)
 	
 
-	$article = [ordered]@{article = @{}}
+	$article = [ordered]@{article = [ordered]@{}}
 	
 	$article.article.add('name',$name)
 	$article.article.add('content',$content)
