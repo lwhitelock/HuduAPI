@@ -14,7 +14,7 @@ function Set-HuduAsset {
 	)
 	
 
-	$asset = @{asset = @{}}
+	$asset = [ordered]@{asset = @{}}
 	
 	$asset.asset.add('name',$name)
 	$asset.asset.add('asset_layout_id',$asset_layout_id)

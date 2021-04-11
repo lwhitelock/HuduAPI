@@ -23,7 +23,7 @@ function Set-HuduMagicDash {
 		exit 1
 	}
 	
-	$magicdash = @{}
+	$magicdash = [ordered]@{}
 	
 	if ($title) {
 		$magicdash.add('title',$title)
