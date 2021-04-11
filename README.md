@@ -1,5 +1,11 @@
 
 ## Release Notes
+### Version 1.14
+
+Fixes for Powershell 7
+
+Hudu has an API bug where JSON needs to be in the correct order. The module works fine with PS5 but Asset fields weren't created in PS7, This version fixes that.
+
 ### Version 1.13
 
 Rate Limiting and Version Check
