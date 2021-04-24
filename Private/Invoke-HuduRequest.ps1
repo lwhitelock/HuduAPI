@@ -23,7 +23,7 @@ function Invoke-HuduRequest {
 
 
 	} catch {
-		if ("$_".trim() -eq "Retry later"){
+		if ("$_".trim() -eq "Retry later" -or "$_".trim() -eq "The remote server returned an error: (429) Too Many Requests."){
 			Write-Host "Hudu API Rate limited. Waiting 30 Seconds then trying again" -foregroundcolor red
 			Start-Sleep 30
 			$HuduResult = Invoke-HuduRequest -Method $method -Resource $resource -Body $Body
