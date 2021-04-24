@@ -1,5 +1,9 @@
 
 ## Release Notes
+### Version 1.16
+
+Fixed issues with UTF8 characters. Invalid characters should be stripped and correct characters sent now.
+
 ### Version 1.15
 
 More tweaks to work around the json order issue.
