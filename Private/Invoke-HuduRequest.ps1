@@ -11,14 +11,14 @@ function Invoke-HuduRequest {
 			$HuduBaseURL = Get-HuduBaseURL
 			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
 				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
-				-ContentType 'application/json' -body $Body			
+				-ContentType 'application/json; charset=utf-8' -body $Body			
 
 		} else {	
 			$HuduAPIKey = Get-HuduApiKey
 			$HuduBaseURL = Get-HuduBaseURL
 			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
 				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
-				-ContentType 'application/json'
+				-ContentType 'application/json; charset=utf-8'
 		}
 
 
