@@ -17,10 +17,10 @@ function Get-HuduAssetLayouts {
 		
 		$i = 1;
 		$AllAssetLayouts = do {
-			$AssetLayouts = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_layouts?page=$i&page_size=1000$($resourcefilter)"
+			$AssetLayouts = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_layouts?page=$i&page_size=25$($resourcefilter)"
 			$i++
 			$AssetLayouts.Asset_Layouts
-		} while ($AssetLayouts.asset_layouts.count % 1000 -eq 0 -and $AssetLayouts.asset_layouts.count -ne 0)
+		} while ($AssetLayouts.asset_layouts.count % 25 -eq 0 -and $AssetLayouts.asset_layouts.count -ne 0)
 		
 		return $AllAssetLayouts
 	}

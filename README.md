@@ -1,5 +1,24 @@
 
 ## Release Notes
+### Version 1.18
+Added Support for Hudu 2.1.5.6 and implemented Folders
+Added:
+	Get-HuduFolders
+	New-HuduFolder
+	Set-HuduFolder
+
+I have also added some additional helper features for folders
+	Get-HuduFolderMap # will return the structure of all folders in your KB
+	Get-HuduFolderMap -company_id $company.id # will return the structure of folders under a customer.
+You can browse to folders with
+	(Get-HuduFolderMap).Folder.SubFolder.SubSubFolder
+
+To get a specific subfolder by path or to create it and its parent folders you can pass in an array of strings to Initialize-HuduFolder:
+	$Folders = @("Folder","SubFolder","SubSubFolder")
+	Initialize-HuduFolder $Folders
+
+Fixed bug in 2.1.5.6 where booleans have been fixed in asset layouts, but legacy text versions no longer work.
+
 ### Version 1.17
 
 Fixed rate limiting in PowerShell 5

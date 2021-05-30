@@ -18,6 +18,11 @@ function New-HuduAssetLayout {
 		[bool]$active=$true
 	)
 	
+	foreach ($field in $fields){
+		$field.show_in_list = [System.Convert]::ToBoolean($field.show_in_list)
+		$field.required = [System.Convert]::ToBoolean($field.required)
+		$field.expiration = [System.Convert]::ToBoolean($field.expiration)
+	}
 
 	$asset_layout = [ordered]@{asset_layout = [ordered]@{}}
 	
@@ -29,19 +34,20 @@ function New-HuduAssetLayout {
 	$asset_layout.asset_layout.add('active',$active)
 		
 	if ($include_passwords) {
-		$asset_layout.asset_layout.add('include_passwords',$include_passwords)
+		
+		$asset_layout.asset_layout.add('include_passwords',[System.Convert]::ToBoolean($include_passwords))
 	}
 	
 	if ($include_photos) {
-		$asset_layout.asset_layout.add('include_photos',$include_photos)
+		$asset_layout.asset_layout.add('include_photos',[System.Convert]::ToBoolean($include_photos))
 	}
 	
 	if ($include_comments) {
-		$asset_layout.asset_layout.add('include_comments',$include_comments)
+		$asset_layout.asset_layout.add('include_comments',[System.Convert]::ToBoolean($include_comments))
 	}
 	
 	if ($include_files) {
-		$asset_layout.asset_layout.add('include_files',$include_files)
+		$asset_layout.asset_layout.add('include_files',[System.Convert]::ToBoolean($include_files))
 	}
 	
 	if ($password_types) {
