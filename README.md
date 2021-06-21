@@ -1,5 +1,9 @@
 
 ## Release Notes
+### Version 1.19
+Added Boolean fix to Set-HuduAssetLayouts
+Fixed bug in Remove-MagicDash
+
 ### Version 1.18
 Added Support for Hudu 2.1.5.6 and implemented Folders
 
