@@ -7,24 +7,24 @@ function Get-HuduArticles {
 	
 	)
 	
-	if ($id) {
+	if ($Id) {
 		$Article = Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
 		return $Article
 	} else {
 
-		$resourcefilter = ''
+		$ResourceFilter = ''
 
 		if ($CompanyId) {
-			$resourcefilter = "$($resourcefilter)&companyid=$($CompanyId)"
+			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
 		}
 
 		if ($Name) {
-			$resourcefilter = "$($resourcefilter)&name=$($Name)"
+			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 		}
 	
 		$i = 1;
 		$AllArticles = do {
-			$Articles = Invoke-HuduRequest -Method get -Resource "/api/v1/articles?page=$i&page_size=1000$($resourcefilter)"
+			$Articles = Invoke-HuduRequest -Method get -Resource "/api/v1/articles?page=$i&page_size=1000$($ResourceFilter)"
 			$i++
 			$Articles.Articles
 		} while ($Articles.Articles.count % 1000 -eq 0 -and $Articles.Articles.count -ne 0)
