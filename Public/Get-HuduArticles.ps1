@@ -3,7 +3,7 @@ function Get-HuduArticles {
 		[Int]$Id = '',
 		[Alias("company_id")]
 		[Int]$CompanyId = '',
-		[String]$Iame =''
+		[String]$Name =''
 	
 	)
 	
