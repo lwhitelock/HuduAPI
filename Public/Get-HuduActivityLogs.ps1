@@ -11,10 +11,9 @@ function Get-HuduActivityLogs{
 		[Alias("action_message")]
 		[String]$ActionMessage ='',
 		[Alias("start_date")]
-        [DateTime]$StartDate,
+		[DateTime]$StartDate,
 		[Alias("end_date")]
-        [DateTime]$EndDate
-		
+		[DateTime]$EndDate	
 	)
 	
 	$ResourceFilter = ''
@@ -56,7 +55,6 @@ function Get-HuduActivityLogs{
     if ($EndDate) {
         $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -le $EndDate}
     }
-
 
 	return $AllActivity
 	

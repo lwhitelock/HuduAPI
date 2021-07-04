@@ -4,7 +4,6 @@ function Get-HuduArticles {
 		[Alias("company_id")]
 		[Int]$CompanyId = '',
 		[String]$Name =''
-	
 	)
 	
 	if ($Id) {
@@ -29,7 +28,6 @@ function Get-HuduArticles {
 			$Articles.Articles
 		} while ($Articles.Articles.count % 1000 -eq 0 -and $Articles.Articles.count -ne 0)
 		
-	
 		return $AllArticles
 	
 	}
