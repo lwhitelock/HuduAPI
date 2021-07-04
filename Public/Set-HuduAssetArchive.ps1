@@ -1,17 +1,18 @@
 function Set-HuduAssetArchive {
     Param (
       [Parameter(Mandatory=$true)]
-      [Int]$id ='',
+      [Int]$Id,
+      [Alias("company_id")]
       [Parameter(Mandatory=$true)]
-      [Int]$company_id ='',
+      [Int]$CompanyId,
       [Parameter(Mandatory=$true)]
-      [Bool]$archive=''
+      [Bool]$Archive
     )
     
-    if ($archive){
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$company_id/assets/$id/archive"
+    if ($Archive){
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id/archive"
     } else {
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$company_id/assets/$id/unarchive"
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id/unarchive"
     }
-    $response
+    $Response
   }

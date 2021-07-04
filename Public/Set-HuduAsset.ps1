@@ -1,33 +1,30 @@
 function Set-HuduAsset {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$name ='',
+		[String]$Name,
 		[Alias("company_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$companyId='',
+		[Int]$CompanyId,
 		[Alias("asset_layout_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$assetLayoutId='',
+		[Int]$AssetLayoutId,
 		[Parameter(Mandatory=$true)]
-		[Array]$fields='',
+		[Array]$Fields,
 		[Alias("asset_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$assetId=''
-		
+		[Int]$AssetId	
 	)
 	
-
-	$asset = [ordered]@{asset = [ordered]@{}}
+	$Asset = [ordered]@{asset = [ordered]@{}}
 	
-	$asset.asset.add('name',$name)
-	$asset.asset.add('asset_layout_id',$asset_layout_id)
-	$asset.asset.add('custom_fields',$fields)
+	$Asset.asset.add('name',$Name)
+	$Asset.asset.add('asset_layout_id',$AssetLayoutId)
+	$Asset.asset.add('custom_fields',$Fields)
 	
-	$json = $asset | convertto-json -Depth 10
+	$JSON = $Asset | ConvertTo-Json -Depth 10
 	
-	$response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$company_id/assets/$asset_id" -body $json
+	$Response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$AssetId" -body $JSON
 	
-	$response
-	
+	$Response
 	
 }

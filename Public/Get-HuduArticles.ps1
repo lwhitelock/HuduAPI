@@ -1,24 +1,25 @@
 function Get-HuduArticles {
 	Param (
-		[Int]$id = '',
-		[Int]$companyid = '',
-		[String]$name =''
+		[Int]$Id = '',
+		[Alias("company_id")]
+		[Int]$CompanyId = '',
+		[String]$Iame =''
 	
 	)
 	
 	if ($id) {
-		$Article = Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$id"
+		$Article = Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
 		return $Article
 	} else {
 
 		$resourcefilter = ''
 
-		if ($companyid) {
-			$resourcefilter = "$($resourcefilter)&companyid=$($companyid)"
+		if ($CompanyId) {
+			$resourcefilter = "$($resourcefilter)&companyid=$($CompanyId)"
 		}
 
-		if ($name) {
-			$resourcefilter = "$($resourcefilter)&name=$($name)"
+		if ($Name) {
+			$resourcefilter = "$($resourcefilter)&name=$($Name)"
 		}
 	
 		$i = 1;

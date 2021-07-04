@@ -1,15 +1,15 @@
 function Set-HuduCompanyArchive {
     Param (
-      [Parameter(Mandatory=$true)]
-      [Int]$id ='',
-      [Parameter(Mandatory=$true)]
-      [Bool]$archive=''
+        [Parameter(Mandatory=$true)]
+        [Int]$Id,
+        [Parameter(Mandatory=$true)]
+        [Bool]$Archive
     )
     
-    if ($archive -eq $true){
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$id/archive"
+    if ($Archive -eq $true){
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$Id/archive"
     } else {
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$id/unarchive"
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$Id/unarchive"
     }
-    $response
+    $Response
   }

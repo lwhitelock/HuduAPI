@@ -1,21 +1,29 @@
 function New-HuduAssetLayout {
+	# This will silence the warning for variables with Password in their name.
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$name ='',
+		[String]$Name,
 		[Parameter(Mandatory=$true)]
-		[String]$icon='',
+		[String]$Icon,
 		[Parameter(Mandatory=$true)]
-		[String]$color='',
+		[String]$Color,
+		[Alias("icon_color")]
 		[Parameter(Mandatory=$true)]
-		[String]$icon_color='',
-		[bool]$include_passwords='',
-		[bool]$include_photos='',
-		[bool]$include_comments='',
-		[bool]$include_files='',
-		[String]$password_types='',
+		[String]$IconColor,
+		[Alias("include_passwords")]
+		[bool]$IncludePasswords='',
+		[Alias("include_photos")]
+		[bool]$IncludePhotos='',
+		[Alias("include_comments")]
+		[bool]$IncludeComments='',
+		[Alias("include_files")]
+		[bool]$IncludeFiles='',
+		[Alias("password_types")]
+		[String]$PasswordTypes='',
 		[Parameter(Mandatory=$true)]
-		[array]$fields='',
-		[bool]$active=$true
+		[array]$Fields,
+		[bool]$Active=$true
 	)
 	
 	foreach ($field in $fields){
@@ -24,44 +32,40 @@ function New-HuduAssetLayout {
 		$field.expiration = [System.Convert]::ToBoolean($field.expiration)
 	}
 
-	$asset_layout = [ordered]@{asset_layout = [ordered]@{}}
+	$AssetLayout = [ordered]@{asset_layout = [ordered]@{}}
 	
-	$asset_layout.asset_layout.add('name',$name)
-	$asset_layout.asset_layout.add('icon',$icon)
-	$asset_layout.asset_layout.add('color',$color)
-	$asset_layout.asset_layout.add('icon_color',$icon_color)
-	$asset_layout.asset_layout.add('fields',$fields)
-	$asset_layout.asset_layout.add('active',$active)
+	$AssetLayout.asset_layout.add('name',$Name)
+	$AssetLayout.asset_layout.add('icon',$Icon)
+	$AssetLayout.asset_layout.add('color',$Color)
+	$AssetLayout.asset_layout.add('icon_color',$IconColor)
+	$AssetLayout.asset_layout.add('fields',$Fields)
+	$AssetLayout.asset_layout.add('active',$Active)
 		
-	if ($include_passwords) {
+	if ($IncludePasswords) {
 		
-		$asset_layout.asset_layout.add('include_passwords',[System.Convert]::ToBoolean($include_passwords))
+		$AssetLayout.asset_layout.add('include_passwords',[System.Convert]::ToBoolean($IncludePasswords))
 	}
 	
-	if ($include_photos) {
-		$asset_layout.asset_layout.add('include_photos',[System.Convert]::ToBoolean($include_photos))
+	if ($IncludePhotos) {
+		$AssetLayout.asset_layout.add('include_photos',[System.Convert]::ToBoolean($IncludePhotos))
 	}
 	
-	if ($include_comments) {
-		$asset_layout.asset_layout.add('include_comments',[System.Convert]::ToBoolean($include_comments))
+	if ($IncludeComments) {
+		$AssetLayout.asset_layout.add('include_comments',[System.Convert]::ToBoolean($IncludeComments))
 	}
 	
-	if ($include_files) {
-		$asset_layout.asset_layout.add('include_files',[System.Convert]::ToBoolean($include_files))
+	if ($IncludeFiles) {
+		$AssetLayout.asset_layout.add('include_files',[System.Convert]::ToBoolean($IncludeFiles))
 	}
 	
-	if ($password_types) {
-		$asset_layout.asset_layout.add('password_types',$password_types)
+	if ($PasswordTypes) {
+		$AssetLayout.asset_layout.add('password_types',$PasswordTypes)
 	}
 	
 	
-	$json = $asset_layout | convertto-json -Depth 10
+	$JSON = $AssetLayout | ConvertTo-Json -Depth 10
 	
-	$response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_layouts" -body $json
+	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_layouts" -body $JSON
 	
-	$response
-	
-	
-	
-	
+	$Response
 }

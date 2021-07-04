@@ -1,53 +1,60 @@
 function Get-HuduActivityLogs{
 	Param (
-		[Int]$user_id ='',
-		[String]$user_email ='',
-		[Int]$resource_id ='',
-		[String]$resource_type ='',
-		[String]$action_message ='',
-        [DateTime]$start_date,
-        [DateTime]$end_date
+		[Alias("user_id")]
+		[Int]$UserId ='',
+		[Alias("user_email")]
+		[String]$UserEmail ='',
+		[Alias("resource_id")]
+		[Int]$ResourceId ='',
+		[Alias("resource_type")]
+		[String]$ResourceType ='',
+		[Alias("action_message")]
+		[String]$ActionMessage ='',
+		[Alias("start_date")]
+        [DateTime]$StartDate,
+		[Alias("end_date")]
+        [DateTime]$EndDate
 		
 	)
 	
-	$resourcefilter = ''
+	$ResourceFilter = ''
 	
-	if ($user_id) {
-		$resourcefilter = "$($resourcefilter)&user_id=$($user_id)"
+	if ($UserId) {
+		$ResourceFilter = "$($ResourceFilter)&user_id=$($UserId)"
 	}
 	
-	if ($user_email) {
-		$resourcefilter = "$($resourcefilter)&user_email=$($user_email)"
+	if ($UserEmail) {
+		$ResourceFilter = "$($ResourceFilter)&user_email=$($UserEmail)"
 	}
 	
-	if ($resource_id) {
-		$resourcefilter = "$($resourcefilter)&resource_id=$($resource_id)"
+	if ($ResourceId) {
+		$ResourceFilter = "$($ResourceFilter)&resource_id=$($ResourceId)"
 	}
 	
-	if ($resource_type) {
-		$resourcefilter = "$($resourcefilter)&city=$($resource_type)"
+	if ($ResourceType) {
+		$ResourceFilter = "$($ResourceFilter)&resource_type=$($ResourceType)"
 	}
 	
-	if ($action_message) {
-		$resourcefilter = "$($resourcefilter)&action_message=$($action_message)"
+	if ($ActionMessage) {
+		$ResourceFilter = "$($ResourceFilter)&action_message=$($ActionMessage)"
 	}
 
-	if ($start_date) {
-		$iso8601date = $start_date.ToString("o");
-        $resourcefilter = "$($resourcefilter)&start_date=$($iso8601date)"
+	if ($StartDate) {
+		$ISO8601Date = $StartDate.ToString("o");
+        $ResourceFilter = "$($ResourceFilter)&start_date=$($ISO8601Date)"
     }
 	
 	$i = 1;
 		
     $AllActivity = do {
-		$Activity = Invoke-HuduRequest -Method get -Resource "/api/v1/activity_logs?page=$i&page_size=1000$($resourcefilter)"
+		$Activity = Invoke-HuduRequest -Method get -Resource "/api/v1/activity_logs?page=$i&page_size=1000$($ResourceFilter)"
 		$i++
 		$Activity
 	} while ($Activity.count % 1000 -eq 0 -and $Activity.count -ne 0)
 		 
     
-    if ($end_date) {
-        $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -le $end_date}
+    if ($EndDate) {
+        $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -le $EndDate}
     }
 
 

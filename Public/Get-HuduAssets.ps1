@@ -1,43 +1,46 @@
 function Get-HuduAssets {
 	Param (
-		[Int]$id = '',
-		[Int]$assetlayoutid = '',
-		[Int]$companyid = '',
-		[String]$name ='',
-		[Bool]$archived = $false,
-		[String]$primary_serial =''
+		[Int]$Id = '',
+		[Alias("asset_layout_id")]
+		[Int]$AssetLayoutId = '',
+		[Alias("company_id")]
+		[Int]$CompanyId = '',
+		[String]$Name ='',
+		[Bool]$Archived = $false,
+		[Alias("primary_serial")]
+		[String]$PrimarySerial =''
 	)
 	
-	if ($id -and $companyid) {
-		$Asset = Invoke-HuduRequest -Method get -Resource "api/v1/companies/$companyid/assets/$id"
+	if ($id -and $CompanyId) {
+		$Asset = Invoke-HuduRequest -Method get -Resource "api/v1/companies/$CompanyId/assets/$Id"
 		return $Asset
 	} else {
 
-		$resourcefilter = ''
+		$ResourceFilter = ''
 	
-		if ($companyid) {
-			$resourcefilter = "$($resourcefilter)&company_id=$($companyid)"
+		if ($CompanyId) {
+			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
 		}
 	
-		if ($assetlayoutid) {
-			$resourcefilter = "$($resourcefilter)&asset_layout_id=$($assetlayoutid)"
+		if ($AssetLayoutId) {
+			$ResourceFilter = "$($ResourceFilter)&asset_layout_id=$($AssetLayoutId)"
 		}
 	
-		if ($name) {
-			$resourcefilter = "$($resourcefilter)&name=$($name)"
+		if ($Name) {
+			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 		}
 
-		if ($archived) {
-			$resourcefilter = "$($resourcefilter)&archived=$($archived)"
+		if ($Archived) {
+			$ResourceFilter = "$($ResourceFilter)&archived=$($Archived)"
 		}
 
-		if ($primary_serial) {
-			$resourcefilter = "$($resourcefilter)&primary_serial=$($primary_serial)"
+		if ($PrimarySerial) {
+			$ResourceFilter = "$($ResourceFilter)&primary_serial=$($PrimarySerial)"
 		}
 	
 		$i = 1;
 		$AllAssets = do {
-			$Assets = Invoke-HuduRequest -Method get -Resource "/api/v1/assets?page=$i&page_size=1000$($resourcefilter)"
+			$Assets = Invoke-HuduRequest -Method get -Resource "/api/v1/assets?page=$i&page_size=1000$($ResourceFilter)"
 			$i++
 			$Assets.Assets
 		} while ($Assets.Assets.count % 1000 -eq 0 -and $Assets.Assets.count -ne 0)

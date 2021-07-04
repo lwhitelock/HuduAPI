@@ -1,10 +1,11 @@
 function Get-HuduFolderMap {
 	Param (
-		[Int]$company_id = ''
+		[Alias("company_id")]
+		[Int]$CompanyId = ''
 	)
 	
-	if ($company_id) {
-		$FoldersRaw = Get-HuduFolders -company_id $company_id
+	if ($CompanyId) {
+		$FoldersRaw = Get-HuduFolders -company_id $CompanyId
 		$SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersRaw
 
 	}

@@ -1,26 +1,27 @@
-function remove-HuduMagicDash {
+function Remove-HuduMagicDash {
 	Param (
-		[String]$title = '',
-		[String]$company_name = '',
-		[String]$id = ''
+		[String]$Title = '',
+		[Alias("company_name")]
+		[String]$CompanyName = '',
+		[String]$Id = ''
 	)
 	
 	if ($id) {
-		$null = Invoke-HuduRequest -Method delete -Resource "/api/v1/magic_dash/$id"
+		$null = Invoke-HuduRequest -Method delete -Resource "/api/v1/magic_dash/$Id"
 	
 	}
  else {
 
-		if ($title -and $company_name) {
+		if ($Title -and $CompanyName) {
 	
-			$magicdash = @{}
+			$MagicDash = @{}
 	
-			$magicdash.add('title', $title)
-			$magicdash.add('company_name', $company_name)
+			$MagicDash.add('title', $Title)
+			$MagicDash.add('company_name', $CompanyName)
 				
-			$json = $magicdash | convertto-json
+			$JSON = $MagicDash | convertto-json
 	
-			$null = Invoke-HuduRequest -Method delete -Resource "/api/v1/magic_dash" -body $json
+			$null = Invoke-HuduRequest -Method delete -Resource "/api/v1/magic_dash" -body $JSON
 	
 		}
 		else {

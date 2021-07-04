@@ -1,20 +1,23 @@
 function Set-HuduMagicDash {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$title ='',
+		[String]$Title,
+		[Alias("company_name")]
 		[Parameter(Mandatory=$true)]
-		[String]$company_name='',
+		[String]$CompanyName='',
 		[Parameter(Mandatory=$true)]
-		[String]$message='',
-		[String]$icon='',
-		[String]$image_url='',
-		[String]$content_link='',
-		[String]$content='',
-		[String]$shade=''
+		[String]$Message,
+		[String]$Icon='',
+		[Alias("image_url")]
+		[String]$ImageURL='',
+		[Alias("content_link")]
+		[String]$ContentLink='',
+		[String]$Content='',
+		[String]$Shade=''
 	)
 	
-	if ($icon -and $image_url){
-		write-error ("You can only use one of icon or image_url")
+	if ($Icon -and $ImageURL){
+		write-error ("You can only use one of icon or image URL")
 		exit 1
 	}
 	
@@ -23,43 +26,43 @@ function Set-HuduMagicDash {
 		exit 1
 	}
 	
-	$magicdash = [ordered]@{}
+	$MagicDash = [ordered]@{}
 	
-	if ($title) {
-		$magicdash.add('title',$title)
+	if ($Title) {
+		$MagicDash.add('title',$Title)
 	}
 	
-	if ($company_name) {
-		$magicdash.add('company_name',$company_name)
+	if ($CompanyName) {
+		$MagicDash.add('company_name',$CompanyName)
 	}
 	
-	if ($message) {
-		$magicdash.add('message',$message)
+	if ($Message) {
+		$MagicDash.add('message',$Message)
 	}
 	
-	if ($icon) {
-		$magicdash.add('icon',$icon)
+	if ($Icon) {
+		$MagicDash.add('icon',$Icon)
 	}
 	
-	if ($image_url) {
-		$magicdash.add('image_url',$image_url)
+	if ($ImageURL) {
+		$MagicDash.add('image_url',$ImageURL)
 	}
 	
-	if ($content_link) {
-		$magicdash.add('content_link',$content_link)
+	if ($ContentLink) {
+		$MagicDash.add('content_link',$ContentLink)
 	}
 	
-	if ($content) {
-		$magicdash.add('content',$content)
+	if ($Content) {
+		$MagicDash.add('content',$Content)
 	}
 	
-	if ($shade) {
-		$magicdash.add('shade',$shade)
+	if ($Shade) {
+		$MagicDash.add('shade',$Shade)
 	}
 	
-	$json = $magicdash | convertto-json
+	$JSON = $MagicDash | convertto-json
 	
-	$response = Invoke-HuduRequest -Method post -Resource "/api/v1/magic_dash" -body $json
+	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/magic_dash" -body $JSON
 	
-	$response
+	$Response
 }
