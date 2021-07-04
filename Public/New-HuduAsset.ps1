@@ -2,10 +2,12 @@ function New-HuduAsset {
 	Param (
 		[Parameter(Mandatory=$true)]
 		[String]$name ='',
+		[Alias("company_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$company_id='',
+		[Int]$companyId='',
+		[Alias("asset_layout_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$asset_layout_id='',
+		[Int]$assetLayoutId='',
 		[Parameter(Mandatory=$true)]
 		[Array]$fields=''
 	)
