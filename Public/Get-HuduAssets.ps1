@@ -9,7 +9,7 @@ function Get-HuduAssets {
 	)
 	
 	if ($id -and $companyid) {
-		$Asset = Invoke-HuduRequest -Method get -Resource "api/v1/companies/$companyid/assets/$id"
+		$Asset = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$companyid/assets/$id"
 		return $Asset
 	} else {
 
