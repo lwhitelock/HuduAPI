@@ -1,11 +1,11 @@
 function Remove-HuduWebsite {
     Param (
       [Parameter(Mandatory=$true)]
-      [Int]$id =''
+      [Int]$Id =''
     )
       
-    $response = Invoke-HuduRequest -Method delete -Resource "/api/v1/websites/$id"
+    $Response = Invoke-HuduRequest -Method delete -Resource "/api/v1/websites/$Id"
     
-    $response
+    $Response
     
   }

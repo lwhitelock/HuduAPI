@@ -1,15 +1,15 @@
 function Set-HuduPasswordArchive {
     Param (
       [Parameter(Mandatory=$true)]
-      [Int]$id ='',
+      [Int]$Id,
       [Parameter(Mandatory=$true)]
-      [Bool]$archive=''
+      [Bool]$Archive
     )
     
-    if ($archive){
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/asset_passwords/$id/archive"
+    if ($Archive){
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/asset_passwords/$Id/archive"
     } else {
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/asset_passwords/$id/unarchive"
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/asset_passwords/$Id/unarchive"
     }
-    $response
+    $Response
   }

@@ -1,31 +1,34 @@
 function Get-HuduCard {
 	Param (
-        [Parameter(Mandatory=$true)]    
-        [String]$integration_slug,
-		[String]$integration_id = '',
-		[String]$integration_identifier =''
+        [Parameter(Mandatory=$true)]
+		[Alias("integration_slug")]
+        [String]$IntegrationSlug,
+		[Alias("integration_id")]
+		[String]$IntegrationId = '',
+		[Alias("integration_identifier")]
+		[String]$IntegrationIdentifier =''
 	
 	)
 	
 	
-		$resourcefilter = "&integration_slug=$($integration_slug)"
+	$ResourceFilter = "&integration_slug=$($IntegrationSlug)"
 
-		if ($integration_id) {
-			$resourcefilter = "$($resourcefilter)&integration_id=$($integration_id)"
-		}
+	if ($IntegrationId) {
+		$ResourceFilter = "$($ResourceFilter)&integration_id=$($IntegrationId)"
+	}
 
-		if ($name) {
-			$resourcefilter = "$($resourcefilter)&integration_identifier=$($integration_identifier)"
-		}
+	if ($IntegrationIdentifier) {
+		$ResourceFilter = "$($ResourceFilter)&integration_identifier=$($IntegrationIdentifier)"
+	}
+
+	$i = 1;
+	$AllCards = do {
+		$Cards = Invoke-HuduRequest -Method get -Resource "/api/v1/cards/lookup?page=$i&page_size=1000$($ResourceFilter)"
+		$i++
+		$Cards.integrator_cards
+	} while ($Cards.integrator_cards.count % 1000 -eq 0 -and $Cards.integrator_cards.count -ne 0)
 	
-		$i = 1;
-		$AllCards = do {
-			$Cards = Invoke-HuduRequest -Method get -Resource "/api/v1/cards/lookup?page=$i&page_size=1000$($resourcefilter)"
-			$i++
-			$Cards.integrator_cards
-		} while ($Cards.integrator_cards.count % 1000 -eq 0 -and $Cards.integrator_cards.count -ne 0)
-		
-	
-		return $AllCards
+
+	return $AllCards
 	
 }

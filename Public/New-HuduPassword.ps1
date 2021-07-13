@@ -1,60 +1,67 @@
 function New-HuduPassword {
+  # This will silence the warning for variables with Password in their name.
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
   Param (
     [Parameter(Mandatory=$true)]
-    [String]$name ='',
+    [String]$Name,
+    [Alias("company_id")]
     [Parameter(Mandatory=$true)]
-    [Int]$company_id='',
-    [String]$passwordable_type='',
-    [int]$passwordable_id='',
-    [Bool]$in_portal = $false,
+    [Int]$CompanyId,
+    [Alias("passwordable_type")]
+    [String]$PasswordableType='',
+    [Alias("passwordable_id")]
+    [int]$PasswordableId='',
+    [Alias("in_portal")]
+    [Bool]$InPortal = $false,
     [Parameter(Mandatory=$true)]
-    [String]$password='',
-    [string]$otp_secret='',
-    [String]$url='',
-    [String]$username='',
-    [String]$description='',
-    [String]$password_type=''
+    [String]$Password='',
+    [Alias("otp_secret")]
+    [string]$OTPSecret='',
+    [String]$URL='',
+    [String]$Username='',
+    [String]$Description='',
+    [Alias("password_type")]
+    [String]$PasswordType=''
   )
   
-  $asset_password = [ordered]@{asset_password = [ordered]@{}}
+  $AssetPassword = [ordered]@{asset_password = [ordered]@{}}
       
-  $asset_password.asset_password.add('name',$name)
-  $asset_password.asset_password.add('company_id',$company_id)
-  $asset_password.asset_password.add('password',$password)
-  $asset_password.asset_password.add('in_portal',$in_portal)
+  $AssetPassword.asset_password.add('name',$Name)
+  $AssetPassword.asset_password.add('company_id',$CompanyId)
+  $AssetPassword.asset_password.add('password',$Password)
+  $AssetPassword.asset_password.add('in_portal',$InPortal)
 
-  if ($passwordable_type){
-  $asset_password.asset_password.add('passwordable_type',$passwordable_type)
+  if ($PasswordableType){
+  $AssetPassword.asset_password.add('passwordable_type',$PasswordableType)
   }
-  if ($passwordable_id){
-  $asset_password.asset_password.add('passwordable_id',$passwordable_id)
+  if ($PasswordableId){
+  $AssetPassword.asset_password.add('passwordable_id',$PasswordableId)
   }
  
-  if ($otp_secret){
-    $asset_password.asset_password.add('otp_secret',$otp_secret)
+  if ($OTPSecret){
+    $AssetPassword.asset_password.add('otp_secret',$OTPSecret)
   }
 
-  if ($url){
-    $asset_password.asset_password.add('url',$url)
+  if ($URL){
+    $AssetPassword.asset_password.add('url',$URL)
   }
 
-  if ($username){
-    $asset_password.asset_password.add('username',$username)
+  if ($Username){
+    $AssetPassword.asset_password.add('username',$Username)
   }
 
-  if ($description){
-    $asset_password.asset_password.add('description',$description)
+  if ($Description){
+    $AssetPassword.asset_password.add('description',$Description)
   }
 
-  if ($password_type){
-    $asset_password.asset_password.add('password_type',$password_type)
+  if ($PasswordType){
+    $AssetPassword.asset_password.add('password_type',$PasswordType)
   }
   
-  $json = $asset_password | convertto-json -Depth 10
+  $JSON = $AssetPassword | ConvertTo-Json -Depth 10
   
-  $response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_passwords" -body $json
+  $Response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_passwords" -body $JSON
   
-  $response
-  
-  
+  $Response
+
 }

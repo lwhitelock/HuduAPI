@@ -1,8 +1,9 @@
 function Get-HuduFolders {
 	Param (
-		[Int]$id = '',
-		[Int]$name = '',
-		[Int]$company_id = ''
+		[Int]$Id = '',
+		[Int]$Name = '',
+		[Alias("company_id")]
+		[Int]$CompanyId = ''
 	)
 	
 	if ($id) {
@@ -10,19 +11,19 @@ function Get-HuduFolders {
 		return $Folder
 	} else {
 
-		$resourcefilter = ''
+		$ResourceFilter = ''
 	
-		if ($company_id) {
-			$resourcefilter = "$($resourcefilter)&company_id=$($company_id)"
+		if ($CompanyId) {
+			$resourcefilter = "$($ResourceFilter)&company_id=$($CompanyId)"
 		}
 	
-		if ($name) {
-			$resourcefilter = "$($resourcefilter)&name=$($name)"
+		if ($Name) {
+			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 		}
 	
 		$i = 1;
 		$AllFolders = do {
-			$Folders = Invoke-HuduRequest -Method get -Resource "/api/v1/folders?page=$i&page_size=1000$($resourcefilter)"
+			$Folders = Invoke-HuduRequest -Method get -Resource "/api/v1/folders?page=$i&page_size=1000$($ResourceFilter)"
 			$i++
 			$Folders.Folders
 		} while ($Folders.Folders.count % 1000 -eq 0 -and $Folders.Folders.count -ne 0)

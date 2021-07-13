@@ -1,25 +1,26 @@
 function Get-HuduWebsites {
 	Param (
-		[String]$name ='',
-		[String]$websiteid='',
+		[String]$Name ='',
+		[Alias("website_id","id")]
+		[String]$WebsiteId='',
 		[Int]$id=''
 	)
 	
-	if ($websiteid) {
-		$Website = Invoke-HuduRequest -Method get -Resource "/api/v1/websites/$($websiteid)"
+	if ($WebsiteId) {
+		$Website = Invoke-HuduRequest -Method get -Resource "/api/v1/websites/$($WebsiteId)"
 		return $Website
 	} else {
 		
 	
-	$resourcefilter = ''
+	$ResourceFilter = ''
 	
-	if ($name) {
-		$resourcefilter = "&name=$($name)"	
+	if ($Name) {
+		$ResourceFilter = "&name=$($Name)"	
 	}
 		
 	$i = 1;
 		$AllWebsites = do {
-		$Websites = Invoke-HuduRequest -Method get -Resource "/api/v1/websites?page=$i&page_size=1000$($resourcefilter)"
+		$Websites = Invoke-HuduRequest -Method get -Resource "/api/v1/websites?page=$i&page_size=1000$($ResourceFilter)"
 		$i++
 		$Websites
 		} while ($Websites.websites.count % 1000 -eq 0 -and $Websites.websites.count -ne 0)

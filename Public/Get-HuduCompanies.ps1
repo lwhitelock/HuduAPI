@@ -1,52 +1,54 @@
 function Get-HuduCompanies{
 	Param (
-		[String]$name ='',
-		[String]$phonenumber ='',
-		[String]$website ='',
-		[String]$city ='',
-		[String]$state ='',
-		[Int]$id_in_integration ='',
-		[Int]$id = ''
+		[String]$Name ='',
+		[Alias("phone_number")]
+		[String]$PhoneNumber ='',
+		[String]$Website ='',
+		[String]$City ='',
+		[String]$State ='',
+		[Alias("id_in_integration")]
+		[Int]$IdInIntegration ='',
+		[Int]$Id = ''
 	
 	)
 
 
-	if ($id) {
-		$Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$id"
+	if ($Id) {
+		$Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$Id"
 		return $Company
 	} else {
 	
-	$resourcefilter = ''
+	$ResourceFilter = ''
 	
-	if ($name) {
-		$resourcefilter = "$($resourcefilter)&name=$($name)"
+	if ($Name) {
+		$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 	}
 	
-	if ($phonenumber) {
-		$resourcefilter = "$($resourcefilter)&phone_number=$($phonenumber)"
+	if ($PhoneNumber) {
+		$ResourceFilter = "$($ResourceFilter)&phone_number=$($PhoneNumber)"
 	}
 	
-	if ($website) {
-		$resourcefilter = "$($resourcefilter)&website=$($website)"
+	if ($Website) {
+		$ResourceFilter = "$($ResourceFilter)&website=$($Website)"
 	}
 	
-	if ($city) {
-		$resourcefilter = "$($resourcefilter)&city=$($city)"
+	if ($City) {
+		$ResourceFilter = "$($ResourceFilter)&city=$($City)"
 	}
 	
-	if ($state) {
-		$resourcefilter = "$($resourcefilter)&state=$($state)"
+	if ($City) {
+		$ResourceFilter = "$($ResourceFilter)&state=$($City)"
 	}
 	
-	if ($id_in_integration) {
-		$resourcefilter = "$($resourcefilter)&id_in_integration=$($id_in_integration)"
+	if ($IdInIntegration) {
+		$ResourceFilter = "$($ResourceFilter)&id_in_integration=$($IdInIntegration)"
 	}
 	
 	
 	
 	$i = 1;
 		$AllCompanies = do {
-		$Companies = Invoke-HuduRequest -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($resourcefilter)"
+		$Companies = Invoke-HuduRequest -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($ResourceFilter)"
 		$i++
 		$Companies.Companies
 		} while ($Companies.Companies.count % 1000 -eq 0 -and $Companies.Companies.count -ne 0)
