@@ -1,32 +1,33 @@
 function New-HuduArticle {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$name ='',
+		[String]$Name,
 		[Parameter(Mandatory=$true)]
-		[String]$content='',
-		[Int]$folder_id='',
-		[Int]$company_id=''
+		[String]$Content,
+		[Alias("folder_id")]
+		[Int]$FolderId='',
+		[Alias("company_id")]
+		[Int]$CompanyId=''
 	)
 	
 
-	$article = [ordered]@{article = [ordered]@{}}
+	$Article = [ordered]@{article = [ordered]@{}}
 	
-	$article.article.add('name',$name)
-	$article.article.add('content',$content)
+	$Article.article.add('name',$Name)
+	$Article.article.add('content',$Content)
 	
-	if ($folder_id) {
-	$article.article.add('folder_id',$folder_id)
+	if ($FolderId) {
+	$Article.article.add('folder_id',$FolderId)
 	}
 	
-	if ($company_id) {
-	$article.article.add('company_id',$company_id)
+	if ($CompanyId) {
+	$Article.article.add('company_id',$CompanyId)
 	}
 	
-	$json = $article | convertto-json -Depth 10
+	$JSON = $Article | convertto-json -Depth 10
 	
-	$response = Invoke-HuduRequest -Method post -Resource "/api/v1/articles" -body $json
+	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/articles" -body $JSON
 	
-	$response
-	
+	$Response
 	
 }

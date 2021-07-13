@@ -1,15 +1,15 @@
 function Set-HuduArticleArchive {
     Param (
       [Parameter(Mandatory=$true)]
-      [Int]$id ='',
+      [Int]$Id,
       [Parameter(Mandatory=$true)]
-      [Bool]$archive=''
+      [Bool]$Archive
     )
     
-    if ($archive){
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/articles/$id/archive"
+    if ($Archive){
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/articles/$Id/archive"
     } else {
-        $response = Invoke-HuduRequest -Method put -Resource "/api/v1/articles/$id/unarchive"
+        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/articles/$Id/unarchive"
     }
-    $response
+    $Response
   }

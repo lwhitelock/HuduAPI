@@ -1,46 +1,50 @@
 function New-HuduWebsite {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$name ='',
-		[String]$notes='',
-		[String]$paused='',
+		[String]$Name,
+		[String]$Notes='',
+		[String]$Paused='',
+		[Alias("company_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$companyid='',
-		[String]$disabledns='',
-		[String]$disablessl='',
-		[String]$disablewhois=''
+		[Int]$CompanyId,
+		[Alias("disable_dns")]
+		[String]$DisableDNS='',
+		[Alias("disable_ssl")]
+		[String]$DisableSSL='',
+		[Alias("disable_whois")]
+		[String]$DisableWhois=''
 	)
 	
-	$website = [ordered]@{website = [ordered]@{}}
+	$Website = [ordered]@{website = [ordered]@{}}
 	
-	$website.website.add('name',$name)
+	$Website.website.add('name',$Name)
 		
-	if ($notes) {
-		$website.website.add('notes',$notes)
+	if ($Notes) {
+		$Website.website.add('notes',$Notes)
 	}
 	
-	if ($paused) {
-		$website.website.add('paused',$paused)
+	if ($Paused) {
+		$Website.website.add('paused',$Paused)
 	}
 	
-	$website.website.add('company_id',$companyid)
+	$Website.website.add('company_id',$CompanyId)
 	
-	if ($disabledns) {
-		$website.website.add('disable_dns',$disabledns)
+	if ($DisableDNS) {
+		$Website.website.add('disable_dns',$DisableDNS)
 	}
 	
-	if ($disablessl) {
-		$website.website.add('disable_ssl',$disablessl)
+	if ($DisableSSL) {
+		$Website.website.add('disable_ssl',$DisableSSL)
 	}
 	
-	if ($disablewhois) {
-		$website.website.add('disable_whois',$disablewhois)
+	if ($DisableWhois) {
+		$Website.website.add('disable_whois',$DisableWhois)
 	}
 	
-	$json = $website | convertto-json
+	$JSON = $Website | ConvertTo-Json
 	
-	$response = Invoke-HuduRequest -Method post -Resource "/api/v1/websites" -body $json
+	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/websites" -body $JSON
 	
-	$response
+	$Response
 	
 }

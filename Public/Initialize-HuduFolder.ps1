@@ -1,11 +1,12 @@
 function Initialize-HuduFolder {
     param(
         [String[]]$FolderPath,
-        [int]$Company_ID
+        [Alias("company_id")]
+        [int]$CompanyId
     )
 
-    if ($company_id) {
-        $FolderMap = Get-HuduFolderMap -company_id $Company_ID
+    if ($CompanyId) {
+        $FolderMap = Get-HuduFolderMap -company_id $CompanyId
     } else {
         $FolderMap = Get-HuduFolderMap
     }

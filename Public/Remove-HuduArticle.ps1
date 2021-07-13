@@ -1,11 +1,11 @@
 function Remove-HuduArticle {
     Param (
       [Parameter(Mandatory=$true)]
-      [Int]$id =''
+      [Int]$Id =''
     )
       
-    $response = Invoke-HuduRequest -Method delete -Resource "/api/v1/articles/$id"
+    $Response = Invoke-HuduRequest -Method delete -Resource "/api/v1/articles/$Id"
     
-    $response
+    $Response
     
   }

@@ -1,29 +1,30 @@
 function Get-HuduPasswords {
 	Param (
-		[Int]$id = '',
-		[Int]$companyid = '',
-		[String]$name =''
+		[Int]$Id = '',
+		[Alias("company_id")]
+		[Int]$CompanyId = '',
+		[String]$Name =''
 	
 	)
 	
-	if ($id) {
-		$password = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords/$id"
-		return $password
+	if ($Id) {
+		$Password = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords/$id"
+		return $Password
 	} else {
 
-		$resourcefilter = ''
+		$ResourceFilter = ''
 
-		if ($companyid) {
-			$resourcefilter = "$($resourcefilter)&companyid=$($companyid)"
+		if ($CompanyId) {
+			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
 		}
 
-		if ($name) {
-			$resourcefilter = "$($resourcefilter)&name=$($name)"
+		if ($Name) {
+			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 		}
 	
 		$i = 1;
 		$AllPasswords = do {
-			$Passwords = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords?page=$i&page_size=1000$($resourcefilter)"
+			$Passwords = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords?page=$i&page_size=1000$($ResourceFilter)"
 			$i++
 			$Passwords.asset_passwords
 		} while ($Passwords.asset_passwords.count % 1000 -eq 0 -and $Passwords.asset_passwords.count -ne 0)

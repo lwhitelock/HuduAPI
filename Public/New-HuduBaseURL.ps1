@@ -13,8 +13,8 @@ function New-HuduBaseURL {
 	Set-Variable -Name "Int_HuduBaseURL" -Value $BaseURL -Visibility Private -Scope script -Force
 
 	if ($script:Int_HuduAPIKey){
-		[version]$version = (Get-HuduAppInfo).version
-		if ($version -lt $script:HuduRequiredVersion){
+		[version]$Version = (Get-HuduAppInfo).version
+		if ($Version -lt $script:HuduRequiredVersion){
 			Write-Host "A connection error occured or Hudu version is below $script:HuduRequiredVersion" -foregroundcolor yellow
 		}
 	}

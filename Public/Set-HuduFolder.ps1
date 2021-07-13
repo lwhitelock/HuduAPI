@@ -1,39 +1,40 @@
 function Set-HuduFolder {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[Int]$id ='',
+		[Int]$Id,
 		[Parameter(Mandatory=$true)]
-		[String]$name,
-		[String]$icon='',
-		[String]$description='',
-		[Int]$parent_folder_id='',
-		[Int]$company_id=''
+		[String]$Name,
+		[String]$Icon='',
+		[String]$Description='',
+		[Alias("parent_folder_id")]
+		[Int]$ParentFolderId='',
+		[Alias("company_id")]
+		[Int]$CompanyId=''
 	)
 	
-	$folder = [ordered]@{folder = [ordered]@{}}
+	$Folder = [ordered]@{folder = [ordered]@{}}
 	
-	$folder.folder.add('name',$name)
+	$Folder.folder.add('name',$Name)
 		
 	if ($icon) {
-		$folder.folder.add('icon',$icon)
+		$Folder.folder.add('icon',$Icon)
 	}
 	
-	if ($description) {
-		$folder.folder.add('description',$description)
+	if ($Description) {
+		$Folder.folder.add('description',$Description)
 	}
 	
-	if ($parent_folder_id) {
-		$folder.folder.add('parent_folder_id',$parent_folder_id)
+	if ($ParentFolderId) {
+		$Folder.folder.add('parent_folder_id',$ParentFolderId)
 	}
 	
-	if ($company_id) {
-		$folder.folder.add('company_id',$company_id)
+	if ($CompanyId) {
+		$Folder.folder.add('company_id',$CompanyId)
 	}
 		
-	$json = $folder | convertto-json
+	$JSON = $Folder | convertto-json
 	
-	$response = Invoke-HuduRequest -Method put -Resource "/api/v1/folders/$id" -body $json
+	$Response = Invoke-HuduRequest -Method put -Resource "/api/v1/folders/$Id" -body $JSON
 	
-	$response
-	
+	$Response
 }

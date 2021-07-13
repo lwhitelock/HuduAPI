@@ -1,16 +1,16 @@
 function Get-HuduAssetLayoutFieldID {
 	Param (
 		[Parameter(Mandatory=$true)]
-		[String]$name ='',
+		[String]$Name,
+		[Alias("asset_layout_id")]
 		[Parameter(Mandatory=$true)]
-		[Int]$asset_layout_id=''
+		[Int]$LayoutId
 	)
 	
-	$layout = Get-HuduAssetLayouts -layoutid $asset_layout_id
+	$Layout = Get-HuduAssetLayouts -layoutid $LayoutId
 	
-	$fields = [Collections.Generic.List[Object]]($layout.fields)
-	$index = $fields.FindIndex( {$args[0].label -eq $name} )
-	$fields[$index].id
-	
+	$Fields = [Collections.Generic.List[Object]]($Layout.fields)
+	$Index = $Fields.FindIndex( {$args[0].label -eq $Name} )
+	$Fields[$Index].id
 	
 }
