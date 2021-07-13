@@ -11,8 +11,9 @@ function Get-HuduAssets {
 		[String]$PrimarySerial =''
 	)
 	
+
 	if ($id -and $CompanyId) {
-		$Asset = Invoke-HuduRequest -Method get -Resource "api/v1/companies/$CompanyId/assets/$Id"
+		$Asset = Invoke-HuduRequest -Method get -Resource "pi/v1/companies/$CompanyId/assets/$Id"
 		return $Asset
 	} else {
 
