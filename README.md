@@ -1,5 +1,7 @@
 
 ## Release Notes
+### Version 1.21
+Refixed A missed / in Get Assets by ID
 ### Version 1.20
 Various fixes from pull requests (Thank you homotechsual and greenlighttec)
 Added aliases to all commands
