@@ -1,7 +1,7 @@
 function Get-HuduWebsites {
 	Param (
 		[String]$Name ='',
-		[Alias("website_id","id")]
+		[Alias("website_id")]
 		[String]$WebsiteId='',
 		[Int]$id=''
 	)
