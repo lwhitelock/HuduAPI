@@ -12,7 +12,7 @@
 RootModule = '.\HuduAPI.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.21'
+ModuleVersion = '1.22'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -24,7 +24,7 @@ GUID = '4e0a4feb-1658-416b-b854-ab9e913a56de'
 Author = 'Luke Whitelock'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'MSPP'
 
 # Copyright statement for this module
 Copyright = '(c) 2021 Luke Whitelock. All rights reserved.'
