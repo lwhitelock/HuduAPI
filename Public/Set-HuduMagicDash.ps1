@@ -1,27 +1,27 @@
 function Set-HuduMagicDash {
 	Param (
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
 		[String]$Title,
 		[Alias("company_name")]
-		[Parameter(Mandatory=$true)]
-		[String]$CompanyName='',
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
+		[String]$CompanyName = '',
+		[Parameter(Mandatory = $true)]
 		[String]$Message,
-		[String]$Icon='',
+		[String]$Icon = '',
 		[Alias("image_url")]
-		[String]$ImageURL='',
+		[String]$ImageURL = '',
 		[Alias("content_link")]
-		[String]$ContentLink='',
-		[String]$Content='',
-		[String]$Shade=''
+		[String]$ContentLink = '',
+		[String]$Content = '',
+		[String]$Shade = ''
 	)
 	
-	if ($Icon -and $ImageURL){
+	if ($Icon -and $ImageURL) {
 		write-error ("You can only use one of icon or image URL")
 		exit 1
 	}
 	
-	if ($content_link -and $content){
+	if ($content_link -and $content) {
 		write-error ("You can only use one of content or content_link")
 		exit 1
 	}
@@ -29,35 +29,35 @@ function Set-HuduMagicDash {
 	$MagicDash = [ordered]@{}
 	
 	if ($Title) {
-		$MagicDash.add('title',$Title)
+		$MagicDash.add('title', $Title)
 	}
 	
 	if ($CompanyName) {
-		$MagicDash.add('company_name',$CompanyName)
+		$MagicDash.add('company_name', $CompanyName)
 	}
 	
 	if ($Message) {
-		$MagicDash.add('message',$Message)
+		$MagicDash.add('message', $Message)
 	}
 	
 	if ($Icon) {
-		$MagicDash.add('icon',$Icon)
+		$MagicDash.add('icon', $Icon)
 	}
 	
 	if ($ImageURL) {
-		$MagicDash.add('image_url',$ImageURL)
+		$MagicDash.add('image_url', $ImageURL)
 	}
 	
 	if ($ContentLink) {
-		$MagicDash.add('content_link',$ContentLink)
+		$MagicDash.add('content_link', $ContentLink)
 	}
 	
 	if ($Content) {
-		$MagicDash.add('content',$Content)
+		$MagicDash.add('content', $Content)
 	}
 	
 	if ($Shade) {
-		$MagicDash.add('shade',$Shade)
+		$MagicDash.add('shade', $Shade)
 	}
 	
 	$JSON = $MagicDash | convertto-json

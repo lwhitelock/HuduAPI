@@ -2,60 +2,60 @@ function New-HuduPassword {
   # This will silence the warning for variables with Password in their name.
   [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
   Param (
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [String]$Name,
     [Alias("company_id")]
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [Int]$CompanyId,
     [Alias("passwordable_type")]
-    [String]$PasswordableType='',
+    [String]$PasswordableType = '',
     [Alias("passwordable_id")]
-    [int]$PasswordableId='',
+    [int]$PasswordableId = '',
     [Alias("in_portal")]
     [Bool]$InPortal = $false,
-    [Parameter(Mandatory=$true)]
-    [String]$Password='',
+    [Parameter(Mandatory = $true)]
+    [String]$Password = '',
     [Alias("otp_secret")]
-    [string]$OTPSecret='',
-    [String]$URL='',
-    [String]$Username='',
-    [String]$Description='',
+    [string]$OTPSecret = '',
+    [String]$URL = '',
+    [String]$Username = '',
+    [String]$Description = '',
     [Alias("password_type")]
-    [String]$PasswordType=''
+    [String]$PasswordType = ''
   )
   
-  $AssetPassword = [ordered]@{asset_password = [ordered]@{}}
+  $AssetPassword = [ordered]@{asset_password = [ordered]@{} }
       
-  $AssetPassword.asset_password.add('name',$Name)
-  $AssetPassword.asset_password.add('company_id',$CompanyId)
-  $AssetPassword.asset_password.add('password',$Password)
-  $AssetPassword.asset_password.add('in_portal',$InPortal)
+  $AssetPassword.asset_password.add('name', $Name)
+  $AssetPassword.asset_password.add('company_id', $CompanyId)
+  $AssetPassword.asset_password.add('password', $Password)
+  $AssetPassword.asset_password.add('in_portal', $InPortal)
 
-  if ($PasswordableType){
-  $AssetPassword.asset_password.add('passwordable_type',$PasswordableType)
+  if ($PasswordableType) {
+    $AssetPassword.asset_password.add('passwordable_type', $PasswordableType)
   }
-  if ($PasswordableId){
-  $AssetPassword.asset_password.add('passwordable_id',$PasswordableId)
+  if ($PasswordableId) {
+    $AssetPassword.asset_password.add('passwordable_id', $PasswordableId)
   }
  
-  if ($OTPSecret){
-    $AssetPassword.asset_password.add('otp_secret',$OTPSecret)
+  if ($OTPSecret) {
+    $AssetPassword.asset_password.add('otp_secret', $OTPSecret)
   }
 
-  if ($URL){
-    $AssetPassword.asset_password.add('url',$URL)
+  if ($URL) {
+    $AssetPassword.asset_password.add('url', $URL)
   }
 
-  if ($Username){
-    $AssetPassword.asset_password.add('username',$Username)
+  if ($Username) {
+    $AssetPassword.asset_password.add('username', $Username)
   }
 
-  if ($Description){
-    $AssetPassword.asset_password.add('description',$Description)
+  if ($Description) {
+    $AssetPassword.asset_password.add('description', $Description)
   }
 
-  if ($PasswordType){
-    $AssetPassword.asset_password.add('password_type',$PasswordType)
+  if ($PasswordType) {
+    $AssetPassword.asset_password.add('password_type', $PasswordType)
   }
   
   $JSON = $AssetPassword | ConvertTo-Json -Depth 10

@@ -1,7 +1,7 @@
 function Remove-HuduPassword {
   Param (
-    [Parameter(Mandatory=$true)]
-    [Int]$Id =''
+    [Parameter(Mandatory = $true)]
+    [Int]$Id = ''
   )
     
   $Response = Invoke-HuduRequest -Method delete -Resource "/api/v1/asset_passwords/$Id"

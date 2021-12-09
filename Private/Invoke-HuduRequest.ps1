@@ -10,20 +10,20 @@ function Invoke-HuduRequest {
 			$HuduAPIKey = Get-HuduApiKey
 			$HuduBaseURL = Get-HuduBaseURL
 			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
-				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
+				-headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; } `
 				-ContentType 'application/json; charset=utf-8' -body $Body			
 
 		} else {	
 			$HuduAPIKey = Get-HuduApiKey
 			$HuduBaseURL = Get-HuduBaseURL
 			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
-				-headers @{'x-api-key' = (New-Object PSCredential "user",$HuduAPIKey).GetNetworkCredential().Password;} `
+				-headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; } `
 				-ContentType 'application/json; charset=utf-8'
 		}
 
 
 	} catch {
-		if ("$_".trim() -eq "Retry later" -or "$_".trim() -eq "The remote server returned an error: (429) Too Many Requests."){
+		if ("$_".trim() -eq "Retry later" -or "$_".trim() -eq "The remote server returned an error: (429) Too Many Requests.") {
 			Write-Host "Hudu API Rate limited. Waiting 30 Seconds then trying again" -foregroundcolor red
 			Start-Sleep 30
 			$HuduResult = Invoke-HuduRequest -Method $method -Resource $resource -Body $Body

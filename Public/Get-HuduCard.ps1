@@ -1,12 +1,12 @@
 function Get-HuduCard {
 	Param (
-        [Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
 		[Alias("integration_slug")]
-        [String]$IntegrationSlug,
+		[String]$IntegrationSlug,
 		[Alias("integration_id")]
 		[String]$IntegrationId = '',
 		[Alias("integration_identifier")]
-		[String]$IntegrationIdentifier =''
+		[String]$IntegrationIdentifier = ''
 	
 	)
 	

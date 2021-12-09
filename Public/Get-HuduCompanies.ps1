@@ -1,13 +1,13 @@
-function Get-HuduCompanies{
+function Get-HuduCompanies {
 	Param (
-		[String]$Name ='',
+		[String]$Name = '',
 		[Alias("phone_number")]
-		[String]$PhoneNumber ='',
-		[String]$Website ='',
-		[String]$City ='',
-		[String]$State ='',
+		[String]$PhoneNumber = '',
+		[String]$Website = '',
+		[String]$City = '',
+		[String]$State = '',
 		[Alias("id_in_integration")]
-		[Int]$IdInIntegration ='',
+		[Int]$IdInIntegration = '',
 		[Int]$Id = ''
 	
 	)
@@ -18,43 +18,43 @@ function Get-HuduCompanies{
 		return $Company
 	} else {
 	
-	$ResourceFilter = ''
+		$ResourceFilter = ''
 	
-	if ($Name) {
-		$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-	}
+		if ($Name) {
+			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
+		}
 	
-	if ($PhoneNumber) {
-		$ResourceFilter = "$($ResourceFilter)&phone_number=$($PhoneNumber)"
-	}
+		if ($PhoneNumber) {
+			$ResourceFilter = "$($ResourceFilter)&phone_number=$($PhoneNumber)"
+		}
 	
-	if ($Website) {
-		$ResourceFilter = "$($ResourceFilter)&website=$($Website)"
-	}
+		if ($Website) {
+			$ResourceFilter = "$($ResourceFilter)&website=$($Website)"
+		}
 	
-	if ($City) {
-		$ResourceFilter = "$($ResourceFilter)&city=$($City)"
-	}
+		if ($City) {
+			$ResourceFilter = "$($ResourceFilter)&city=$($City)"
+		}
 	
-	if ($City) {
-		$ResourceFilter = "$($ResourceFilter)&state=$($City)"
-	}
+		if ($City) {
+			$ResourceFilter = "$($ResourceFilter)&state=$($City)"
+		}
 	
-	if ($IdInIntegration) {
-		$ResourceFilter = "$($ResourceFilter)&id_in_integration=$($IdInIntegration)"
-	}
+		if ($IdInIntegration) {
+			$ResourceFilter = "$($ResourceFilter)&id_in_integration=$($IdInIntegration)"
+		}
 	
 	
 	
-	$i = 1;
+		$i = 1;
 		$AllCompanies = do {
-		$Companies = Invoke-HuduRequest -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($ResourceFilter)"
-		$i++
-		$Companies.Companies
+			$Companies = Invoke-HuduRequest -Method get -Resource "/api/v1/companies?page=$i&page_size=1000$($ResourceFilter)"
+			$i++
+			$Companies.Companies
 		} while ($Companies.Companies.count % 1000 -eq 0 -and $Companies.Companies.count -ne 0)
 		
 			
-	return $AllCompanies
+		return $AllCompanies
 	
 	}
 }

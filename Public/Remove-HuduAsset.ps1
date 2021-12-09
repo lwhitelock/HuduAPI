@@ -1,14 +1,14 @@
 function Remove-HuduAsset {
-    Param (
-      [Parameter(Mandatory=$true)]
-      [Int]$Id,
-      [Alias("company_id")]
-      [Parameter(Mandatory=$true)]
-      [Int]$CompanyId
-    )
+  Param (
+    [Parameter(Mandatory = $true)]
+    [Int]$Id,
+    [Alias("company_id")]
+    [Parameter(Mandatory = $true)]
+    [Int]$CompanyId
+  )
       
-    $Response = Invoke-HuduRequest -Method delete -Resource "/api/v1/companies/$CompanyId/assets/$Id"
+  $Response = Invoke-HuduRequest -Method delete -Resource "/api/v1/companies/$CompanyId/assets/$Id"
     
-    $Response
+  $Response
     
-  }
+}

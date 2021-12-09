@@ -8,10 +8,9 @@ function Get-HuduFolderMap {
 		$FoldersRaw = Get-HuduFolders -company_id $CompanyId
 		$SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersRaw
 
-	}
- else {
+	} else {
 		$FoldersRaw = Get-HuduFolders
-		$FoldersProcessed = $FoldersRaw | where-Object {$null -eq $_.company_id}
+		$FoldersProcessed = $FoldersRaw | where-Object { $null -eq $_.company_id }
 		$SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersProcessed
 	}
 

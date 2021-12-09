@@ -3,7 +3,7 @@ function Get-HuduPasswords {
 		[Int]$Id = '',
 		[Alias("company_id")]
 		[Int]$CompanyId = '',
-		[String]$Name =''
+		[String]$Name = ''
 	
 	)
 	

@@ -1,10 +1,10 @@
 function New-HuduBaseURL {
 	Param (
-		[Parameter(Mandatory=$false,
-		ValueFromPipeline=$true)]
+		[Parameter(Mandatory = $false,
+			ValueFromPipeline = $true)]
 		[String]
 		$BaseURL
-		)
+	)
 		
 	if (!$BaseURL) {
 		Write-Host "Please enter your Hudu Base URL with no trailing /, for example https://demo.huducloud.com :"
@@ -12,9 +12,9 @@ function New-HuduBaseURL {
 	}
 	Set-Variable -Name "Int_HuduBaseURL" -Value $BaseURL -Visibility Private -Scope script -Force
 
-	if ($script:Int_HuduAPIKey){
+	if ($script:Int_HuduAPIKey) {
 		[version]$Version = (Get-HuduAppInfo).version
-		if ($Version -lt $script:HuduRequiredVersion){
+		if ($Version -lt $script:HuduRequiredVersion) {
 			Write-Host "A connection error occured or Hudu version is below $script:HuduRequiredVersion" -foregroundcolor yellow
 		}
 	}

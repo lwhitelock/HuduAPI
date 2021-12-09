@@ -1,11 +1,11 @@
-function Get-HuduFolderCleanName{
+function Get-HuduFolderCleanName {
     param(
         [string]$Name
     )
 
-    $FieldNames = @("id","company_id","icon","description","name","parent_folder_id","created_at","updated_at")
+    $FieldNames = @("id", "company_id", "icon", "description", "name", "parent_folder_id", "created_at", "updated_at")
 
-    if ($Name -in $FieldNames){
+    if ($Name -in $FieldNames) {
         Return "fld_$Name"
     } else {
         Return $Name

@@ -1,15 +1,15 @@
-function Get-HuduActivityLogs{
+function Get-HuduActivityLogs {
 	Param (
 		[Alias("user_id")]
-		[Int]$UserId ='',
+		[Int]$UserId = '',
 		[Alias("user_email")]
-		[String]$UserEmail ='',
+		[String]$UserEmail = '',
 		[Alias("resource_id")]
-		[Int]$ResourceId ='',
+		[Int]$ResourceId = '',
 		[Alias("resource_type")]
-		[String]$ResourceType ='',
+		[String]$ResourceType = '',
 		[Alias("action_message")]
-		[String]$ActionMessage ='',
+		[String]$ActionMessage = '',
 		[Alias("start_date")]
 		[DateTime]$StartDate,
 		[Alias("end_date")]
@@ -40,21 +40,21 @@ function Get-HuduActivityLogs{
 
 	if ($StartDate) {
 		$ISO8601Date = $StartDate.ToString("o");
-        $ResourceFilter = "$($ResourceFilter)&start_date=$($ISO8601Date)"
-    }
+		$ResourceFilter = "$($ResourceFilter)&start_date=$($ISO8601Date)"
+	}
 	
 	$i = 1;
 		
-    $AllActivity = do {
+	$AllActivity = do {
 		$Activity = Invoke-HuduRequest -Method get -Resource "/api/v1/activity_logs?page=$i&page_size=1000$($ResourceFilter)"
 		$i++
 		$Activity
 	} while ($Activity.count % 1000 -eq 0 -and $Activity.count -ne 0)
 		 
     
-    if ($EndDate) {
-        $AllActivity = $AllActivity | where-object {$([DateTime]::Parse($_.created_at)) -le $EndDate}
-    }
+	if ($EndDate) {
+		$AllActivity = $AllActivity | where-object { $([DateTime]::Parse($_.created_at)) -le $EndDate }
+	}
 
 	return $AllActivity
 	

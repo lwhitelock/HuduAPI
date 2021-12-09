@@ -1,49 +1,49 @@
 function New-HuduCompany {
-	Param (
-		[Parameter(Mandatory=$true)]
-		[String]$Name,
-		[String]$Nickname ='',
+    Param (
+        [Parameter(Mandatory = $true)]
+        [String]$Name,
+        [String]$Nickname = '',
         [Alias("address_line_1")]
-        [String]$AddressLine1 ='',
+        [String]$AddressLine1 = '',
         [Alias("address_line_2")]
-        [String]$AddressLine2 ='',
-        [String]$City ='',
-        [String]$State ='',
-        [Alias("PostalCode","PostCode")]
-        [String]$Zip ='',
+        [String]$AddressLine2 = '',
+        [String]$City = '',
+        [String]$State = '',
+        [Alias("PostalCode", "PostCode")]
+        [String]$Zip = '',
         [Alias("country_name")]
-        [String]$CountryName ='',
+        [String]$CountryName = '',
         [Alias("phone_number")]
-        [String]$PhoneNumber ='',
+        [String]$PhoneNumber = '',
         [Alias("fax_number")]
-        [String]$FaxNumber ='',
-        [String]$Website ='',
+        [String]$FaxNumber = '',
+        [String]$Website = '',
         [Alias("id_number")]
-        [String]$IdNumber ='',
-        [String]$Notes =''
-	)
+        [String]$IdNumber = '',
+        [String]$Notes = ''
+    )
 	
 
-	$Company = [ordered]@{company = [ordered]@{}}
+    $Company = [ordered]@{company = [ordered]@{} }
 	
-	$Company.company.add('name',$Name)
-	$Company.company.add('nickname',$Nickname)
-	$Company.company.add('address_line_1',$AddressLine1)
-    $Company.company.add('address_line_2',$AddressLine2)
-    $Company.company.add('city',$City)
-    $Company.company.add('state',$State)
-    $Company.company.add('zip',$Zip)
-    $Company.company.add('country_name',$CountryName)
-    $Company.company.add('phone_number',$PhoneNumber)
-    $Company.company.add('fax_number',$FaxNumber)
-    $Company.company.add('website',$Website)
-    $Company.company.add('id_number',$IdNumber)
-    $Company.company.add('notes',$Notes)
+    $Company.company.add('name', $Name)
+    $Company.company.add('nickname', $Nickname)
+    $Company.company.add('address_line_1', $AddressLine1)
+    $Company.company.add('address_line_2', $AddressLine2)
+    $Company.company.add('city', $City)
+    $Company.company.add('state', $State)
+    $Company.company.add('zip', $Zip)
+    $Company.company.add('country_name', $CountryName)
+    $Company.company.add('phone_number', $PhoneNumber)
+    $Company.company.add('fax_number', $FaxNumber)
+    $Company.company.add('website', $Website)
+    $Company.company.add('id_number', $IdNumber)
+    $Company.company.add('notes', $Notes)
 	
-	$JSON = $Company | ConvertTo-Json -Depth 10
+    $JSON = $Company | ConvertTo-Json -Depth 10
 	
-	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/companies" -body $JSON
+    $Response = Invoke-HuduRequest -Method post -Resource "/api/v1/companies" -body $JSON
 	
-	$Response
+    $Response
 	
 }

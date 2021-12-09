@@ -5,10 +5,10 @@ function Get-HuduAssets {
 		[Int]$AssetLayoutId = '',
 		[Alias("company_id")]
 		[Int]$CompanyId = '',
-		[String]$Name ='',
+		[String]$Name = '',
 		[Bool]$Archived = $false,
 		[Alias("primary_serial")]
-		[String]$PrimarySerial =''
+		[String]$PrimarySerial = ''
 	)
 	
 
@@ -48,7 +48,7 @@ function Get-HuduAssets {
 		
 		
 		if ($id) {
-			$AllAssets = $AllAssets | where-object {$_.id -eq $id}
+			$AllAssets = $AllAssets | where-object { $_.id -eq $id }
 		}		
 	
 		return $AllAssets

@@ -1,7 +1,7 @@
 function Get-HuduAssetLayouts {
 	Param (
 		[String]$Name,
-		[Alias("id","layout_id")]
+		[Alias("id", "layout_id")]
 		[String]$LayoutId
 	)
 	
