@@ -106,6 +106,7 @@
 						'Remove-HuduMagicDash',
 						'Remove-HuduPassword',
 						'Remove-HuduPassword',
+						'Remove-HuduRelation',
 						'Remove-HuduWebsite',
 						'Set-HuduArticle',
 						'Set-HuduArticleArchive',
