@@ -6,6 +6,11 @@ function Invoke-HuduRequest {
 		[string]$Body
 	)
 	
+	write-verbose "Method: $Method"
+	write-verbose "Resource: $Resource"
+	write-verbose "Body: $($Body | ConvertTo-Json -depth 100 | out-string)"
+	write-verbose "BaseURL: $(Get-HuduBaseURL)"
+
 	try {
 		if (($Method -eq "put") -or ($Method -eq "post") -or ($Method -eq "delete")) {
 			$HuduAPIKey = Get-HuduApiKey
