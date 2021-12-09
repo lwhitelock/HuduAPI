@@ -85,6 +85,7 @@
 						'Get-HuduFolders',
 						'Get-HuduMagicDashes',
 						'Get-HuduPasswords',
+						'Get-HuduRelations',
 						'Get-HuduSubFolders',
 						'Get-HuduWebsites',
 						'Initialize-HuduFolder',
