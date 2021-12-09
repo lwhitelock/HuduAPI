@@ -12,7 +12,7 @@
 	RootModule        = '.\HuduAPI.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '1.3'
+	ModuleVersion     = '2.0.0'
 
 	# Supported PSEditions
 	# CompatiblePSEditions = @()
@@ -98,6 +98,7 @@
 						'New-HuduCompany',
 						'New-HuduFolder',
 						'New-HuduPassword',
+						'New-HuduRelation',
 						'New-HuduWebsite',
 						'Remove-HuduAPIKey',
 						'Remove-HuduArticle',
@@ -147,7 +148,8 @@
 	PrivateData       = @{
 
 		PSData = @{
-
+			
+			Prerelease = 'alpha'
 			# Tags applied to this module. These help with module discovery in online galleries.
 			# Tags = @()
 

@@ -1,5 +1,12 @@
 
 ## Release Notes
+### Version 2.0.0-alpha
+Switched to Semver
+Added Get-HuduMagicDashes
+Added Get-HuduRelations
+Added New-HuduRelation
+Added Remove-HuduRelation
+General tweaks and bug fixes
 
 ### Version 1.22
 

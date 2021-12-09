@@ -8,7 +8,7 @@ function Invoke-HuduRequest {
 	
 	write-verbose "Method: $Method"
 	write-verbose "Resource: $Resource"
-	write-verbose "Body: $($Body | ConvertTo-Json -depth 100 | out-string)"
+	write-verbose "Body: $($Body | out-string)"
 	write-verbose "BaseURL: $(Get-HuduBaseURL)"
 
 	try {

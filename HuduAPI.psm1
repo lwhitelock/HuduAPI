@@ -9,5 +9,5 @@ foreach ($import in @($Public)){
         Write-Error -Message "Failed to import function $($import.FullName): $_"
     }
 }
-[version]$script:HuduRequiredVersion = "2.1.5.6"
+[version]$script:HuduRequiredVersion = "2.1.5.8"
 Export-ModuleMember -Function $Public.BaseName -Alias *
