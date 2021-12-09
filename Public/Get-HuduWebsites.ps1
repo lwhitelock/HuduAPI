@@ -1,4 +1,5 @@
 function Get-HuduWebsites {
+	[CmdletBinding()]
 	Param (
 		[String]$Name = '',
 		[Alias("website_id")]

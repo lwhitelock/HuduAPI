@@ -1,4 +1,5 @@
 function Set-HuduCompanyArchive {
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true)]
         [Int]$Id,

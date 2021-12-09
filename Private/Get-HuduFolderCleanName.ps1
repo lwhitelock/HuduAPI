@@ -1,4 +1,5 @@
 function Get-HuduFolderCleanName {
+    [CmdletBinding()]
     param(
         [string]$Name
     )

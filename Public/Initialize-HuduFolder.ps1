@@ -1,4 +1,5 @@
 function Initialize-HuduFolder {
+    [CmdletBinding()]
     param(
         [String[]]$FolderPath,
         [Alias("company_id")]

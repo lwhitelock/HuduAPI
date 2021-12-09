@@ -1,4 +1,5 @@
 function Remove-HuduAsset {
+  [CmdletBinding()]
   Param (
     [Parameter(Mandatory = $true)]
     [Int]$Id,

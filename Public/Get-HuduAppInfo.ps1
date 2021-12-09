@@ -1,4 +1,6 @@
 function Get-HuduAppInfo {
+    [CmdletBinding()]
+    Param()
     try {
     
         $HuduAPIKey = Get-HuduApiKey

@@ -1,4 +1,5 @@
 function New-HuduWebsite {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,

@@ -1,4 +1,5 @@
 function Remove-HuduMagicDash {
+	[CmdletBinding()]
 	Param (
 		[String]$Title = '',
 		[Alias("company_name")]

@@ -1,4 +1,5 @@
 function New-HuduBaseURL {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $false,
 			ValueFromPipeline = $true)]

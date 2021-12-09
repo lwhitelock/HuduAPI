@@ -1,4 +1,5 @@
 function Get-HuduCompanyFolders {
+    [CmdletBinding()]
     Param (
         [PSCustomObject]$FoldersRaw
     )

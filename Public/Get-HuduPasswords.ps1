@@ -1,4 +1,5 @@
 function Get-HuduPasswords {
+	[CmdletBinding()]
 	Param (
 		[Int]$Id = '',
 		[Alias("company_id")]

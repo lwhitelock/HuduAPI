@@ -1,4 +1,5 @@
 function Set-HuduAssetArchive {
+  [CmdletBinding()]
   Param (
     [Parameter(Mandatory = $true)]
     [Int]$Id,

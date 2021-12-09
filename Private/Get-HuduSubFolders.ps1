@@ -1,4 +1,5 @@
 function Get-HuduSubFolders {
+    [CmdletBinding()]
     Param(
         [int]$id,
         [PSCustomObject]$FoldersRaw

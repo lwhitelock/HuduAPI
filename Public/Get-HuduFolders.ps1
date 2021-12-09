@@ -1,4 +1,5 @@
 function Get-HuduFolders {
+	[CmdletBinding()]
 	Param (
 		[Int]$Id = '',
 		[Int]$Name = '',

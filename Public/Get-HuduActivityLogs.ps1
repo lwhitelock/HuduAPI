@@ -1,4 +1,5 @@
 function Get-HuduActivityLogs {
+	[CmdletBinding()]
 	Param (
 		[Alias("user_id")]
 		[Int]$UserId = '',

@@ -1,4 +1,5 @@
 function Set-HuduPasswordArchive {
+  [CmdletBinding()]
   Param (
     [Parameter(Mandatory = $true)]
     [Int]$Id,

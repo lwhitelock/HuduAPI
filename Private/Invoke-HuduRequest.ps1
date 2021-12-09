@@ -1,4 +1,5 @@
 function Invoke-HuduRequest {
+	[CmdletBinding()]
 	Param(
 		[string]$Method,
 		[string]$Resource,

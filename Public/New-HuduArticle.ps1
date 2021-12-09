@@ -1,4 +1,5 @@
 function New-HuduArticle {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,

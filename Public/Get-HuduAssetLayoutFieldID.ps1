@@ -1,4 +1,5 @@
 function Get-HuduAssetLayoutFieldID {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,

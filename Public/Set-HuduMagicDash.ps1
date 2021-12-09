@@ -1,10 +1,11 @@
 function Set-HuduMagicDash {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Title,
 		[Alias("company_name")]
 		[Parameter(Mandatory = $true)]
-		[String]$CompanyName = '',
+		[String]$CompanyName,
 		[Parameter(Mandatory = $true)]
 		[String]$Message,
 		[String]$Icon = '',

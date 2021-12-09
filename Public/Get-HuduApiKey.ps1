@@ -1,5 +1,7 @@
 function Get-HuduApiKey {
-	if ($Int_HuduAPIKey -eq $null) {
+	[CmdletBinding()]
+	Param()
+	if ($null -eq $Int_HuduAPIKey) {
 		Write-Error "No API key has been set. Please use New-HuduAPIKey to set it."
 	} else {
 		$Int_HuduAPIKey

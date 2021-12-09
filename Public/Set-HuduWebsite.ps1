@@ -1,4 +1,5 @@
 function Set-HuduWebsite {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[Int]$Id,

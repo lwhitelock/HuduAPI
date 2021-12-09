@@ -1,4 +1,5 @@
 function Get-HuduCompanies {
+	[CmdletBinding()]
 	Param (
 		[String]$Name = '',
 		[Alias("phone_number")]

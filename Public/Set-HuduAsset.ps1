@@ -1,4 +1,5 @@
 function Set-HuduAsset {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,

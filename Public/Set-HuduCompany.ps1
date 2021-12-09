@@ -1,7 +1,8 @@
 function Set-HuduCompany {
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true)]
-        [Int]$Id = '',
+        [Int]$Id,
         [Parameter(Mandatory = $true)]
         [String]$Name,
         [String]$Nickname = '',

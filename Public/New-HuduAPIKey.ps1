@@ -1,4 +1,5 @@
 function New-HuduAPIKey {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $false,
 			ValueFromPipeline = $true)]

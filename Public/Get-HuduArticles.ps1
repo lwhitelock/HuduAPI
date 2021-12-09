@@ -1,4 +1,5 @@
 function Get-HuduArticles {
+	[CmdletBinding()]
 	Param (
 		[Int]$Id = '',
 		[Alias("company_id")]

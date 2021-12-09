@@ -1,4 +1,5 @@
 function New-HuduAssetLayout {
+	[CmdletBinding()]
 	# This will silence the warning for variables with Password in their name.
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
 	Param (

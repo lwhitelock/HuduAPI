@@ -1,4 +1,5 @@
 function New-HuduFolder {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,

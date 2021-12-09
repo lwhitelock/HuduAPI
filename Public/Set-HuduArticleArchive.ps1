@@ -1,4 +1,5 @@
 function Set-HuduArticleArchive {
+  [CmdletBinding()]
   Param (
     [Parameter(Mandatory = $true)]
     [Int]$Id,

@@ -1,4 +1,5 @@
 function Get-HuduCard {
+	[CmdletBinding()]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[Alias("integration_slug")]

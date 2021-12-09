@@ -1,4 +1,5 @@
 function Get-HuduAssets {
+	[CmdletBinding()]
 	Param (
 		[Int]$Id = '',
 		[Alias("asset_layout_id")]

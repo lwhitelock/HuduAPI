@@ -1,4 +1,5 @@
 function New-HuduCompany {
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true)]
         [String]$Name,

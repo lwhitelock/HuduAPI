@@ -1,4 +1,5 @@
 function Get-HuduFolderMap {
+	[CmdletBinding()]
 	Param (
 		[Alias("company_id")]
 		[Int]$CompanyId = ''
