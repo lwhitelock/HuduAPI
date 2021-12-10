@@ -4,12 +4,15 @@
 ### Version 2.0.0-alpha1
 Added Get-HuduProcesses
 ### Version 2.0.0-alpha
+```
+Added support for 2.1.5.8
 Switched to Semver
 Added Get-HuduMagicDashes
 Added Get-HuduRelations
 Added New-HuduRelation
 Added Remove-HuduRelation
 General tweaks and bug fixes
+```
 
 ### Version 1.22
 
