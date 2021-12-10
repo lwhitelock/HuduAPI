@@ -1,5 +1,8 @@
 
 ## Release Notes
+
+### Version 2.0.0-alpha1
+Added Get-HuduProcesses
 ### Version 2.0.0-alpha
 Switched to Semver
 Added Get-HuduMagicDashes

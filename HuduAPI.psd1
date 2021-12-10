@@ -85,6 +85,7 @@
 						'Get-HuduFolders',
 						'Get-HuduMagicDashes',
 						'Get-HuduPasswords',
+						'Get-HuduProcesses',
 						'Get-HuduRelations',
 						'Get-HuduSubFolders',
 						'Get-HuduWebsites',
@@ -149,7 +150,7 @@
 
 		PSData = @{
 			
-			Prerelease = 'alpha'
+			Prerelease = 'alpha1'
 			# Tags applied to this module. These help with module discovery in online galleries.
 			# Tags = @()
 
