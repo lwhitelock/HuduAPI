@@ -1,6 +1,10 @@
 
 ## Release Notes
-
+### Version 2.1.
+```
+Added the ability to set primary_serial, primary_mail, primary_model, primary_manufacturer to New-HuduAsset and Set-HuduAsset
+Set fields to be optional for New-HuduAsset and Set-HuduAsset
+```
 ### Version 2.0.0-alpha1
 Added Get-HuduProcesses
 ### Version 2.0.0-alpha
