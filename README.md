@@ -1,6 +1,11 @@
 
 ## Release Notes
-### Version 2.1.
+### Version 2.1.1
+```
+Fix for Get-HuduFolders by ID
+Fix for Initialize-HuduFolder creating folders in company
+```
+### Version 2.1.0
 ```
 Added the ability to set primary_serial, primary_mail, primary_model, primary_manufacturer to New-HuduAsset and Set-HuduAsset
 Set fields to be optional for New-HuduAsset and Set-HuduAsset

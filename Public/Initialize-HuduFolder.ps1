@@ -17,7 +17,7 @@ function Initialize-HuduFolder {
         if ($CurrentFolder.$(Get-HuduFolderCleanName $Folder)) {
             $CurrentFolder = $CurrentFolder.$(Get-HuduFolderCleanName $Folder)
         } else {
-            $CurrentFolder = (New-HuduFolder -name $Folder -company_id $Company_ID -parent_folder_id $CurrentFolder.id).folder
+            $CurrentFolder = (New-HuduFolder -name $Folder -company_id $CompanyID -parent_folder_id $CurrentFolder.id).folder
         }
     }
 
