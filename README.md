@@ -1,5 +1,9 @@
 
 ## Release Notes
+### Version 2.2.0
+```
+Added Get-HuduExpirations (Thank you @AdamWillford)
+```
 ### Version 2.1.1
 ```
 Fix for Get-HuduFolders by ID

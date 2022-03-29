@@ -12,7 +12,7 @@
 	RootModule        = '.\HuduAPI.psm1'
 
 	# Version number of this module.
-	ModuleVersion     = '2.1.1'
+	ModuleVersion     = '2.2.0'
 
 	# Supported PSEditions
 	# CompatiblePSEditions = @()
@@ -81,6 +81,7 @@
 						'Get-HuduCompanies',
 						'Get-HuduCompanyFolders',
 						'Get-HuduFolderCleanName',
+						'Get-HuduExpirations',
 						'Get-HuduFolderMap',
 						'Get-HuduFolders',
 						'Get-HuduMagicDashes',
@@ -89,7 +90,6 @@
 						'Get-HuduRelations',
 						'Get-HuduSubFolders',
 						'Get-HuduWebsites',
-						'Get-HuduExpirations',
 						'Initialize-HuduFolder',
 						'Invoke-HuduRequest',
 						'New-HuduAPIKey',
