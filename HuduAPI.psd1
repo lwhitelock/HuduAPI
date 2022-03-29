@@ -89,6 +89,7 @@
 						'Get-HuduRelations',
 						'Get-HuduSubFolders',
 						'Get-HuduWebsites',
+						'Get-HuduExpirations',
 						'Initialize-HuduFolder',
 						'Invoke-HuduRequest',
 						'New-HuduAPIKey',

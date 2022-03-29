@@ -166,6 +166,7 @@ For examples please see my blog: https://mspp.io/category/hudu/ or this reposito
 		Set-HuduPasswordArchive
 		Set-HuduWebsite
 		Get-HuduAppInfo
+		Get-HuduExpirations
 
 ## Usage
 For examples please see my blog: https://mspp.io/category/hudu/ or this repository https://github.com/lwhitelock/HuduAutomation
