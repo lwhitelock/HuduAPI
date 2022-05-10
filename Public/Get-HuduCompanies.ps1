@@ -7,6 +7,8 @@ function Get-HuduCompanies {
 		[String]$Website = '',
 		[String]$City = '',
 		[String]$State = '',
+		[Alias("id_number")]
+		[String]$IdNumber = '',
 		[Alias("id_in_integration")]
 		[Int]$IdInIntegration = '',
 		[Int]$Id = ''
@@ -39,6 +41,10 @@ function Get-HuduCompanies {
 	
 		if ($City) {
 			$ResourceFilter = "$($ResourceFilter)&state=$($City)"
+		}
+
+		if ($IdNumber) {
+			$ResourceFilter = "$($ResourceFilter)&id_number=$($IdNumber)"
 		}
 	
 		if ($IdInIntegration) {

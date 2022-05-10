@@ -4,6 +4,8 @@ function New-HuduCompany {
         [Parameter(Mandatory = $true)]
         [String]$Name,
         [String]$Nickname = '',
+        [Alias("company_type")]
+        [String]$CompanyType ='',
         [Alias("address_line_1")]
         [String]$AddressLine1 = '',
         [Alias("address_line_2")]
@@ -21,6 +23,8 @@ function New-HuduCompany {
         [String]$Website = '',
         [Alias("id_number")]
         [String]$IdNumber = '',
+        [Alias("parent_company_id")]
+        [Int]$ParentCompanyId='',
         [String]$Notes = ''
     )
 	
@@ -29,6 +33,7 @@ function New-HuduCompany {
 	
     $Company.company.add('name', $Name)
     $Company.company.add('nickname', $Nickname)
+    $Company.company.add('company_type', $CompanyType)
     $Company.company.add('address_line_1', $AddressLine1)
     $Company.company.add('address_line_2', $AddressLine2)
     $Company.company.add('city', $City)
@@ -38,6 +43,7 @@ function New-HuduCompany {
     $Company.company.add('phone_number', $PhoneNumber)
     $Company.company.add('fax_number', $FaxNumber)
     $Company.company.add('website', $Website)
+    $Company.company.add('parent_company_id', $ParentCompanyId)
     $Company.company.add('id_number', $IdNumber)
     $Company.company.add('notes', $Notes)
 	
