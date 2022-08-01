@@ -4,22 +4,22 @@ function New-HuduCompany {
         [Parameter(Mandatory = $true)]
         [String]$Name,
         [String]$Nickname = '',
-        [Alias("address_line_1")]
+        [Alias('address_line_1')]
         [String]$AddressLine1 = '',
-        [Alias("address_line_2")]
+        [Alias('address_line_2')]
         [String]$AddressLine2 = '',
         [String]$City = '',
         [String]$State = '',
-        [Alias("PostalCode", "PostCode")]
+        [Alias('PostalCode', 'PostCode')]
         [String]$Zip = '',
-        [Alias("country_name")]
+        [Alias('country_name')]
         [String]$CountryName = '',
-        [Alias("phone_number")]
+        [Alias('phone_number')]
         [String]$PhoneNumber = '',
-        [Alias("fax_number")]
+        [Alias('fax_number')]
         [String]$FaxNumber = '',
         [String]$Website = '',
-        [Alias("id_number")]
+        [Alias('id_number')]
         [String]$IdNumber = '',
         [String]$Notes = ''
     )
@@ -28,22 +28,22 @@ function New-HuduCompany {
     $Company = [ordered]@{company = [ordered]@{} }
 	
     $Company.company.add('name', $Name)
-    $Company.company.add('nickname', $Nickname)
-    $Company.company.add('address_line_1', $AddressLine1)
-    $Company.company.add('address_line_2', $AddressLine2)
-    $Company.company.add('city', $City)
-    $Company.company.add('state', $State)
-    $Company.company.add('zip', $Zip)
-    $Company.company.add('country_name', $CountryName)
-    $Company.company.add('phone_number', $PhoneNumber)
-    $Company.company.add('fax_number', $FaxNumber)
-    $Company.company.add('website', $Website)
-    $Company.company.add('id_number', $IdNumber)
-    $Company.company.add('notes', $Notes)
-	
+    if (-not ([string]::IsNullOrEmpty($Nickname))) { $Company.company.add('nickname', $Nickname) }
+    if (-not ([string]::IsNullOrEmpty($AddressLine1))) { $Company.company.add('address_line_1', $AddressLine1) }
+    if (-not ([string]::IsNullOrEmpty($AddressLine2))) { $Company.company.add('address_line_2', $AddressLine2) }
+    if (-not ([string]::IsNullOrEmpty($City))) { $Company.company.add('city', $AddressLine1) }
+    if (-not ([string]::IsNullOrEmpty($State))) { $Company.company.add('state', $State) }
+    if (-not ([string]::IsNullOrEmpty($Zip))) { $Company.company.add('zip', $Zip) }
+    if (-not ([string]::IsNullOrEmpty($CountryName))) { $Company.company.add('country_name', $CountryName) }
+    if (-not ([string]::IsNullOrEmpty($PhoneNumber))) { $Company.company.add('phone_number', $PhoneNumber) }
+    if (-not ([string]::IsNullOrEmpty($FaxNumber))) { $Company.company.add('fax_number', $FaxNumber) }
+    if (-not ([string]::IsNullOrEmpty($Website))) { $Company.company.add('website', $Website) }
+    if (-not ([string]::IsNullOrEmpty($IdNumber))) { $Company.company.add('id_number', $IdNumber) }
+    if (-not ([string]::IsNullOrEmpty($Notes))) { $Company.company.add('notes', $Notes) }
+ 
     $JSON = $Company | ConvertTo-Json -Depth 10
 	
-    $Response = Invoke-HuduRequest -Method post -Resource "/api/v1/companies" -body $JSON
+    $Response = Invoke-HuduRequest -Method post -Resource '/api/v1/companies' -Body $JSON
 	
     $Response
 	
