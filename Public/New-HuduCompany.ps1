@@ -31,7 +31,7 @@ function New-HuduCompany {
     if (-not ([string]::IsNullOrEmpty($Nickname))) { $Company.company.add('nickname', $Nickname) }
     if (-not ([string]::IsNullOrEmpty($AddressLine1))) { $Company.company.add('address_line_1', $AddressLine1) }
     if (-not ([string]::IsNullOrEmpty($AddressLine2))) { $Company.company.add('address_line_2', $AddressLine2) }
-    if (-not ([string]::IsNullOrEmpty($City))) { $Company.company.add('city', $AddressLine1) }
+    if (-not ([string]::IsNullOrEmpty($City))) { $Company.company.add('city', $City) }
     if (-not ([string]::IsNullOrEmpty($State))) { $Company.company.add('state', $State) }
     if (-not ([string]::IsNullOrEmpty($Zip))) { $Company.company.add('zip', $Zip) }
     if (-not ([string]::IsNullOrEmpty($CountryName))) { $Company.company.add('country_name', $CountryName) }
@@ -42,6 +42,7 @@ function New-HuduCompany {
     if (-not ([string]::IsNullOrEmpty($Notes))) { $Company.company.add('notes', $Notes) }
  
     $JSON = $Company | ConvertTo-Json -Depth 10
+    Write-Verbose $JSON
 	
     $Response = Invoke-HuduRequest -Method post -Resource '/api/v1/companies' -Body $JSON
 	
