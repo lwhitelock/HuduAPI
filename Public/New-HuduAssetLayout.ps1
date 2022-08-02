@@ -1,7 +1,7 @@
 function New-HuduAssetLayout {
 	[CmdletBinding()]
 	# This will silence the warning for variables with Password in their name.
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
 	Param (
 		[Parameter(Mandatory = $true)]
 		[String]$Name,
@@ -9,28 +9,28 @@ function New-HuduAssetLayout {
 		[String]$Icon,
 		[Parameter(Mandatory = $true)]
 		[String]$Color,
-		[Alias("icon_color")]
+		[Alias('icon_color')]
 		[Parameter(Mandatory = $true)]
 		[String]$IconColor,
-		[Alias("include_passwords")]
+		[Alias('include_passwords')]
 		[bool]$IncludePasswords = '',
-		[Alias("include_photos")]
+		[Alias('include_photos')]
 		[bool]$IncludePhotos = '',
-		[Alias("include_comments")]
+		[Alias('include_comments')]
 		[bool]$IncludeComments = '',
-		[Alias("include_files")]
+		[Alias('include_files')]
 		[bool]$IncludeFiles = '',
-		[Alias("password_types")]
+		[Alias('password_types')]
 		[String]$PasswordTypes = '',
 		[Parameter(Mandatory = $true)]
-		[array]$Fields,
+		[system.collections.generic.list[hashtable]]$Fields,
 		[bool]$Active = $true
 	)
 	
 	foreach ($field in $fields) {
-		$field.show_in_list = [System.Convert]::ToBoolean($field.show_in_list)
-		$field.required = [System.Convert]::ToBoolean($field.required)
-		$field.expiration = [System.Convert]::ToBoolean($field.expiration)
+		if ($field.show_in_list) { $field.show_in_list = [System.Convert]::ToBoolean($field.show_in_list) } else { $field.remove('show_in_list') }
+		if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
+		if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
 	}
 
 	$AssetLayout = [ordered]@{asset_layout = [ordered]@{} }
@@ -66,7 +66,9 @@ function New-HuduAssetLayout {
 	
 	$JSON = $AssetLayout | ConvertTo-Json -Depth 10
 	
-	$Response = Invoke-HuduRequest -Method post -Resource "/api/v1/asset_layouts" -body $JSON
+	Write-Verbose $JSON
+	
+	$Response = Invoke-HuduRequest -Method post -Resource '/api/v1/asset_layouts' -Body $JSON
 	
 	$Response
 }
