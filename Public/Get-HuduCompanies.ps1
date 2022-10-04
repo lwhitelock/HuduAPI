@@ -16,7 +16,7 @@ function Get-HuduCompanies {
 
 	if ($Id) {
 		$Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$Id"
-		return $Company
+		return $Company.company
 	} else {
 	
 		$ResourceFilter = ''

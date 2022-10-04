@@ -9,7 +9,7 @@ function Get-HuduArticles {
 	
 	if ($Id) {
 		$Article = Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
-		return $Article
+		return $Article.article
 	} else {
 
 		$ResourceFilter = ''
