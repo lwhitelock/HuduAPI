@@ -15,7 +15,7 @@ function Get-HuduAssets {
 
 	if ($id -and $CompanyId) {
 		$Asset = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$CompanyId/assets/$Id"
-		return $Asset
+		return $Asset.asset
 	} else {
 
 		$ResourceFilter = ''

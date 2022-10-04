@@ -10,7 +10,7 @@ function Get-HuduProcesses {
 	
 	if ($Id) {
 		$Process = Invoke-HuduRequest -Method get -Resource "/api/v1/procedures/$id"
-		return $Process
+		return $Process.procedure
 	} else {
 
 		$ResourceFilter = ''
