@@ -4,6 +4,8 @@ function New-HuduCompany {
         [Parameter(Mandatory = $true)]
         [String]$Name,
         [String]$Nickname = '',
+	[Alias("company_type")]
+	[String]$CompanyType = '',
         [Alias('address_line_1')]
         [String]$AddressLine1 = '',
         [Alias('address_line_2')]
@@ -29,6 +31,7 @@ function New-HuduCompany {
 	
     $Company.company.add('name', $Name)
     if (-not ([string]::IsNullOrEmpty($Nickname))) { $Company.company.add('nickname', $Nickname) }
+    if (-not ([string]::IsNullOrEmpty($Nickname))) { $Company.company.add('company_type', $CompanyType) }
     if (-not ([string]::IsNullOrEmpty($AddressLine1))) { $Company.company.add('address_line_1', $AddressLine1) }
     if (-not ([string]::IsNullOrEmpty($AddressLine2))) { $Company.company.add('address_line_2', $AddressLine2) }
     if (-not ([string]::IsNullOrEmpty($City))) { $Company.company.add('city', $City) }
