@@ -24,7 +24,9 @@ function Set-HuduPassword {
     [String]$Username = '',
     [String]$Description = '',
     [Alias("password_type")]
-    [String]$PasswordType = ''
+    [String]$PasswordType = '',
+    [Alias("password_folder_id")]
+    [Int]$PasswordFolderId
   )
   
 
@@ -60,6 +62,10 @@ function Set-HuduPassword {
 
   if ($PasswordType) {
     $AssetPassword.asset_password.add('password_type', $PasswordType)
+  }
+
+  if ($PasswordFolderId) {
+    $AssetPassword.asset_password.add('password_folder_id', $PasswordFolderId)
   }
   
   $JSON = $AssetPassword | convertto-json -Depth 10
