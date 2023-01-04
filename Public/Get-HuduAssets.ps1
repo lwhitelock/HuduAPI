@@ -9,7 +9,8 @@ function Get-HuduAssets {
 		[String]$Name = '',
 		[Bool]$Archived = $false,
 		[Alias('primary_serial')]
-		[String]$PrimarySerial = ''
+		[String]$PrimarySerial = '',
+		[String]$Slug
 	)
 	
 
@@ -43,6 +44,10 @@ function Get-HuduAssets {
 
 		if ($Id) {
 			$ResourceFilter = "$($ResourceFilter)&id=$($Id)"
+		}	
+
+		if ($Slug) {
+			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
 		}	
 	
 		$i = 1;

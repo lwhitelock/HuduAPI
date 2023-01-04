@@ -88,6 +88,7 @@
 	'Get-HuduMagicDashes',
 	'Get-HuduPasswords',
 	'Get-HuduProcesses',
+	'Get-HuduObjectByUrl',
 	'Get-HuduRelations',
 	'Get-HuduSubFolders',
 	'Get-HuduWebsites',

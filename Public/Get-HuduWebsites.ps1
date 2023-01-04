@@ -4,7 +4,8 @@ function Get-HuduWebsites {
 		[String]$Name = '',
 		[Alias("website_id")]
 		[String]$WebsiteId = '',
-		[Int]$id = ''
+		[Int]$id = '',
+		[String]$Slug
 	)
 	
 	if ($WebsiteId) {
@@ -18,6 +19,10 @@ function Get-HuduWebsites {
 		if ($Name) {
 			$ResourceFilter = "&name=$($Name)"	
 		}
+
+		if ($Slug) {
+			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
+		}	
 		
 		$i = 1;
 		$AllWebsites = do {
