@@ -4,7 +4,8 @@ function Get-HuduArticles {
 		[Int]$Id = '',
 		[Alias("company_id")]
 		[Int]$CompanyId = '',
-		[String]$Name = ''
+		[String]$Name = '',
+		[String]$Slug
 	)
 	
 	if ($Id) {
@@ -21,6 +22,10 @@ function Get-HuduArticles {
 		if ($Name) {
 			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
 		}
+
+		if ($Slug) {
+			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
+		}	
 	
 		$i = 1;
 		$AllArticles = do {
