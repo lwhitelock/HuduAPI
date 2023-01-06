@@ -2,7 +2,7 @@ function Get-HuduFolders {
 	[CmdletBinding()]
 	Param (
 		[Int]$Id = '',
-		[Int]$Name = '',
+		[String]$Name = '',
 		[Alias("company_id")]
 		[Int]$CompanyId = ''
 	)
