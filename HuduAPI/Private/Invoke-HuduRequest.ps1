@@ -3,25 +3,33 @@ function Invoke-HuduRequest {
 	Param(
 		[string]$Method,
 		[string]$Resource,
-		[string]$Body
+		[string]$Body,
+		[hashtable]$Form
+
 	)
 	
 	write-verbose "Method: $Method"
 	write-verbose "Resource: $Resource"
 	write-verbose "Body: $($Body | out-string)"
 	write-verbose "BaseURL: $(Get-HuduBaseURL)"
+	write-verbose "Form: $($form | out-string)"
 
 	try {
+		$HuduAPIKey = Get-HuduApiKey
+		$HuduBaseURL = Get-HuduBaseURL
 		if (($Method -eq "put") -or ($Method -eq "post") -or ($Method -eq "delete")) {
-			$HuduAPIKey = Get-HuduApiKey
-			$HuduBaseURL = Get-HuduBaseURL
-			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
+			if ($Form) {
+				$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
+				-headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; `
+				'Content-Type' = 'multipart/form-data'}	-Form $Form
+			}
+			else {
+				$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
 				-headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; } `
-				-ContentType 'application/json; charset=utf-8' -body $Body			
+				-ContentType 'application/json; charset=utf-8' -body $Body
+			}			
 
 		} else {	
-			$HuduAPIKey = Get-HuduApiKey
-			$HuduBaseURL = Get-HuduBaseURL
 			$HuduResult = Invoke-RestMethod -method $method -uri ($HuduBaseURL + $Resource) `
 				-headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; } `
 				-ContentType 'application/json; charset=utf-8'
