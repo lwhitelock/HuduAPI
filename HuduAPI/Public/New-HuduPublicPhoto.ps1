@@ -1,19 +1,45 @@
 function New-HuduPublicPhoto {
+    <#
+    .SYNOPSIS
+    Create a Public Photo
+
+    .DESCRIPTION
+    Uses Hudu API to upload an image for use in an asset or article
+
+    .PARAMETER FilePath
+    Path to the image
+
+    .PARAMETER RecordId
+    Record id to associate with the photo
+
+    .PARAMETER RecordType
+    Record type to associate with the photo
+
+    .EXAMPLE
+    New-HuduPublicPhoto -FilePath 'c:\path\to\image.png' -RecordId 1 -RecordType 'asset'
+
+    #>
+    [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory)][string]$FilePath,
-        [int]$record_id,
-        [string]$record_type
+        [Parameter(Mandatory)]
+        [string]$FilePath,
+
+        [Alias('record_id')]
+        [int]$RecordId,
+
+        [Alias('record_type')]
+        [string]$RecordType
     )
 
-        $form = @{
-            photo = Get-item $FilePath
-        }
+    $File = Get-Item $FilePath
+    $form = @{
+        photo = $File
+    }
 
-        if ($record_id) {$form['record_id'] = $record_id}
-        if ($record_type) {$form['record_type'] = $record_type} 
+    if ($record_id) { $form['record_id'] = $record_id }
+    if ($record_type) { $form['record_type'] = $record_type }
 
-        $UploadedPhoto = Invoke-HuduRequest -Method POST -Resource "/api/v1/public_photos" -Form $form
-			
-		return $UploadedPhoto
-
+    if ($PSCmdlet.ShouldProcess($File.FullName)) {
+        Invoke-HuduRequest -Method POST -Resource '/api/v1/public_photos' -Form $form
+    }
 }

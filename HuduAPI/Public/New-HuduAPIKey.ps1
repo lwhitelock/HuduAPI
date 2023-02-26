@@ -1,4 +1,18 @@
 function New-HuduAPIKey {
+    <#
+    .SYNOPSIS
+    Set Hudu API Key
+
+    .DESCRIPTION
+    API keys are required to interact with Hudu
+
+    .PARAMETER ApiKey
+    The API key
+
+    .EXAMPLE
+    New-HuduAPIKey -ApiKey abdc1234
+
+    #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Scope = 'Function')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Scope = 'Function')]
     [CmdletBinding()]
