@@ -1,35 +1,53 @@
 function Get-HuduCard {
-	[CmdletBinding()]
-	Param (
-		[Parameter(Mandatory = $true)]
-		[Alias("integration_slug")]
-		[String]$IntegrationSlug,
-		[Alias("integration_id")]
-		[String]$IntegrationId = '',
-		[Alias("integration_identifier")]
-		[String]$IntegrationIdentifier = ''
-	
-	)
-	
-	
-	$ResourceFilter = "&integration_slug=$($IntegrationSlug)"
+    <#
+    .SYNOPSIS
+    Get Integration Cards
 
-	if ($IntegrationId) {
-		$ResourceFilter = "$($ResourceFilter)&integration_id=$($IntegrationId)"
-	}
+    .DESCRIPTION
+    Lookup cards with outside integration details
 
-	if ($IntegrationIdentifier) {
-		$ResourceFilter = "$($ResourceFilter)&integration_identifier=$($IntegrationIdentifier)"
-	}
+    .PARAMETER IntegrationSlug
+    Identifier of outside integration
 
-	$i = 1;
-	$AllCards = do {
-		$Cards = Invoke-HuduRequest -Method get -Resource "/api/v1/cards/lookup?page=$i&page_size=1000$($ResourceFilter)"
-		$i++
-		$Cards.integrator_cards
-	} while ($Cards.integrator_cards.count % 1000 -eq 0 -and $Cards.integrator_cards.count -ne 0)
-	
+    .PARAMETER IntegrationId
+    ID in the integration. Must be present, unless integration_identifier is set
 
-	return $AllCards
-	
+    .PARAMETER IntegrationIdentifier
+    Identifier in the integration (if integration_id is not set)
+
+    .EXAMPLE
+    Get-HuduCard -IntegrationSlug cw_manage -IntegrationId 1
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $true)]
+        [Alias('integration_slug')]
+        [String]$IntegrationSlug,
+
+        [Alias('integration_id')]
+        [String]$IntegrationId,
+
+        [Alias('integration_identifier')]
+        [String]$IntegrationIdentifier
+    )
+
+    $Params = @{
+        integration_slug = $IntegrationSlug
+    }
+
+    if ($IntegrationId) { $Params.integration_id = $IntegrationId }
+    if ($IntegrationIdentifier) { $Params.integration_identifier = $IntegrationIdentifier }
+
+    if (!$IntegrationId -and !$IntegrationIdentifier) {
+        throw 'IntegrationId or IntegrationIdentifier required'
+    }
+
+    $HuduRequest = @{
+        Method   = 'GET'
+        Resource = '/api/v1/cards/lookup'
+        Params   = $Params
+    }
+
+    Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property integrator_cards
 }

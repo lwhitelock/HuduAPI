@@ -1,35 +1,58 @@
 function Get-HuduIntegrationMatchers {
+    <#
+    .SYNOPSIS
+    List matchers for an integration
+
+    .DESCRIPTION
+    Calls Hudu API to get list of integration matching
+
+    .PARAMETER IntegrationId
+    ID of the integration. Can be found in the URL when editing an integration
+
+    .PARAMETER Matched
+    Filter on whether the company already been matched
+
+    .PARAMETER SyncId
+    Filter by ID of the record in the integration. This is used if the id that the integration uses is an integer.
+
+    .PARAMETER Identifier
+    Filter by Identifier in the integration (if sync_id is not set). This is used if the id that the integration uses is a string.
+
+    .PARAMETER CompanyId
+    Filter on company id
+
+    .EXAMPLE
+    Get-HuduIntegrationMatchers -IntegrationId 1
+
+    #>
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true)]
         [int]$IntegrationId,
+
         [switch]$Matched,
+
         [int]$SyncId = '',
+
         [string]$Identifier = '',
+
         [int]$CompanyId
     )
-		
-    $ResourceFilter = '&integration_id={0}' -f $IntegrationId
 
-    if ($Matched) { $ResourceFilter = "$($ResourceFilter)&matched=true" }
-    else { $ResourceFilter = "$($ResourceFilter)&matched=false" }
+    $Params = @{
+        integration_id = $IntegrationId
+    }
 
-    if ($CompanyId) {
-        $ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
+    if ($Matched.IsPresent) { $Params.matched = 'true' }
+
+    if ($CompanyId) { $Params.company_id = $CompanyId }
+    if ($Identifier) { $Params.identifier = $Identifier }
+    if ($SyncId) { $Params.sync_id = $SyncId }
+
+    $HuduRequest = @{
+        Method   = 'GET'
+        Resource = '/api/v1/matchers'
+        Params   = $Params
     }
-    if ($Identifier) {
-        $ResourceFilter = "$($ResourceFilter)&identifier=$($Identifier)"
-    }
-    if ($SyncId) {
-        $ResourceFilter = "$($ResourceFilter)&sync_id=$($SyncId)"
-    }
-		
-    $i = 1;
-    $AllMatchers = do {
-        $Matchers = Invoke-HuduRequest -Method get -Resource "/api/v1/matchers?page=$i&page_size=1000$($ResourceFilter)"
-        $i++
-        $Matchers
-    } while ($Matchers.matchers.count % 1000 -eq 0 -and $Matchers.matchers.count -ne 0)
-				
-    return $AllMatchers.matchers
+    Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'matchers'
 }

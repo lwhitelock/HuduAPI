@@ -1,24 +1,26 @@
 function Get-HuduAppInfo {
+    <#
+    .SYNOPSIS
+    Retrieve information regarding API
+
+    .DESCRIPTION
+    Calls Hudu API to retrieve version number and date
+
+    .EXAMPLE
+    Get-HuduAppInfo
+
+    #>
     [CmdletBinding()]
     Param()
-    try {
-    
-        $HuduAPIKey = Get-HuduApiKey
-        $HuduBaseURL = Get-HuduBaseURL
-	
-        $version = Invoke-RestMethod -method get -uri ($HuduBaseURL + "/api/v1/api_info") `
-            -headers @{'x-api-key' = (New-Object PSCredential "user", $HuduAPIKey).GetNetworkCredential().Password; } `
-            -ContentType 'application/json'
-		
 
-    } catch {
-        $version = @{
-            version = "0.0.0.0"
-            date    = "2000-01-01"
-        }
+    try {
+        Invoke-HuduRequest -Resource '/api/v1/api_info'
     }
 
-
-    return $Version
-	
+    catch {
+        [PSCustomObject]@{
+            version = '0.0.0.0'
+            date    = '2000-01-01'
+        }
+    }
 }

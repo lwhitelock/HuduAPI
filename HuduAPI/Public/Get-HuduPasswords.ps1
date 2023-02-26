@@ -1,41 +1,61 @@
 function Get-HuduPasswords {
-	[CmdletBinding()]
-	Param (
-		[Int]$Id = '',
-		[Alias("company_id")]
-		[Int]$CompanyId = '',
-		[String]$Name = '',
-		[String]$Slug
-	)
-	
-	if ($Id) {
-		$Password = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords/$id"
-		return $Password
-	} else {
+    <#
+    .SYNOPSIS
+    Get a list of Passwords
 
-		$ResourceFilter = ''
+    .DESCRIPTION
+    Calls Hudu API to list password assets
 
-		if ($CompanyId) {
-			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
-		}
+    .PARAMETER Id
+    Id of the password
 
-		if ($Name) {
-			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-		}
+    .PARAMETER CompanyId
+    Filter by company id
 
-		if ($Slug) {
-			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
-		}	
-	
-		$i = 1;
-		$AllPasswords = do {
-			$Passwords = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords?page=$i&page_size=1000$($ResourceFilter)"
-			$i++
-			$Passwords.asset_passwords
-		} while ($Passwords.asset_passwords.count % 1000 -eq 0 -and $Passwords.asset_passwords.count -ne 0)
-		
-	
-		return $AllPasswords
-	
-	}
+    .PARAMETER Name
+    Filter by password name
+
+    .PARAMETER Slug
+    Filter by url slug
+
+    .PARAMETER Search
+    Filter by search query
+
+    .EXAMPLE
+    Get-HuduPasswords -CompanyId 1
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [Int]$Id,
+
+        [Alias('company_id')]
+        [Int]$CompanyId,
+
+        [String]$Name,
+
+        [String]$Slug,
+
+        [string]$Search
+    )
+
+    if ($Id) {
+        $Password = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords/$id"
+        return $Password
+    }
+
+    else {
+        $Params = @{}
+        if ($CompanyId) { $Params.company_id = $CompanyId }
+        if ($Name) { $Params.name = $Name }
+        if ($Slug) { $Params.slug = $Slug }
+        if ($Search) { $Params.search = $Search }
+    }
+
+    $HuduRequest = @{
+        Method   = 'GET'
+        Resource = '/api/v1/asset_passwords'
+        Params   = $Params
+    }
+    Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'asset_passwords'
 }

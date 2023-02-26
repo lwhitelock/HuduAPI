@@ -1,34 +1,54 @@
 function Get-HuduAssetLayouts {
-	[CmdletBinding()]
-	Param (
-		[String]$Name,
-		[Alias("id", "layout_id")]
-		[String]$LayoutId,
-		[String]$Slug
-	)
-	
-	if ($LayoutId) {
-		$AssetLayout = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_layouts/$($LayoutId)"
-		return $AssetLayout.asset_layout
-	} else {
+    <#
+    .SYNOPSIS
+    Get a list of Asset Layouts
 
-		$ResourceFilter = ''
+    .DESCRIPTION
+    Call Hudu API to retrieve asset layouts for server
 
-		if ($Name) {
-			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-		}
-		
-		if ($Slug) {
-			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
-		}	
-		
-		$i = 1;
-		$AllAssetLayouts = do {
-			$AssetLayouts = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_layouts?page=$i&page_size=25$($ResourceFilter)"
-			$i++
-			$AssetLayouts.Asset_Layouts
-		} while ($AssetLayouts.asset_layouts.count % 25 -eq 0 -and $AssetLayouts.asset_layouts.count -ne 0)
-		
-		return $AllAssetLayouts
-	}
+    .PARAMETER Name
+    Filter by name of Asset Layout
+
+    .PARAMETER LayoutId
+    Id of Asset Layout
+
+    .PARAMETER Slug
+    Filter by url slug
+
+    .EXAMPLE
+    Get-HuduAssetLayouts -Name 'Contacts'
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [String]$Name,
+        [Alias('id', 'layout_id')]
+        [int]$LayoutId,
+        [String]$Slug
+    )
+
+    $HuduRequest = @{
+        Resource = '/api/v1/asset_layouts'
+        Method   = 'GET'
+    }
+
+    if ($LayoutId) {
+        $HuduRequest.Resource = '{0}/{1}' -f $HuduRequest.Resource, $LayoutId
+        $AssetLayout = Invoke-HuduRequest @HuduRequest
+        return $AssetLayout.asset_layout
+    }
+
+    else {
+        $Params = @{}
+        if ($Name) { $Params.name = $Name }
+        if ($Slug) { $Params.slug = $Slug }
+        $HuduRequest.Params = $Params
+
+        $AssetLayouts = Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'asset_layouts' -PageSize 25
+
+        if (!$Name -and !$Slug) {
+            $script:AssetLayouts = $AssetLayouts | Sort-Object -Property name
+        }
+        $AssetLayouts
+    }
 }

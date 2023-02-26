@@ -1,41 +1,53 @@
 function Get-HuduProcesses {
-	[CmdletBinding()]
-	Param (
-		[Int]$Id = '',
-		[Alias("company_id")]
-		[Int]$CompanyId = '',
-		[String]$Name = '',
-		[String]$Slug
-	)
-	
-	if ($Id) {
-		$Process = Invoke-HuduRequest -Method get -Resource "/api/v1/procedures/$id"
-		return $Process
-	} else {
+    <#
+    .SYNOPSIS
+    Get a list of Procedures (Processes)
 
-		$ResourceFilter = ''
+    .DESCRIPTION
+    Calls Hudu API to retrieve list of procedures
 
-		if ($CompanyId) {
-			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
-		}
+    .PARAMETER Id
+    Id of the Procedure
 
-		if ($Name) {
-			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-		}
-	
-		if ($Slug) {
-			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
-		}	
+    .PARAMETER CompanyId
+    Filter by company id
 
-		$i = 1;
-		$AllProcesses = do {
-			$Processes = Invoke-HuduRequest -Method get -Resource "/api/v1/procedures?page=$i&page_size=1000$($ResourceFilter)"
-			$i++
-			$Processes.procedures
-		} while ($Processes.procedures.count % 1000 -eq 0 -and $Processes.procedures.count -ne 0)
-		
-	
-		return $AllProcesses
-	
-	}
+    .PARAMETER Name
+    Fitler by name of article
+
+    .PARAMETER Slug
+    Filter by url slug
+
+    .EXAMPLE
+    Get-HuduProcedures -Name 'Procedure 1'
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [Int]$Id = '',
+        [Alias('company_id')]
+        [Int]$CompanyId = '',
+        [String]$Name = '',
+        [String]$Slug
+    )
+
+    if ($Id) {
+        Invoke-HuduRequest -Method get -Resource "/api/v1/procedures/$id"
+    }
+
+    else {
+        $Params = @{}
+
+        if ($CompanyId) { $Params.company_id = $CompanyId }
+        if ($Name) { $Params.name = $Name }
+        if ($Slug) { $Params.slug = $Slug }
+
+
+        $HuduRequest = @{
+            Method   = 'GET'
+            Resource = '/api/v1/procedures'
+            Params   = $Params
+        }
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'procedures'
+    }
 }

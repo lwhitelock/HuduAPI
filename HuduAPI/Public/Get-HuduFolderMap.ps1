@@ -1,19 +1,21 @@
 function Get-HuduFolderMap {
-	[CmdletBinding()]
-	Param (
-		[Alias("company_id")]
-		[Int]$CompanyId = ''
-	)
-	
-	if ($CompanyId) {
-		$FoldersRaw = Get-HuduFolders -company_id $CompanyId
-		$SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersRaw
+    [CmdletBinding()]
+    Param (
+        [Alias('company_id')]
+        [Int]$CompanyId = ''
+    )
 
-	} else {
-		$FoldersRaw = Get-HuduFolders
-		$FoldersProcessed = $FoldersRaw | where-Object { $null -eq $_.company_id }
-		$SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersProcessed
-	}
+    if ($CompanyId) {
+        $FoldersRaw = Get-HuduFolders -company_id $CompanyId
+        $SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersRaw
 
-	return $SubFolders
+    }
+
+    else {
+        $FoldersRaw = Get-HuduFolders
+        $FoldersProcessed = $FoldersRaw | Where-Object { $null -eq $_.company_id }
+        $SubFolders = Get-HuduCompanyFolders -FoldersRaw $FoldersProcessed
+    }
+
+    return $SubFolders
 }
