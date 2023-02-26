@@ -1,22 +1,23 @@
 function Get-HuduRelations {
-	Param ()
-	$ResourceFilter = ''
+    <#
+    .SYNOPSIS
+    Get a list of all relations
 
-	if ($CompanyId) {
-		$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
-	}
+    .DESCRIPTION
+    Calls Hudu API to retrieve object relationsihps
 
-	if ($Title) {
-		$ResourceFilter = "$($ResourceFilter)&title=$($Title)"
-	}
-	
-	$i = 1;
-	$AllRelations = do {
-		$Relations = Invoke-HuduRequest -Method get -Resource "/api/v1/relations?page=$i&page_size=1000$($ResourceFilter)"
-		$i++
-		$Relations.relations
-	} while ($Relations.relations.count % 1000 -eq 0 -and $Relations.relations.count -ne 0)
-		
-	return $AllRelations
-	
+    .EXAMPLE
+    Get-HuduRelations -CompanyId 1
+
+    #>
+    [CmdletBinding()]
+    Param()
+
+    $HuduRequest = @{
+        Method   = 'GET'
+        Resource = '/api/v1/relations'
+        Params   = @{}
+    }
+
+    Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'relations'
 }

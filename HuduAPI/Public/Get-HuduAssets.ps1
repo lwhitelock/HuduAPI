@@ -1,63 +1,82 @@
 function Get-HuduAssets {
-	[CmdletBinding()]
-	Param (
-		[Int]$Id = '',
-		[Alias('asset_layout_id')]
-		[Int]$AssetLayoutId = '',
-		[Alias('company_id')]
-		[Int]$CompanyId = '',
-		[String]$Name = '',
-		[Bool]$Archived = $false,
-		[Alias('primary_serial')]
-		[String]$PrimarySerial = '',
-		[String]$Slug
-	)
-	
+    <#
+    .SYNOPSIS
+    Get a list of Assets
 
-	if ($id -and $CompanyId) {
-		$Asset = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$CompanyId/assets/$Id"
-		return $Asset
-	}
- else {
+    .DESCRIPTION
+    Call Hudu API to retrieve Assets
 
-		$ResourceFilter = ''
-	
-		if ($CompanyId) {
-			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
-		}
-	
-		if ($AssetLayoutId) {
-			$ResourceFilter = "$($ResourceFilter)&asset_layout_id=$($AssetLayoutId)"
-		}
-	
-		if ($Name) {
-			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-		}
+    .PARAMETER Id
+    Id of requested asset
 
-		if ($Archived) {
-			$ResourceFilter = "$($ResourceFilter)&archived=$($Archived)"
-		}
+    .PARAMETER AssetLayoutId
+    Id of the requested asset layout
 
-		if ($PrimarySerial) {
-			$ResourceFilter = "$($ResourceFilter)&primary_serial=$($PrimarySerial)"
-		}
+    .PARAMETER AssetLayout
+    Name of the requested asset layout
 
-		if ($Id) {
-			$ResourceFilter = "$($ResourceFilter)&id=$($Id)"
-		}	
+    .PARAMETER CompanyId
+    Id of the requested company
 
-		if ($Slug) {
-			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
-		}	
-	
-		$i = 1;
-		$AllAssets = do {
-			$Assets = Invoke-HuduRequest -Method get -Resource "/api/v1/assets?page=$i&page_size=1000$($ResourceFilter)"
-			$i++
-			$Assets.Assets
-		} while ($Assets.Assets.count % 1000 -eq 0 -and $Assets.Assets.count -ne 0)
-		
-		return $AllAssets
-	}
+    .PARAMETER Name
+    Filter by name
+
+    .PARAMETER Archived
+    Show archived results
+
+    .PARAMETER PrimarySerial
+    Filter by primary serial
+
+    .PARAMETER Slug
+    Filter by slug
+
+    .EXAMPLE
+    Get-HuduAssets -AssetLayout 'Contacts'
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [Int]$Id = '',
+        [Alias('asset_layout_id')]
+        [Int]$AssetLayoutId = '',
+        [string]$AssetLayout,
+        [Alias('company_id')]
+        [Int]$CompanyId = '',
+        [String]$Name = '',
+        [switch]$Archived,
+        [Alias('primary_serial')]
+        [String]$PrimarySerial = '',
+        [String]$Slug
+    )
+
+    if ($AssetLayout) {
+        if (!$script:AssetLayouts) { Get-HuduAssetLayouts | Out-Null }
+        $AssetLayoutId = $script:AssetLayouts | Where-Object { $_.name -eq $AssetLayout } | Select-Object -ExpandProperty id
+    }
+
+    if ($id -and $CompanyId) {
+        $HuduRequest = @{
+            Resource = "/api/v1/companies/$CompanyId/assets/$Id"
+            Method   = 'GET'
+        }
+        Invoke-HuduRequest @HuduRequest
+    }
+
+    else {
+        $Params = @{}
+        if ($CompanyId) { $Params.company_id = $CompanyId }
+        if ($AssetLayoutId) { $Params.asset_layout_id = $AssetLayoutId }
+        if ($Name) { $Params.name = $Name }
+        if ($Archived.IsPresent) { $params.archived = $Archived.IsPresent }
+        if ($PrimarySerial) { $Params.primary_serial = $PrimarySerial }
+        if ($Id) { $Params.id = $Id }
+        if ($Slug) { $Params.slug = $Slug }
+
+        $HuduRequest = @{
+            Resource = '/api/v1/assets'
+            Method   = 'GET'
+            Params   = $Params
+        }
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property assets
+    }
 }
- 

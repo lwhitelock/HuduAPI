@@ -1,40 +1,53 @@
 function Get-HuduArticles {
-	[CmdletBinding()]
-	Param (
-		[Int]$Id = '',
-		[Alias("company_id")]
-		[Int]$CompanyId = '',
-		[String]$Name = '',
-		[String]$Slug
-	)
-	
-	if ($Id) {
-		$Article = Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
-		return $Article
-	} else {
+    <#
+    .SYNOPSIS
+    Get Knowledge Base Articles
 
-		$ResourceFilter = ''
+    .DESCRIPTION
+    Calls Hudu API to retrieve KB articles by Id or a list
 
-		if ($CompanyId) {
-			$ResourceFilter = "$($ResourceFilter)&company_id=$($CompanyId)"
-		}
+    .PARAMETER Id
+    Id of the Article
 
-		if ($Name) {
-			$ResourceFilter = "$($ResourceFilter)&name=$($Name)"
-		}
+    .PARAMETER CompanyId
+    Filter by company id
 
-		if ($Slug) {
-			$ResourceFilter = "$($ResourceFilter)&slug=$($Slug)"
-		}	
-	
-		$i = 1;
-		$AllArticles = do {
-			$Articles = Invoke-HuduRequest -Method get -Resource "/api/v1/articles?page=$i&page_size=1000$($ResourceFilter)"
-			$i++
-			$Articles.Articles
-		} while ($Articles.Articles.count % 1000 -eq 0 -and $Articles.Articles.count -ne 0)
-		
-		return $AllArticles
-	
-	}
+    .PARAMETER Name
+    Filter by name of article
+
+    .PARAMETER Slug
+    Filter by slug of article
+
+    .EXAMPLE
+    Get-HuduArticles -Name 'Article name'
+
+    #>
+    [CmdletBinding()]
+    Param (
+        [Int]$Id = '',
+        [Alias('company_id')]
+        [Int]$CompanyId = '',
+        [String]$Name = '',
+        [String]$Slug
+    )
+
+    if ($Id) {
+        Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
+    }
+
+    else {
+        $Params = @{}
+
+        if ($CompanyId) { $Params.company_id = $CompanyId }
+        if ($Name) { $Params.name = $Name }
+        if ($Slug) { $Params.slug = $Slug }
+
+        $HuduRequest = @{
+            Method   = 'GET'
+            Resource = '/api/v1/articles'
+            Params   = $Params
+        }
+
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest
+    }
 }
