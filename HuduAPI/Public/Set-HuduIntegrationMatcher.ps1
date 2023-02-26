@@ -1,5 +1,34 @@
 function Set-HuduIntegrationMatcher {
-    [CmdletBinding()]
+    <#
+    .SYNOPSIS
+    Update a Matcher
+
+    .DESCRIPTION
+    Uses Hudu API to set integration matchers
+
+    .PARAMETER Id
+    Id of the requested matcher
+
+    .PARAMETER AcceptSuggestedMatch
+    Set the Sync Id/Identifier to the suggested one
+
+    .PARAMETER CompanyId
+    Requested company id to match
+
+    .PARAMETER PotentialCompanyId
+    Potential company id to match
+
+    .PARAMETER SyncId
+    Sync id to match
+
+    .PARAMETER Identifier
+    Identifier to match
+
+    .EXAMPLE
+    Set-HuduIntegrationMatcher -Id 1 -AcceptSuggestedMatch
+
+    #>
+    [CmdletBinding(SupportsShouldProcess)]
     Param (
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [String]$Id,
@@ -23,12 +52,13 @@ function Set-HuduIntegrationMatcher {
         [String]$Identifier
     )
 
-    Process {
+    process {
         $Matcher = [ordered]@{matcher = [ordered]@{} }
-	
+
         if ($AcceptSuggestedMatch) {
             $Matcher.matcher.add('company_id', $PotentialCompanyId) | Out-Null
         }
+
         else {
             $Matcher.matcher.add('company_id', $CompanyId) | Out-Null
         }
@@ -42,10 +72,11 @@ function Set-HuduIntegrationMatcher {
         if ($Identifier) {
             $Matcher.matcher.add('identifier', $identifier) | Out-Null
         }
-	
+
         $JSON = $Matcher | ConvertTo-Json -Depth 10
-	
-        $Response = Invoke-HuduRequest -Method put -Resource "/api/v1/matchers/$Id" -Body $JSON
-        $Response
+
+        if ($PSCmdlet.ShouldProcess($Id)) {
+            Invoke-HuduRequest -Method put -Resource "/api/v1/matchers/$Id" -Body $JSON
+        }
     }
 }

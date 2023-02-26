@@ -34,7 +34,7 @@ function New-HuduAsset {
     Url identifier
 
     .EXAMPLE
-    New-HuduAsset -Name 'Some asset' -CompanyId 1 -Fields @{'custom_1'='Custom Value'}
+    New-HuduAsset -Name 'Some asset' -CompanyId 1 -Fields @(@{'field_name'='Field Value'})
 
     #>
     [CmdletBinding(SupportsShouldProcess)]
