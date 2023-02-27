@@ -5,12 +5,12 @@ function Get-HuduSubFolders {
         [PSCustomObject]$FoldersRaw
     )
 
-    $SubFolders = $FoldersRaw | where-Object { $_.parent_folder_id -eq $id } 
+    $SubFolders = $FoldersRaw | Where-Object { $_.parent_folder_id -eq $id }
     $ReturnFolders = [System.Collections.ArrayList]@()
     foreach ($Folder in $SubFolders) {
         $SubSubFolders = Get-HuduSubFolders -id $Folder.id -FoldersRaw $FoldersRaw
         foreach ($AddFolder in $SubSubFolders) {
-            $null = $folder | add-member -Membertype NoteProperty -Name $(Get-HuduFolderCleanName $($AddFolder.PSObject.Properties.name)) -Value $AddFolder.PSObject.Properties.value
+            $null = $folder | Add-Member -MemberType NoteProperty -Name $(Get-HuduFolderCleanName $($AddFolder.PSObject.Properties.name)) -Value $AddFolder.PSObject.Properties.value
         }
         $ReturnObject = [PSCustomObject]@{
             $(Get-HuduFolderCleanName $($Folder.name)) = $Folder

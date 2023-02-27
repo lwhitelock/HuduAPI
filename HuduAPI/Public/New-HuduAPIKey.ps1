@@ -21,19 +21,21 @@ function New-HuduAPIKey {
         [String]$ApiKey
     )
 
-    if ($ApiKey) {
-        $SecApiKey = ConvertTo-SecureString $ApiKey -AsPlainText -Force
-    }
+    process {
+        if ($ApiKey) {
+            $SecApiKey = ConvertTo-SecureString $ApiKey -AsPlainText -Force
+        }
 
-    else {
-        $SecApiKey = Read-Host -Prompt 'Please enter your Hudu API key, you can obtain it from https://your-hudu-domain/admin/api_keys:' -AsSecureString
-    }
-    Set-Variable -Name 'Int_HuduAPIKey' -Value $SecApiKey -Visibility Private -Scope script -Force
+        else {
+            $SecApiKey = Read-Host -Prompt 'Please enter your Hudu API key, you can obtain it from https://your-hudu-domain/admin/api_keys:' -AsSecureString
+        }
+        Set-Variable -Name 'Int_HuduAPIKey' -Value $SecApiKey -Visibility Private -Scope script -Force
 
-    if ($script:Int_HuduBaseURL) {
-        [version]$version = (Get-HuduAppInfo).version
-        if ($version -lt $script:HuduRequiredVersion) {
-            Write-Warning "A connection error occured or Hudu version is below $script:HuduRequiredVersion"
+        if ($script:Int_HuduBaseURL) {
+            [version]$version = (Get-HuduAppInfo).version
+            if ($version -lt $script:HuduRequiredVersion) {
+                Write-Warning "A connection error occured or Hudu version is below $script:HuduRequiredVersion"
+            }
         }
     }
 }
