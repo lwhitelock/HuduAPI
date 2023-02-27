@@ -24,9 +24,7 @@ function New-HuduAPIKey {
     process {
         if ($ApiKey) {
             $SecApiKey = ConvertTo-SecureString $ApiKey -AsPlainText -Force
-        }
-
-        else {
+        } else {
             $SecApiKey = Read-Host -Prompt 'Please enter your Hudu API key, you can obtain it from https://your-hudu-domain/admin/api_keys:' -AsSecureString
         }
         Set-Variable -Name 'Int_HuduAPIKey' -Value $SecApiKey -Visibility Private -Scope script -Force

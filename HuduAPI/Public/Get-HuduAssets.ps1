@@ -60,9 +60,7 @@ function Get-HuduAssets {
             Method   = 'GET'
         }
         Invoke-HuduRequest @HuduRequest
-    }
-
-    else {
+    } else {
         $Params = @{}
         if ($CompanyId) { $Params.company_id = $CompanyId }
         if ($AssetLayoutId) { $Params.asset_layout_id = $AssetLayoutId }

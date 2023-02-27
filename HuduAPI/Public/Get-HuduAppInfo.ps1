@@ -13,11 +13,11 @@ function Get-HuduAppInfo {
     [CmdletBinding()]
     Param()
 
+    [version]$script:HuduRequiredVersion = '2.21'
+    
     try {
         Invoke-HuduRequest -Resource '/api/v1/api_info'
-    }
-
-    catch {
+    } catch {
         [PSCustomObject]@{
             version = '0.0.0.0'
             date    = '2000-01-01'

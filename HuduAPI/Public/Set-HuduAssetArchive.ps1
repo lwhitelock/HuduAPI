@@ -32,9 +32,7 @@ function Set-HuduAssetArchive {
 
     if ($Archive) {
         $Action = 'archive'
-    }
-
-    else {
+    } else {
         $Action = 'unarchive'
     }
 

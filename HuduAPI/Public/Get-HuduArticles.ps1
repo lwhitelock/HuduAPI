@@ -33,9 +33,7 @@ function Get-HuduArticles {
 
     if ($Id) {
         Invoke-HuduRequest -Method get -Resource "/api/v1/articles/$Id"
-    }
-
-    else {
+    } else {
         $Params = @{}
 
         if ($CompanyId) { $Params.company_id = $CompanyId }

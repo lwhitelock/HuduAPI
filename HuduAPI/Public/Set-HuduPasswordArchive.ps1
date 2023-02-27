@@ -27,9 +27,7 @@ function Set-HuduPasswordArchive {
     process {
         if ($Archive) {
             $Action = 'archive'
-        }
-
-        else {
+        } else {
             $Action = 'unarchive'
         }
 

@@ -55,9 +55,7 @@ function Get-HuduCompanies {
     if ($Id) {
         $Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$Id"
         return $Company
-    }
-
-    else {
+    } else {
         $Params = @{}
         if ($Name) { $Params.name = $Name }
         if ($PhoneNumber) { $Params.phone_number = $PhoneNumber }

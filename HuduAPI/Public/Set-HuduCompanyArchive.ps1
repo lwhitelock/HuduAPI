@@ -26,9 +26,7 @@ function Set-HuduCompanyArchive {
 
     if ($Archive -eq $true) {
         $Action = 'archive'
-    }
-
-    else {
+    } else {
         $Action = 'unarchive'
     }
     if ($PSCmdlet.ShouldProcess($Id)) {
