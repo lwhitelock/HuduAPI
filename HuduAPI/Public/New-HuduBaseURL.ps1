@@ -1,4 +1,20 @@
 function New-HuduBaseURL {
+    <#
+    .SYNOPSIS
+    Set Hudu Base URL
+
+    .DESCRIPTION
+    In order to access the Hudu API the Base URL must be set
+
+    .PARAMETER BaseURL
+    Url with no trailing slash e.g. https://demo.huducloud.com
+
+    .EXAMPLE
+    New-HuduBaseURL -BaseURL https://demo.huducloud.com
+
+    .NOTES
+    General notes
+    #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Scope = 'Function')]
     [CmdletBinding()]
     Param (

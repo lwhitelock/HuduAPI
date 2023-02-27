@@ -2,13 +2,15 @@ function Initialize-HuduFolder {
     [CmdletBinding()]
     param(
         [String[]]$FolderPath,
-        [Alias("company_id")]
+        [Alias('company_id')]
         [int]$CompanyId
     )
 
     if ($CompanyId) {
         $FolderMap = Get-HuduFolderMap -company_id $CompanyId
-    } else {
+    }
+
+    else {
         $FolderMap = Get-HuduFolderMap
     }
 
@@ -16,8 +18,10 @@ function Initialize-HuduFolder {
     foreach ($Folder in $FolderPath) {
         if ($CurrentFolder.$(Get-HuduFolderCleanName $Folder)) {
             $CurrentFolder = $CurrentFolder.$(Get-HuduFolderCleanName $Folder)
-        } else {
-            $CurrentFolder = (New-HuduFolder -name $Folder -company_id $CompanyID -parent_folder_id $CurrentFolder.id).folder
+        }
+
+        else {
+            $CurrentFolder = (New-HuduFolder -Name $Folder -company_id $CompanyID -parent_folder_id $CurrentFolder.id).folder
         }
     }
 
