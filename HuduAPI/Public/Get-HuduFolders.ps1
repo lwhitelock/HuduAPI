@@ -30,9 +30,7 @@ function Get-HuduFolders {
     if ($id) {
         $Folder = Invoke-HuduRequest -Method get -Resource "/api/v1/folders/$id"
         return $Folder.Folder
-    }
-
-    else {
+    } else {
         $Params = @{}
 
         if ($CompanyId) { $Params.company_id = $CompanyId }

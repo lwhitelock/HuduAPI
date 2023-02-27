@@ -33,9 +33,7 @@ function Get-HuduProcesses {
 
     if ($Id) {
         Invoke-HuduRequest -Method get -Resource "/api/v1/procedures/$id"
-    }
-
-    else {
+    } else {
         $Params = @{}
 
         if ($CompanyId) { $Params.company_id = $CompanyId }

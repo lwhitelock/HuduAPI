@@ -63,9 +63,7 @@ function Get-HuduObjectByUrl {
                 Write-Error "Unsupported object type $Type"
             }
         }
-    }
-
-    else {
+    } else {
         Write-Error 'Provided URL does not match Hudu Base URL'
     }
 }

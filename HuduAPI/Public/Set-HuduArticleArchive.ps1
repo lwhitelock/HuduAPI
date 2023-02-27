@@ -26,9 +26,7 @@ function Set-HuduArticleArchive {
 
     if ($Archive) {
         $Action = 'archive'
-    }
-
-    else {
+    } else {
         $Action = 'unarchive'
     }
 

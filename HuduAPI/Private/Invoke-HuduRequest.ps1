@@ -91,16 +91,12 @@ function Invoke-HuduRequest {
 
     try {
         $Results = Invoke-RestMethod @RestMethod
-    }
-
-    catch {
+    } catch {
         if ("$_".trim() -eq 'Retry later' -or "$_".trim() -eq 'The remote server returned an error: (429) Too Many Requests.') {
             Write-Information 'Hudu API Rate limited. Waiting 30 Seconds then trying again'
             Start-Sleep 30
             $Results = Invoke-HuduRequest @RestMethod
-        }
-
-        else {
+        } else {
             Write-Error "'$_'"
         }
     }

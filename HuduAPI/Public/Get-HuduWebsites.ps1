@@ -33,9 +33,7 @@ function Get-HuduWebsites {
 
     if ($WebsiteId) {
         Invoke-HuduRequest -Method get -Resource "/api/v1/websites/$($WebsiteId)"
-    }
-
-    else {
+    } else {
         $Params = @{}
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }

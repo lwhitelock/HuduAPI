@@ -44,7 +44,6 @@ function Get-HuduIntegrationMatchers {
     }
 
     if ($Matched.IsPresent) { $Params.matched = 'true' }
-
     if ($CompanyId) { $Params.company_id = $CompanyId }
     if ($Identifier) { $Params.identifier = $Identifier }
     if ($SyncId) { $Params.sync_id = $SyncId }

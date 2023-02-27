@@ -40,9 +40,7 @@ function Remove-HuduMagicDash {
             if ($PSCmdlet.ShouldProcess($Id)) {
                 $null = Invoke-HuduRequest -Method delete -Resource "/api/v1/magic_dash/$Id"
             }
-        }
-
-        else {
+        } else {
             $MagicDash = @{}
 
             $MagicDash.add('title', $Title)

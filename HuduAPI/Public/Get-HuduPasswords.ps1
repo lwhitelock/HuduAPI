@@ -42,9 +42,7 @@ function Get-HuduPasswords {
     if ($Id) {
         $Password = Invoke-HuduRequest -Method get -Resource "/api/v1/asset_passwords/$id"
         return $Password
-    }
-
-    else {
+    } else {
         $Params = @{}
         if ($CompanyId) { $Params.company_id = $CompanyId }
         if ($Name) { $Params.name = $Name }

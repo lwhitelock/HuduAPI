@@ -57,9 +57,7 @@ function Set-HuduIntegrationMatcher {
 
         if ($AcceptSuggestedMatch) {
             $Matcher.matcher.add('company_id', $PotentialCompanyId) | Out-Null
-        }
-
-        else {
+        } else {
             $Matcher.matcher.add('company_id', $CompanyId) | Out-Null
         }
 
