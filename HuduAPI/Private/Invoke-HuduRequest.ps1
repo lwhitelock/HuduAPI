@@ -86,7 +86,7 @@ function Invoke-HuduRequest {
 
     if ($Form) {
         $RestMethod.Form = $Form
-        Write-Verbose ( $Form | ConvertTo-Json )
+        Write-Verbose ( $Form | Out-String )
     }
 
     try {
