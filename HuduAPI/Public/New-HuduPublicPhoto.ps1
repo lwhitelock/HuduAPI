@@ -36,8 +36,8 @@ function New-HuduPublicPhoto {
         photo = $File
     }
 
-    if ($record_id) { $form['record_id'] = $RecordId }
-    if ($record_type) { $form['record_type'] = $RecordType }
+    if ($RecordId) { $form['record_id'] = $RecordId }
+    if ($RecordType) { $form['record_type'] = $RecordType }
 
     if ($PSCmdlet.ShouldProcess($File.FullName)) {
         Invoke-HuduRequest -Method POST -Resource '/api/v1/public_photos' -Form $form
