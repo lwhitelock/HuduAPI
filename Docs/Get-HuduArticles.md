@@ -14,7 +14,7 @@ Get Knowledge Base Articles
 
 ```
 Get-HuduArticles [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+ [[-Search] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,6 +84,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+Filter by search terms
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
