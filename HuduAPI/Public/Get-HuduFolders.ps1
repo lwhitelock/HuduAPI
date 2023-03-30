@@ -41,6 +41,6 @@ function Get-HuduFolders {
             Resource = '/api/v1/folders'
             Params   = $Params
         }
-        Invoke-HuduPaginatedRequest -HuduRequest $HuduRequest -Property folders
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property folders
     }
 }
