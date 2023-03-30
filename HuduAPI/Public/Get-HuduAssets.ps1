@@ -30,6 +30,9 @@ function Get-HuduAssets {
     .PARAMETER Slug
     Filter by slug
 
+    .PARAMETER Search
+    Filter by search terms
+
     .EXAMPLE
     Get-HuduAssets -AssetLayout 'Contacts'
 
@@ -46,7 +49,8 @@ function Get-HuduAssets {
         [switch]$Archived,
         [Alias('primary_serial')]
         [String]$PrimarySerial = '',
-        [String]$Slug
+        [String]$Slug,
+        [String]$Search
     )
 
     if ($AssetLayout) {
@@ -69,6 +73,7 @@ function Get-HuduAssets {
         if ($PrimarySerial) { $Params.primary_serial = $PrimarySerial }
         if ($Id) { $Params.id = $Id }
         if ($Slug) { $Params.slug = $Slug }
+        if ($Search) { $Params.search = $Search }
 
         $HuduRequest = @{
             Resource = '/api/v1/assets'

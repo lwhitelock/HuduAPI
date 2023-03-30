@@ -18,6 +18,9 @@ function Get-HuduArticles {
     .PARAMETER Slug
     Filter by slug of article
 
+    .PARAMETER Search
+    Filter by search terms
+
     .EXAMPLE
     Get-HuduArticles -Name 'Article name'
 
@@ -28,7 +31,8 @@ function Get-HuduArticles {
         [Alias('company_id')]
         [Int]$CompanyId = '',
         [String]$Name = '',
-        [String]$Slug
+        [String]$Slug,
+        [String]$Search
     )
 
     if ($Id) {
@@ -39,6 +43,7 @@ function Get-HuduArticles {
         if ($CompanyId) { $Params.company_id = $CompanyId }
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }
+        if ($Search) { $Params.search = $Search }
 
         $HuduRequest = @{
             Method   = 'GET'
