@@ -45,13 +45,13 @@ function New-HuduExport {
     process {
         $Export = [ordered]@{export = [ordered]@{} }
 
-        $Export.company_id = $CompanyId
-        $Export.format = $Format
-        $Export.include_passwords = $IncludePasswords.IsPresent
-        $Export.include_websites = $IncludeWebsites.IsPresent
+        $Export.export.company_id = $CompanyId
+        $Export.export.format = $Format
+        $Export.export.include_passwords = $IncludePasswords.IsPresent
+        $Export.export.include_websites = $IncludeWebsites.IsPresent
 
         if ($AssetLayoutIds) {
-            $Export.asset_layout_ids = $AssetLayoutIds
+            $Export.export.asset_layout_ids = $AssetLayoutIds
         }
 
         $JSON = $Export | ConvertTo-Json -Depth 10
