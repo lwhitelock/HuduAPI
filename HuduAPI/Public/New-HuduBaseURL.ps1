@@ -27,7 +27,7 @@ function New-HuduBaseURL {
         if (!$BaseURL) {
             $BaseURL = Read-Host -Prompt 'Please enter your Hudu Base URL with no trailing /, for example https://demo.huducloud.com :'
         }
-        Set-Variable -Name 'Int_HuduBaseURL' -Value $BaseURL -Visibility Private -Scope script -Force
+        $script:Int_HuduBaseURL = $BaseURL
 
         if ($script:Int_HuduAPIKey) {
             [version]$Version = (Get-HuduAppInfo).version

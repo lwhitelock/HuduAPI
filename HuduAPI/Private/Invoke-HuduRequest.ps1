@@ -43,8 +43,12 @@ function Invoke-HuduRequest {
         [hashtable]$Form
     )
 
-    $HuduAPIKey = Get-HuduApiKey
-    $HuduBaseURL = Get-HuduBaseURL
+    try {
+        $HuduAPIKey = Get-HuduApiKey
+        $HuduBaseURL = Get-HuduBaseURL
+    } catch {
+        throw $_
+    }
 
     # Assemble parameters
     $ParamCollection = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
@@ -97,7 +101,7 @@ function Invoke-HuduRequest {
             Start-Sleep 30
             $Results = Invoke-HuduRequest @RestMethod
         } else {
-            Write-Error "'$_'"
+            throw "'$_'"
         }
     }
 

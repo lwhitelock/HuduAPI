@@ -21,6 +21,9 @@ function New-HuduExport {
     .PARAMETER AssetLayoutIds
     List of asset layout ids
 
+    .PARAMETER AssetLayouts
+    Enter a list of Asset Layouts names or 'All'
+
     .EXAMPLE
     New-HuduExport -Format pdf -CompanyId 1 -IncludePasswords -IncludeWebsites
 
@@ -39,25 +42,39 @@ function New-HuduExport {
 
         [switch]$IncludeWebsites,
 
-        [int[]]$AssetLayoutIds
+        [Parameter(ParameterSetName = 'LayoutIDs')]
+        [int[]]$AssetLayoutIds,
+
+        [Parameter(ParameterSetName = 'LayoutNames')]
+        [string[]]$AssetLayouts
     )
 
     process {
         $Export = [ordered]@{export = [ordered]@{} }
 
-        $Export.export.company_id = $CompanyId
+        if ($AssetLayouts) {
+            $AssetLayoutList = Get-HuduAssetLayouts
+            if ($AssetLayouts -eq 'All') {
+                $AssetLayoutIds = $AssetLayoutList | Select-Object -ExpandProperty id
+            } else {
+                $AssetLayoutIds = foreach ($AssetLayout in $AssetLayouts) {
+                    $AssetLayoutList | Where-Object { $_.name -eq $AssetLayout } | Select-Object -ExpandProperty id
+                }
+            }
+        }
+
+        $Export.export.company_id = "$CompanyId"
         $Export.export.format = $Format
         $Export.export.include_passwords = $IncludePasswords.IsPresent
         $Export.export.include_websites = $IncludeWebsites.IsPresent
 
         if ($AssetLayoutIds) {
-            $Export.export.asset_layout_ids = $AssetLayoutIds
+            $Export.export.asset_layout_ids = @($AssetLayoutIds)
         }
 
         $JSON = $Export | ConvertTo-Json -Depth 10
-        Write-Verbose $JSON
 
-        if ($PSCmdlet.ShouldProcess($Name)) {
+        if ($PSCmdlet.ShouldProcess($CompanyId)) {
             Invoke-HuduRequest -Method post -Resource '/api/v1/exports' -Body $JSON
         }
     }
