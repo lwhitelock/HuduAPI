@@ -12,9 +12,15 @@ Get a list of all websites
 
 ## SYNTAX
 
+### List (Default)
 ```
-Get-HuduWebsites [[-Name] <String>] [[-WebsiteId] <Int32>] [[-Slug] <String>] [[-Search] <String>]
- [<CommonParameters>]
+Get-HuduWebsites [-Name <String>] [-Slug <String>] [-Search <String>] [-StartDate <DateTime>]
+ [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
+```
+
+### Single
+```
+Get-HuduWebsites [-WebsiteId <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,11 +40,11 @@ Filter websites by name
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -49,11 +55,11 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Single
 Aliases: website_id
 
 Required: False
-Position: 2
+Position: Named
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,11 +70,11 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,11 +85,56 @@ Fitler by search query
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StartDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExactDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -12,9 +12,16 @@ Start an export of a company
 
 ## SYNTAX
 
+### LayoutIDs
 ```
-New-HuduExport [-Format] <String> [-CompanyId] <Int32> [-IncludePasswords] [-IncludeWebsites]
- [[-AssetLayoutIds] <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-HuduExport -Format <String> -CompanyId <Int32> [-IncludePasswords] [-IncludeWebsites]
+ [-AssetLayoutIds <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### LayoutNames
+```
+New-HuduExport -Format <String> -CompanyId <Int32> [-IncludePasswords] [-IncludeWebsites]
+ [-AssetLayouts <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,7 +45,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -53,7 +60,7 @@ Parameter Sets: (All)
 Aliases: id
 
 Required: True
-Position: 2
+Position: Named
 Default value: 0
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
@@ -94,11 +101,26 @@ List of asset layout ids
 
 ```yaml
 Type: Int32[]
-Parameter Sets: (All)
+Parameter Sets: LayoutIDs
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AssetLayouts
+Enter a list of Asset Layouts names or 'All'
+
+```yaml
+Type: String[]
+Parameter Sets: LayoutNames
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -12,10 +12,16 @@ Get a list of companies
 
 ## SYNTAX
 
+### List (Default)
 ```
-Get-HuduCompanies [[-Name] <String>] [[-PhoneNumber] <String>] [[-Website] <String>] [[-City] <String>]
- [[-State] <String>] [[-IdInIntegration] <Int32>] [[-Id] <Int32>] [[-Search] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+Get-HuduCompanies [-Name <String>] [-PhoneNumber <String>] [-Website <String>] [-City <String>]
+ [-State <String>] [-IdInIntegration <Int32>] [-Search <String>] [-Slug <String>] [-StartDate <DateTime>]
+ [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
+```
+
+### Single
+```
+Get-HuduCompanies [-Id <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,11 +41,11 @@ Filter companies by name
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -50,11 +56,11 @@ filter companies by phone number
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases: phone_number
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -65,11 +71,11 @@ Filter companies by website
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -80,11 +86,11 @@ Filter companies by city
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -95,11 +101,11 @@ Filter companies by state
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,11 +116,11 @@ Filter companies by id/identifier in PSA/RMM/outside integration
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases: id_in_integration
 
 Required: False
-Position: 6
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -125,11 +131,11 @@ Filter companies by id
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Single
 Aliases:
 
 Required: False
-Position: 7
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,11 +146,11 @@ Filter by search query
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 8
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -155,11 +161,56 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 9
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StartDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExactDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

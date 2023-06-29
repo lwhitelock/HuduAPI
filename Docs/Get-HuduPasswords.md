@@ -12,9 +12,15 @@ Get a list of Passwords
 
 ## SYNTAX
 
+### List (Default)
 ```
-Get-HuduPasswords [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [[-Search] <String>] [<CommonParameters>]
+Get-HuduPasswords [-CompanyId <Int32>] [-Name <String>] [-Slug <String>] [-Search <String>]
+ [-StartDate <DateTime>] [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
+```
+
+### Single
+```
+Get-HuduPasswords [-Id <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,11 +40,11 @@ Id of the password
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Single
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -49,11 +55,11 @@ Filter by company id
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases: company_id
 
 Required: False
-Position: 2
+Position: Named
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,11 +70,11 @@ Filter by password name
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,11 +85,11 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -94,11 +100,56 @@ Filter by search query
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StartDate
+{{ Fill StartDate Description }}
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndDate
+{{ Fill EndDate Description }}
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExactDate
+{{ Fill ExactDate Description }}
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
