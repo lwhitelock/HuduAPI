@@ -50,7 +50,7 @@ function New-HuduExport {
     )
 
     process {
-        $Export = [ordered]@{export = [ordered]@{} }
+        $Export = @{export = @{} }
 
         if ($AssetLayouts) {
             $AssetLayoutList = Get-HuduAssetLayouts
@@ -63,7 +63,7 @@ function New-HuduExport {
             }
         }
 
-        $Export.export.company_id = "$CompanyId"
+        $Export.export.company_id = $CompanyId
         $Export.export.format = $Format
         $Export.export.include_passwords = $IncludePasswords.IsPresent
         $Export.export.include_websites = $IncludeWebsites.IsPresent
@@ -73,7 +73,6 @@ function New-HuduExport {
         }
 
         $JSON = $Export | ConvertTo-Json -Depth 10
-
         if ($PSCmdlet.ShouldProcess($CompanyId)) {
             Invoke-HuduRequest -Method post -Resource '/api/v1/exports' -Body $JSON
         }

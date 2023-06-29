@@ -37,10 +37,13 @@ function Invoke-HuduRequest {
         [hashtable]$Params = @{},
 
         [Parameter()]
-        [string]$Body,
+        $Body,
 
         [Parameter()]
-        [hashtable]$Form
+        [hashtable]$Form,
+
+        [Parameter()]
+        [string]$ContentType = 'application/json; charset=utf-8'
     )
 
     try {
@@ -64,8 +67,6 @@ function Invoke-HuduRequest {
     $Headers = @{
         'x-api-key' = (New-Object PSCredential 'user', $HuduAPIKey).GetNetworkCredential().Password;
     }
-
-    $ContentType = 'application/json; charset=utf-8'
 
     $Uri = '{0}{1}' -f $HuduBaseURL, $Resource
     # Make API call URI
