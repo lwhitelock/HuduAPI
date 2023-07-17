@@ -92,38 +92,56 @@ function Set-HuduAssetLayout {
         $Field.required = [System.Convert]::ToBoolean($Field.required)
         $Field.expiration = [System.Convert]::ToBoolean($Field.expiration)
     }
+    $Object = Get-HuduAssetLayouts -id $Id
+    $AssetLayout = [ordered]@{asset_layout = $Object }
+    #$AssetLayout.asset_layout = $Object
 
+    if ($Name) {
+        $AssetLayout.asset_layout.name = $Name
+    }
+    
+    if ($Icon) {
+        $AssetLayout.asset_layout.icon = $Icon
+    }
 
-    $AssetLayout = [ordered]@{asset_layout = [ordered]@{} }
+    if ($Color) {
+        $AssetLayout.asset_layout.color = $Color
+    }
 
-    $AssetLayout.asset_layout.add('name', $Name)
-    $AssetLayout.asset_layout.add('icon', $Icon)
-    $AssetLayout.asset_layout.add('color', $Color)
-    $AssetLayout.asset_layout.add('icon_color', $IconColor)
-    $AssetLayout.asset_layout.add('fields', $Fields)
+    if ($IconColor) {
+        $AssetLayout.asset_layout.icon_color = $IconColor
+    }
+
+    if ($Fields) {
+        $AssetLayout.asset_layout.fields = $Fields
+    }
 
     if ($IncludePasswords) {
-        $AssetLayout.asset_layout.add('include_passwords', [System.Convert]::ToBoolean($IncludePasswords))
+        $AssetLayout.asset_layout.include_passwords = [System.Convert]::ToBoolean($IncludePasswords)
     }
 
     if ($IncludePhotos) {
-        $AssetLayout.asset_layout.add('include_photos', [System.Convert]::ToBoolean($IncludePhotos))
+        $AssetLayout.asset_layout.include_photos = [System.Convert]::ToBoolean($IncludePhotos)
     }
 
     if ($IncludeComments) {
-        $AssetLayout.asset_layout.add('include_comments', [System.Convert]::ToBoolean($IncludeComments))
+        $AssetLayout.asset_layout.include_comments = [System.Convert]::ToBoolean($IncludeComments)
     }
 
     if ($IncludeFiles) {
-        $AssetLayout.asset_layout.add('include_files', [System.Convert]::ToBoolean($IncludeFiles))
+        $AssetLayout.asset_layout.include_files = [System.Convert]::ToBoolean($IncludeFiles)
     }
 
     if ($PasswordTypes) {
-        $AssetLayout.asset_layout.add('password_types', $PasswordTypes)
+        $AssetLayout.asset_layout.password_types = $PasswordTypes
+    }
+
+    if ($SidebarFolderID) {
+        $AssetLayout.asset_layout.sidebar_folder_id = $SidebarFolderID
     }
 
     if ($Slug) {
-        $AssetLayout.asset_layout.add('slug', $Slug)
+        $AssetLayout.asset_layout.slug = $Slug
     }
 
     $JSON = $AssetLayout | ConvertTo-Json -Depth 10

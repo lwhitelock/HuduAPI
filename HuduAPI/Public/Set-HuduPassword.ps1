@@ -60,11 +60,9 @@ function Set-HuduPassword {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
         [Alias('company_id')]
-        [Parameter(Mandatory = $true)]
         [Int]$CompanyId,
 
         [Alias('passwordable_type')]
@@ -75,7 +73,6 @@ function Set-HuduPassword {
 
         [Alias('in_portal')]
         [Bool]$InPortal = $false,
-        [Parameter(Mandatory = $true)]
         [String]$Password = '',
 
         [Alias('otp_secret')]
@@ -96,47 +93,59 @@ function Set-HuduPassword {
         [string]$Slug
     )
 
+    $Object = Get-HuduPasswords -Id $Id 
+    $AssetPassword = [ordered]@{asset_password = $Object }
 
-    $AssetPassword = [ordered]@{asset_password = [ordered]@{} }
-
-    $AssetPassword.asset_password.add('name', $Name)
-    $AssetPassword.asset_password.add('company_id', $CompanyId)
-    $AssetPassword.asset_password.add('password', $Password)
-    $AssetPassword.asset_password.add('in_portal', $InPortal)
+    if ($Name) {
+        $AssetPassword.asset_password.name = $Name
+    }
+    
+    if ($CompanyId) {
+        $AssetPassword.asset_password.company_id = $CompanyId
+    }
+    
+    if ($Password) {
+        $AssetPassword.asset_password.password = $Password
+    }
+    
+    if ($InPortal) {
+        $AssetPassword.asset_password.in_portal = $InPortal
+    }
+    
 
     if ($PasswordableType) {
-        $AssetPassword.asset_password.add('passwordable_type', $PasswordableType)
+        $AssetPassword.asset_password.passwordable_type = $PasswordableType
     }
     if ($PasswordableId) {
-        $AssetPassword.asset_password.add('passwordable_id', $PasswordableId)
+        $AssetPassword.asset_password.passwordable_id = $PasswordableId
     }
 
     if ($OTPSecret) {
-        $AssetPassword.asset_password.add('otp_secret', $OTPSecret)
+        $AssetPassword.asset_password.otp_secret = $OTPSecret
     }
 
     if ($URL) {
-        $AssetPassword.asset_password.add('url', $URL)
+        $AssetPassword.asset_password.url = $URL
     }
 
     if ($Username) {
-        $AssetPassword.asset_password.add('username', $Username)
+        $AssetPassword.asset_password.username = $Username
     }
 
     if ($Description) {
-        $AssetPassword.asset_password.add('description', $Description)
+        $AssetPassword.asset_password.description = $Description
     }
 
     if ($PasswordType) {
-        $AssetPassword.asset_password.add('password_type', $PasswordType)
+        $AssetPassword.asset_password.password_type = $PasswordType
     }
 
     if ($PasswordFolderId) {
-        $AssetPassword.asset_password.add('password_folder_id', $PasswordFolderId)
+        $AssetPassword.asset_password.password_folder_id = $PasswordFolderId
     }
 
     if ($Slug) {
-        $AssetPassword.asset_password.add('slug', $Slug)
+        $AssetPassword.asset_password.slug = $Slug
     }
 
     $JSON = $AssetPassword | ConvertTo-Json -Depth 10

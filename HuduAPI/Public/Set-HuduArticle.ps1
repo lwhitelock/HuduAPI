@@ -33,12 +33,9 @@ function Set-HuduArticle {
     #>
     [CmdletBinding(SupportsShouldProcess)]
     Param (
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
-        [Parameter(Mandatory = $true)]
         [String]$Content,
-
         [switch]$EnableSharing,
 
         [Alias('folder_id')]
@@ -53,26 +50,32 @@ function Set-HuduArticle {
 
         [string]$Slug
     )
+    
+    $Object = Get-HuduArticles -Id $ArticleId
+    $Article = [ordered]@{article = $Object }
 
-    $Article = [ordered]@{article = [ordered]@{} }
-
-    $Article.article.add('name', $Name)
-    $Article.article.add('content', $Content)
-
+    if ($Name) {
+        $Article.article.name = $Name
+    }
+    
+    if ($Content) {
+        $Article.article.content = $Content
+    }
+    
     if ($FolderId) {
-        $Article.article.add('folder_id', $FolderId)
+        $Article.article.folder_id = $FolderId
     }
 
     if ($CompanyId) {
-        $Article.article.add('company_id', $CompanyId)
+        $Article.article.company_id = $CompanyId
     }
 
     if ($EnableSharing.IsPresent) {
-        $Article.article.add('enable_sharing', 'true')
+        $Article.article.enable_sharing = $true
     }
 
     if ($Slug) {
-        $Article.article.add('slug', $Slug)
+        $Article.article.slug = $Slug
     }
 
     $JSON = $Article | ConvertTo-Json -Depth 10

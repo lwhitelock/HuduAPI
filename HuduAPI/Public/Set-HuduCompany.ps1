@@ -66,7 +66,6 @@ function Set-HuduCompany {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
         [String]$Nickname = '',
@@ -109,27 +108,72 @@ function Set-HuduCompany {
         [string]$Slug
     )
 
+    $Object = Get-HuduCompanies -Id $Id
 
-    $Company = [ordered]@{company = [ordered]@{} }
+    $Company = [ordered]@{company = $Object }
 
-    $Company.company.add('name', $Name)
-    $Company.company.add('nickname', $Nickname)
-    $Company.company.add('company_type', $CompanyType)
-    $Company.company.add('address_line_1', $AddressLine1)
-    $Company.company.add('address_line_2', $AddressLine2)
-    $Company.company.add('city', $City)
-    $Company.company.add('state', $State)
-    $Company.company.add('zip', $Zip)
-    $Company.company.add('country_name', $CountryName)
-    $Company.company.add('phone_number', $PhoneNumber)
-    $Company.company.add('fax_number', $FaxNumber)
-    $Company.company.add('website', $Website)
-    $Company.company.add('id_number', $IdNumber)
-    $Company.company.add('parent_company_id', $ParentCompanyId)
-    $Company.company.add('notes', $Notes)
+    if ($Name) {
+        $Company.company.name = $Name
+    }
+
+    if ($Nickname) {
+        $Company.company.nickname = $Nickname
+    }
+
+    if ($CompanyType) {
+        $Company.company.company_type = $CompanyType
+    }
+
+    if ($AddressLine1) {
+        $Company.company.address_line_1 = $AddressLine1
+    }
+
+    if ($AddressLine2) {
+        $Company.company.address_line_2 = $AddressLine2
+    }
+
+    if ($City) {
+        $Company.company.city = $City
+    }
+    
+    if ($State) {
+        $Company.company.state = $State
+    }
+
+    if ($Zip) {
+        $Company.company.zip = $Zip
+    }
+
+    if ($CountryName) {
+        $Company.company.country_name = $CountryName
+    }
+
+    if ($PhoneNumber) {
+        $Company.company.phone_number = $PhoneNumber
+    }
+
+    if ($FaxNumber) {
+        $Company.company.fax_number = $FaxNumber
+    }
+
+    if ($Website) {
+        $Company.company.website = $Website
+    }
+
+    if ($IdNumber) {
+        $Company.company.id_number = $IdNumber
+    }
+
+    if ($ParentCompanyId) {
+        $Company.company.parent_company_id = $ParentCompanyId
+    }
+
+    if ($Notes) {
+        $Company.company.notes = $Notes
+    }
 
     if ($Slug) {
-        $Company.company.add('slug', $Slug)
+        $Company.company.slug = $Slug
     }
 
     $JSON = $Company | ConvertTo-Json -Depth 10
