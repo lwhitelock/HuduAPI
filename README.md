@@ -1,5 +1,18 @@
 
 ## Release Notes
+
+### Version 2.4.2
+```
+Updated Set cmdlets to use a Get first to retrieve the entity, and remove mandatory parameters except for the ID
+```
+This should allow updating entities to be simpler as you won't have to specify parameters as mandatory anymore. (mimicking a PATCH in place of a PUT)
+
+- Articles
+- Asset
+- Asset Layout
+- Company
+- Password
+
 ### Version 2.3.0
 ```
 Added new integration matching endpoints (Thank you @johnduprey)
