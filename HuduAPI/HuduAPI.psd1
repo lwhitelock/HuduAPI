@@ -109,6 +109,7 @@
     'Remove-HuduArticle',
     'Remove-HuduAsset',
     'Remove-HuduBaseURL',
+    'Remove-HuduCompany',
     'Remove-HuduMagicDash',
     'Remove-HuduPassword',
     'Remove-HuduPassword',
