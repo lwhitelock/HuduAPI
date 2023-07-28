@@ -44,15 +44,12 @@ function Set-HuduAsset {
     #>
     [CmdletBinding(SupportsShouldProcess)]
     Param (
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
         [Alias('company_id')]
-        [Parameter(Mandatory = $true)]
         [Int]$CompanyId,
 
         [Alias('asset_layout_id')]
-        [Parameter(Mandatory = $true)]
         [Int]$AssetLayoutId,
 
         [Array]$Fields,
@@ -75,34 +72,39 @@ function Set-HuduAsset {
 
         [string]$Slug
     )
+    $Object = Get-HuduAssets -id $AssetId
+    $Asset = [ordered]@{asset = $Object }
 
-    $Asset = [ordered]@{asset = [ordered]@{} }
+    if ($Name) {
+        $Asset.asset.name = $Name
+    }
 
-    $Asset.asset.add('name', $Name)
-    $Asset.asset.add('asset_layout_id', $AssetLayoutId)
-
+    if ($AssetLayoutId) {
+        $Asset.asset.asset_layout_id = $AssetLayoutId
+    }
+    
     if ($PrimarySerial) {
-        $Asset.asset.add('primary_serial', $PrimarySerial)
+        $Asset.asset.primary_serial = $PrimarySerial
     }
 
     if ($PrimaryMail) {
-        $Asset.asset.add('primary_mail', $PrimaryMail)
+        $Asset.asset.primary_mail = $PrimaryMail
     }
 
     if ($PrimaryModel) {
-        $Asset.asset.add('primary_model', $PrimaryModel)
+        $Asset.asset.primary_model = $PrimaryModel
     }
 
     if ($PrimaryManufacturer) {
-        $Asset.asset.add('primary_manufacturer', $PrimaryManufacturer)
+        $Asset.asset.primary_manufacturer = $PrimaryManufacturer
     }
 
     if ($Fields) {
-        $Asset.asset.add('custom_fields', $Fields)
+        $Asset.asset.custom_fields = $Fields
     }
 
     if ($Slug) {
-        $Asset.asset.add('slug', $Slug)
+        $Asset.asset.slug = $Slug
     }
 
     $JSON = $Asset | ConvertTo-Json -Depth 10

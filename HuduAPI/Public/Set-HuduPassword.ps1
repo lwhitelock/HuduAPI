@@ -60,11 +60,9 @@ function Set-HuduPassword {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
         [Alias('company_id')]
-        [Parameter(Mandatory = $true)]
         [Int]$CompanyId,
 
         [Alias('passwordable_type')]
@@ -75,7 +73,6 @@ function Set-HuduPassword {
 
         [Alias('in_portal')]
         [Bool]$InPortal = $false,
-        [Parameter(Mandatory = $true)]
         [String]$Password = '',
 
         [Alias('otp_secret')]
@@ -96,47 +93,60 @@ function Set-HuduPassword {
         [string]$Slug
     )
 
+    $Object = Get-HuduPasswords -Id $Id 
+    $AssetPassword = [ordered]@{asset_password = $Object }
 
-    $AssetPassword = [ordered]@{asset_password = [ordered]@{} }
-
-    $AssetPassword.asset_password.add('name', $Name)
-    $AssetPassword.asset_password.add('company_id', $CompanyId)
-    $AssetPassword.asset_password.add('password', $Password)
-    $AssetPassword.asset_password.add('in_portal', $InPortal)
+    if ($Name) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name
+        
+    }
+    
+    if ($CompanyId) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name company_id -Force -Value $CompanyId
+    }
+    
+    if ($Password) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password -Force -Value $Password
+    }
+    
+    if ($InPortal) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name in_portal -Force -Value $InPortal
+    }
+    
 
     if ($PasswordableType) {
-        $AssetPassword.asset_password.add('passwordable_type', $PasswordableType)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_type -Force -Value $PasswordableType
     }
     if ($PasswordableId) {
-        $AssetPassword.asset_password.add('passwordable_id', $PasswordableId)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_id -Force -Value $PasswordableId
     }
 
     if ($OTPSecret) {
-        $AssetPassword.asset_password.add('otp_secret', $OTPSecret)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name otp_secret -Force -Value $OTPSecret
     }
 
     if ($URL) {
-        $AssetPassword.asset_password.add('url', $URL)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name url -Force -Value $URL
     }
 
     if ($Username) {
-        $AssetPassword.asset_password.add('username', $Username)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name username -Force -Value $Username
     }
 
     if ($Description) {
-        $AssetPassword.asset_password.add('description', $Description)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
     }
 
     if ($PasswordType) {
-        $AssetPassword.asset_password.add('password_type', $PasswordType)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_type -Force -Value $PasswordType
     }
 
     if ($PasswordFolderId) {
-        $AssetPassword.asset_password.add('password_folder_id', $PasswordFolderId)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_folder_id -Force -Value $PasswordFolderId
     }
 
     if ($Slug) {
-        $AssetPassword.asset_password.add('slug', $Slug)
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name slug -Force -Value $Slug
     }
 
     $JSON = $AssetPassword | ConvertTo-Json -Depth 10
