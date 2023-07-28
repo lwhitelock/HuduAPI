@@ -97,55 +97,56 @@ function Set-HuduPassword {
     $AssetPassword = [ordered]@{asset_password = $Object }
 
     if ($Name) {
-        $AssetPassword.asset_password.name = $Name
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Value $Name
+        
     }
     
     if ($CompanyId) {
-        $AssetPassword.asset_password.company_id = $CompanyId
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name company_id -Force -Value $CompanyId
     }
     
     if ($Password) {
-        $AssetPassword.asset_password.password = $Password
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password -Force -Value $Password
     }
     
     if ($InPortal) {
-        $AssetPassword.asset_password.in_portal = $InPortal
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name in_portal -Force -Value $InPortal
     }
     
 
     if ($PasswordableType) {
-        $AssetPassword.asset_password.passwordable_type = $PasswordableType
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_type -Force -Value $PasswordableType
     }
     if ($PasswordableId) {
-        $AssetPassword.asset_password.passwordable_id = $PasswordableId
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_id -Force -Value $PasswordableId
     }
 
     if ($OTPSecret) {
-        $AssetPassword.asset_password.otp_secret = $OTPSecret
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name otp_secret -Force -Value $OTPSecret
     }
 
     if ($URL) {
-        $AssetPassword.asset_password.url = $URL
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name url -Force -Value $URL
     }
 
     if ($Username) {
-        $AssetPassword.asset_password.username = $Username
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name username -Force -Value $Username
     }
 
     if ($Description) {
-        $AssetPassword.asset_password.description = $Description
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
     }
 
     if ($PasswordType) {
-        $AssetPassword.asset_password.password_type = $PasswordType
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_type -Force -Value $PasswordType
     }
 
     if ($PasswordFolderId) {
-        $AssetPassword.asset_password.password_folder_id = $PasswordFolderId
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_folder_id -Force -Value $PasswordFolderId
     }
 
     if ($Slug) {
-        $AssetPassword.asset_password.slug = $Slug
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name slug -Force -Value $Slug
     }
 
     $JSON = $AssetPassword | ConvertTo-Json -Depth 10
