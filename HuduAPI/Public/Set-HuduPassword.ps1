@@ -97,7 +97,7 @@ function Set-HuduPassword {
     $AssetPassword = [ordered]@{asset_password = $Object }
 
     if ($Name) {
-        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Value $Name
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name
         
     }
     
