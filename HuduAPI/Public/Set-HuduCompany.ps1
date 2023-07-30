@@ -110,7 +110,7 @@ function Set-HuduCompany {
 
     $Object = Get-HuduCompanies -Id $Id
 
-    $Company = [ordered]@{company = $Object }
+    $Company = [ordered]@{company = $Object.company }
 
     if ($Name) {
         $Company.company.name = $Name
