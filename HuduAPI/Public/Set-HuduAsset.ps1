@@ -54,9 +54,9 @@ function Set-HuduAsset {
 
         [Array]$Fields,
 
-        [Alias('asset_id')]
+        [Alias('asset_id','assetid')]
         [Parameter(Mandatory = $true)]
-        [Int]$AssetId,
+        [Int]$Id,
 
         [Alias('primary_serial')]
         [string]$PrimarySerial,
@@ -72,7 +72,7 @@ function Set-HuduAsset {
 
         [string]$Slug
     )
-    $Object = Get-HuduAssets -id $AssetId | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
+    $Object = Get-HuduAssets -id $Id | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
     $Asset = [ordered]@{asset = $Object }
     $CompanyId = $Object.company_id
 
@@ -111,6 +111,6 @@ function Set-HuduAsset {
     $JSON = $Asset | ConvertTo-Json -Depth 10
 
     if ($PSCmdlet.ShouldProcess($ArticleId)) {
-        Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$AssetId" -Body $JSON
+        Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id" -Body $JSON
     }
 }
