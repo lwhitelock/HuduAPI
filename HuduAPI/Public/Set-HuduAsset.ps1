@@ -72,8 +72,9 @@ function Set-HuduAsset {
 
         [string]$Slug
     )
-    $Object = Get-HuduAssets -id $AssetId
+    $Object = Get-HuduAssets -id $AssetId | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
     $Asset = [ordered]@{asset = $Object }
+    $CompanyId = $Object.company_id
 
     if ($Name) {
         $Asset.asset.name = $Name
