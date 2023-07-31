@@ -52,7 +52,7 @@ function Set-HuduArticle {
     )
     
     $Object = Get-HuduArticles -Id $ArticleId
-    $Article = [ordered]@{article = $Object }
+    $Article = [ordered]@{article = $Object.article }
 
     if ($Name) {
         $Article.article.name = $Name
