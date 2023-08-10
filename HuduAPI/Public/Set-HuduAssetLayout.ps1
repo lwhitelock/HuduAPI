@@ -53,37 +53,34 @@ function Set-HuduAssetLayout {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
-        [Parameter(Mandatory = $true)]
         [String]$Icon,
 
-        [Parameter(Mandatory = $true)]
         [String]$Color,
 
         [Alias('icon_color')]
-        [Parameter(Mandatory = $true)]
         [String]$IconColor,
 
         [Alias('include_passwords')]
-        [bool]$IncludePasswords = '',
+        [bool]$IncludePasswords,
 
         [Alias('include_photos')]
-        [bool]$IncludePhotos = '',
+        [bool]$IncludePhotos,
 
         [Alias('include_comments')]
-        [bool]$IncludeComments = '',
+        [bool]$IncludeComments,
 
         [Alias('include_files')]
-        [bool]$IncludeFiles = '',
+        [bool]$IncludeFiles,
 
         [Alias('password_types')]
         [String]$PasswordTypes = '',
 
+        [bool]$Active,
+
         [string]$Slug,
 
-        [Parameter(Mandatory = $true)]
         [array]$Fields
     )
 
@@ -93,6 +90,7 @@ function Set-HuduAssetLayout {
         $Field.expiration = [System.Convert]::ToBoolean($Field.expiration)
     }
     $Object = Get-HuduAssetLayouts -id $Id
+
     $AssetLayout = [ordered]@{asset_layout = $Object }
     #$AssetLayout.asset_layout = $Object
 
@@ -142,6 +140,10 @@ function Set-HuduAssetLayout {
 
     if ($Slug) {
         $AssetLayout.asset_layout.slug = $Slug
+    }
+
+    if ($Active) {
+        $AssetLayout.asset_layout.active = [System.Convert]::ToBoolean($Active)
     }
 
     $JSON = $AssetLayout | ConvertTo-Json -Depth 10
