@@ -26,7 +26,9 @@ function New-HuduBaseURL {
     process {
         if (!$BaseURL) {
             $BaseURL = Read-Host -Prompt 'Please enter your Hudu Base URL with no trailing /, for example https://demo.huducloud.com :'
-            $Protocol = $BaseURL[0..7] -join ''
+        }
+            
+        $Protocol = $BaseURL[0..7] -join ''
             if ($Protocol -ne 'https://') {
                 if ($Protocol -like 'http://*') {
                     Write-Warning "Non HTTPS Base URL was set, rewriting URL to be secure transport only. If connection fails please make sure hostname is correct and HTTPS is enabld."
@@ -37,7 +39,7 @@ function New-HuduBaseURL {
                     $BaseURL = "https://$BaseURL"
                 }
             }
-        }
+        
         Set-Variable -Name 'Int_HuduBaseURL' -Value $BaseURL -Visibility Private -Scope script -Force
 
         if ($script:Int_HuduAPIKey) {
