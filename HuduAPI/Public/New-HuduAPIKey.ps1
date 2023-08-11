@@ -27,7 +27,7 @@ function New-HuduAPIKey {
         } else {
             $SecApiKey = Read-Host -Prompt 'Please enter your Hudu API key, you can obtain it from https://your-hudu-domain/admin/api_keys:' -AsSecureString
         }
-        $script:Int_HuduAPIKey = $SecApiKey
+        Set-Variable -Name 'Int_HuduAPIKey' -Value $SecApiKey -Visibility Private -Scope script -Force
 
         if ($script:Int_HuduBaseURL) {
             [version]$version = (Get-HuduAppInfo).version

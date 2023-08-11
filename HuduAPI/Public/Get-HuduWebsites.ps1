@@ -18,42 +18,17 @@ function Get-HuduWebsites {
     .PARAMETER Search
     Fitler by search query
 
-    .PARAMETER StartDate
-    Filter by updated_at property
-
-    .PARAMETER EndDate
-    Filter by updated_at property
-
-    .PARAMETER ExactDate
-    Filter by updated_at property
-
 	.EXAMPLE
 	Get-HuduWebsites -Search 'domain.com'
 
 	#>
-    [CmdletBinding(DefaultParameterSetName = 'List')]
+    [CmdletBinding()]
     Param (
-        [Parameter(ParameterSetName = 'List')]
         [String]$Name,
-
-        [Parameter(ParameterSetName = 'Single')]
         [Alias('website_id')]
         [Int]$WebsiteId,
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$Slug,
-
-        [Parameter(ParameterSetName = 'List')]
-        [string]$Search,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$StartDate,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$EndDate,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$ExactDate
+        [string]$Search
     )
 
     if ($WebsiteId) {

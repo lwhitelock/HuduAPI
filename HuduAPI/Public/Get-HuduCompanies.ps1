@@ -33,58 +33,23 @@ function Get-HuduCompanies {
     .PARAMETER IdInIntegration
     Filter companies by id/identifier in PSA/RMM/outside integration
 
-    .PARAMETER StartDate
-    Filter by updated_at property
-
-    .PARAMETER EndDate
-    Filter by updated_at property
-
-    .PARAMETER ExactDate
-    Filter by updated_at property
-
     .EXAMPLE
     Get-HuduCompanies -Search 'Vendor'
 
     #>
-    [CmdletBinding(DefaultParameterSetName = 'List')]
+    [CmdletBinding()]
     Param (
-        [Parameter(ParameterSetName = 'List')]
         [String]$Name = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [Alias('phone_number')]
         [String]$PhoneNumber = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$Website = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$City = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$State = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [Alias('id_in_integration')]
         [Int]$IdInIntegration = '',
-
-        [Parameter(ParameterSetName = 'Single')]
         [Int]$Id = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [string]$Search,
-
-        [Parameter(ParameterSetName = 'List')]
-        [String]$Slug,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$StartDate,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$EndDate,
-
-        [Parameter(ParameterSetName = 'List')]
-        [DateTime]$ExactDate
+        [String]$Slug
     )
 
     if ($Id) {

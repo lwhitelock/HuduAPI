@@ -19,22 +19,15 @@ function Get-HuduProcesses {
     Filter by url slug
 
     .EXAMPLE
-    Get-HuduProcesses -Name 'Procedure 1'
+    Get-HuduProcedures -Name 'Procedure 1'
 
     #>
     [CmdletBinding()]
     Param (
-        [Parameter(ParameterSetName = 'Single')]
         [Int]$Id = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [Alias('company_id')]
         [Int]$CompanyId = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$Name = '',
-
-        [Parameter(ParameterSetName = 'List')]
         [String]$Slug
     )
 
@@ -56,5 +49,3 @@ function Get-HuduProcesses {
         Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'procedures'
     }
 }
-
-Set-Alias -Name Get-HuduProcedures -Value Get-HuduProcesses

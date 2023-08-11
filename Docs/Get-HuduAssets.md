@@ -12,16 +12,9 @@ Get a list of Assets
 
 ## SYNTAX
 
-### List (Default)
 ```
-Get-HuduAssets [-AssetLayoutId <Int32>] [-AssetLayout <String>] [-CompanyId <Int32>] [-Name <String>]
- [-Archived] [-PrimarySerial <String>] [-Slug <String>] [-Search <String>] [-StartDate <DateTime>]
- [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
-```
-
-### Single
-```
-Get-HuduAssets [-Id <Int32>] [<CommonParameters>]
+Get-HuduAssets [[-Id] <Int32>] [[-AssetLayoutId] <Int32>] [[-AssetLayout] <String>] [[-CompanyId] <Int32>]
+ [[-Name] <String>] [-Archived] [[-PrimarySerial] <String>] [[-Slug] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,11 +34,11 @@ Id of requested asset
 
 ```yaml
 Type: Int32
-Parameter Sets: Single
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -56,11 +49,11 @@ Id of the requested asset layout
 
 ```yaml
 Type: Int32
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases: asset_layout_id
 
 Required: False
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -71,11 +64,11 @@ Name of the requested asset layout
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -86,11 +79,11 @@ Id of the requested company
 
 ```yaml
 Type: Int32
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases: company_id
 
 Required: False
-Position: Named
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,11 +94,11 @@ Filter by name
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +109,7 @@ Show archived results
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -131,11 +124,11 @@ Filter by primary serial
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases: primary_serial
 
 Required: False
-Position: Named
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -146,71 +139,11 @@ Filter by slug
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Search
-Filter by search terms
-
-```yaml
-Type: String
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StartDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EndDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExactDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

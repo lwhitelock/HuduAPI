@@ -37,21 +37,14 @@ function Invoke-HuduRequest {
         [hashtable]$Params = @{},
 
         [Parameter()]
-        $Body,
+        [string]$Body,
 
         [Parameter()]
-        [hashtable]$Form,
-
-        [Parameter()]
-        [string]$ContentType = 'application/json; charset=utf-8'
+        [hashtable]$Form
     )
 
-    try {
-        $HuduAPIKey = Get-HuduApiKey
-        $HuduBaseURL = Get-HuduBaseURL
-    } catch {
-        throw $_
-    }
+    $HuduAPIKey = Get-HuduApiKey
+    $HuduBaseURL = Get-HuduBaseURL
 
     # Assemble parameters
     $ParamCollection = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
@@ -67,6 +60,8 @@ function Invoke-HuduRequest {
     $Headers = @{
         'x-api-key' = (New-Object PSCredential 'user', $HuduAPIKey).GetNetworkCredential().Password;
     }
+
+    $ContentType = 'application/json; charset=utf-8'
 
     $Uri = '{0}{1}' -f $HuduBaseURL, $Resource
     # Make API call URI
@@ -102,7 +97,7 @@ function Invoke-HuduRequest {
             Start-Sleep 30
             $Results = Invoke-HuduRequest @RestMethod
         } else {
-            throw "'$_'"
+            Write-Error "'$_'"
         }
     }
 
