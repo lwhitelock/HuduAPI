@@ -53,7 +53,7 @@ function Get-HuduCompanies {
     )
 
     if ($Id) {
-        $Company = Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$Id"
+        $Company = (Invoke-HuduRequest -Method get -Resource "/api/v1/companies/$Id").company
         return $Company
     } else {
         $Params = @{}
