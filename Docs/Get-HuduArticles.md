@@ -12,9 +12,15 @@ Get Knowledge Base Articles
 
 ## SYNTAX
 
+### List (Default)
 ```
-Get-HuduArticles [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+Get-HuduArticles [-CompanyId <Int32>] [-Name <String>] [-Slug <String>] [-Search <String>] [-Draft] [-Public]
+ [-StartDate <DateTime>] [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
+```
+
+### Single
+```
+Get-HuduArticles [-Id <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,11 +40,11 @@ Id of the Article
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Single
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -49,11 +55,11 @@ Filter by company id
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases: company_id
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,11 +70,11 @@ Filter by name of article
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,11 +85,101 @@ Filter by slug of article
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Search
+Filter by search terms
+
+```yaml
+Type: String
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Draft
+Filter by draft status
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Public
+Filter by public status
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StartDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExactDate
+Filter by updated_at property
+
+```yaml
+Type: DateTime
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

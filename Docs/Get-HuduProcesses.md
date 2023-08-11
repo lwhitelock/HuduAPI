@@ -12,9 +12,14 @@ Get a list of Procedures (Processes)
 
 ## SYNTAX
 
+### Single
 ```
-Get-HuduProcesses [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+Get-HuduProcesses [-Id <Int32>] [<CommonParameters>]
+```
+
+### List
+```
+Get-HuduProcesses [-CompanyId <Int32>] [-Name <String>] [-Slug <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,7 +29,7 @@ Calls Hudu API to retrieve list of procedures
 
 ### EXAMPLE 1
 ```
-Get-HuduProcedures -Name 'Procedure 1'
+Get-HuduProcesses -Name 'Procedure 1'
 ```
 
 ## PARAMETERS
@@ -34,11 +39,11 @@ Id of the Procedure
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Single
 Aliases:
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -49,11 +54,11 @@ Filter by company id
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases: company_id
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -64,11 +69,11 @@ Fitler by name of article
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -79,11 +84,11 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

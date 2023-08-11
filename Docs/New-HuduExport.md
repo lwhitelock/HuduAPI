@@ -5,72 +5,103 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduWebsites
+# New-HuduExport
 
 ## SYNOPSIS
-Get a list of all websites
+Start an export of a company
 
 ## SYNTAX
 
-### List (Default)
+### LayoutIDs
 ```
-Get-HuduWebsites [-Name <String>] [-Slug <String>] [-Search <String>] [-StartDate <DateTime>]
- [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
+New-HuduExport -Format <String> -CompanyId <Int32> [-IncludePasswords] [-IncludeWebsites]
+ [-AssetLayoutIds <Int32[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Single
+### LayoutNames
 ```
-Get-HuduWebsites [-WebsiteId <Int32>] [<CommonParameters>]
+New-HuduExport -Format <String> -CompanyId <Int32> [-IncludePasswords] [-IncludeWebsites]
+ [-AssetLayouts <String[]>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Calls Hudu API to get websites
+Uses Hudu API to create a company export
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-HuduWebsites -Search 'domain.com'
+New-HuduExport -Format pdf -CompanyId 1 -IncludePasswords -IncludeWebsites
 ```
 
 ## PARAMETERS
 
-### -Name
-Filter websites by name
+### -Format
+Format (pdf,csv,s3)
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WebsiteId
-{{ Fill WebsiteId Description }}
+### -CompanyId
+Company Id
 
 ```yaml
 Type: Int32
-Parameter Sets: Single
-Aliases: website_id
+Parameter Sets: (All)
+Aliases: id
 
-Required: False
+Required: True
 Position: Named
 Default value: 0
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IncludePasswords
+Include passwords in export
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Slug
-Filter by url slug
+### -IncludeWebsites
+Include websites in export
 
 ```yaml
-Type: String
-Parameter Sets: List
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AssetLayoutIds
+List of asset layout ids
+
+```yaml
+Type: Int32[]
+Parameter Sets: LayoutIDs
 Aliases:
 
 Required: False
@@ -80,12 +111,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Search
-Fitler by search query
+### -AssetLayouts
+Enter a list of Asset Layouts names or 'All'
 
 ```yaml
-Type: String
-Parameter Sets: List
+Type: String[]
+Parameter Sets: LayoutNames
 Aliases:
 
 Required: False
@@ -95,13 +126,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -StartDate
-Filter by updated_at property
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
 Required: False
 Position: Named
@@ -110,28 +142,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EndDate
-Filter by updated_at property
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExactDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
 Required: False
 Position: Named

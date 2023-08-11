@@ -25,18 +25,32 @@ function Get-HuduPasswords {
     Get-HuduPasswords -CompanyId 1
 
     #>
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'List')]
     Param (
+        [Parameter(ParameterSetName = 'Single')]
         [Int]$Id,
 
+        [Parameter(ParameterSetName = 'List')]
         [Alias('company_id')]
         [Int]$CompanyId,
 
+        [Parameter(ParameterSetName = 'List')]
         [String]$Name,
 
+        [Parameter(ParameterSetName = 'List')]
         [String]$Slug,
 
-        [string]$Search
+        [Parameter(ParameterSetName = 'List')]
+        [string]$Search,
+
+        [Parameter(ParameterSetName = 'List')]
+        [DateTime]$StartDate,
+
+        [Parameter(ParameterSetName = 'List')]
+        [DateTime]$EndDate,
+
+        [Parameter(ParameterSetName = 'List')]
+        [DateTime]$ExactDate
     )
 
     if ($Id) {

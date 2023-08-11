@@ -38,7 +38,7 @@ function New-HuduBaseURL {
                 }
             }
         }
-        Set-Variable -Name 'Int_HuduBaseURL' -Value $BaseURL -Visibility Private -Scope script -Force
+        $script:Int_HuduBaseURL = $BaseURL
 
         if ($script:Int_HuduAPIKey) {
             [version]$Version = (Get-HuduAppInfo).version
