@@ -35,14 +35,12 @@ function New-HuduUpload {
     )
 
     $File = Get-Item $FilePath
-    $upload = @{ uploadable_id = $uploadable_id; uploadable_type = $uploadable_type}
+    
     $form = @{
         file = $File
-        upload = $upload
+        "upload[uploadable_id]" = $uploadable_id
+        "upload[uploadable_type]" = $uploadable_type
     }
-
- <#   if ($uploadable_id) { $form['uploadable_id'] = $uploadable_id }
-    if ($uploadable_type) { $form['uploadable_type'] = $uploadable_type } #>
 
     if ($PSCmdlet.ShouldProcess($File.FullName)) {
         Invoke-HuduRequest -Method POST -Resource '/api/v1/uploads' -Form $form
