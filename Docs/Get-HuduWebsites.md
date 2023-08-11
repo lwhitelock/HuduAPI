@@ -12,15 +12,9 @@ Get a list of all websites
 
 ## SYNTAX
 
-### List (Default)
 ```
-Get-HuduWebsites [-Name <String>] [-Slug <String>] [-Search <String>] [-StartDate <DateTime>]
- [-EndDate <DateTime>] [-ExactDate <DateTime>] [<CommonParameters>]
-```
-
-### Single
-```
-Get-HuduWebsites [-WebsiteId <Int32>] [<CommonParameters>]
+Get-HuduWebsites [[-Name] <String>] [[-WebsiteId] <Int32>] [[-Slug] <String>] [[-Search] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,11 +34,11 @@ Filter websites by name
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -55,11 +49,11 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Int32
-Parameter Sets: Single
+Parameter Sets: (All)
 Aliases: website_id
 
 Required: False
-Position: Named
+Position: 2
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -70,11 +64,11 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -85,56 +79,11 @@ Fitler by search query
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StartDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EndDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExactDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

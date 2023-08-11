@@ -12,15 +12,8 @@ Get a list of Asset Layouts
 
 ## SYNTAX
 
-### List (Default)
 ```
-Get-HuduAssetLayouts [-Name <String>] [-Slug <String>] [-StartDate <DateTime>] [-EndDate <DateTime>]
- [-ExactDate <DateTime>] [<CommonParameters>]
-```
-
-### Single
-```
-Get-HuduAssetLayouts [-LayoutId <Int32>] [<CommonParameters>]
+Get-HuduAssetLayouts [[-Name] <String>] [[-LayoutId] <Int32>] [[-Slug] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,11 +33,11 @@ Filter by name of Asset Layout
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -55,11 +48,11 @@ Id of Asset Layout
 
 ```yaml
 Type: Int32
-Parameter Sets: Single
+Parameter Sets: (All)
 Aliases: id, layout_id
 
 Required: False
-Position: Named
+Position: 2
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -70,56 +63,11 @@ Filter by url slug
 
 ```yaml
 Type: String
-Parameter Sets: List
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -StartDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -EndDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExactDate
-Filter by updated_at property
-
-```yaml
-Type: DateTime
-Parameter Sets: List
-Aliases:
-
-Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
