@@ -9,6 +9,9 @@ function Get-HuduCompanies {
     .PARAMETER Id
     Filter companies by id
 
+    .PARAMETER IdNumber
+    Filter companies by id_number
+
     .PARAMETER Name
     Filter companies by name
 
@@ -39,6 +42,7 @@ function Get-HuduCompanies {
     #>
     [CmdletBinding()]
     Param (
+        [String]$Idnumber = '',
         [String]$Name = '',
         [Alias('phone_number')]
         [String]$PhoneNumber = '',
@@ -57,6 +61,7 @@ function Get-HuduCompanies {
         return $Company
     } else {
         $Params = @{}
+        if ($IdNumber) { $Params.id_number = $IdNumber }
         if ($Name) { $Params.name = $Name }
         if ($PhoneNumber) { $Params.phone_number = $PhoneNumber }
         if ($Website) { $Params.website = $Website }
