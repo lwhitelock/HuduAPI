@@ -113,7 +113,7 @@ function Set-HuduAsset {
     
         $JSON = $Asset | ConvertTo-Json -Depth 10
     
-        if ($PSCmdlet.ShouldProcess("Hudu Asset $($Asset.Name)", "Update Asset $($Id)")) {
+        if ($PSCmdlet.ShouldProcess("ID: $($Asset.id) Name: $($Asset.Name)", "Set Hudu Asset")) {
             Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id" -Body $JSON
         }
     } else {
