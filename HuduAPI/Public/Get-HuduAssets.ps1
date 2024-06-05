@@ -36,11 +36,14 @@ function Get-HuduAssets {
     #>
     [CmdletBinding()]
     Param (
+        [ValidateRange(1, [int]::MaxValue)]
         [Int]$Id = '',
         [Alias('asset_layout_id')]
+        [ValidateRange(1, [int]::MaxValue)]
         [Int]$AssetLayoutId = '',
         [string]$AssetLayout,
         [Alias('company_id')]
+        [ValidateRange(1, [int]::MaxValue)]
         [Int]$CompanyId = '',
         [String]$Name = '',
         [switch]$Archived,
