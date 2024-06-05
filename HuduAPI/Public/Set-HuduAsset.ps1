@@ -75,44 +75,48 @@ function Set-HuduAsset {
     )
     
     $Object = Get-HuduAssets -id $Id | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
-    $Asset = [ordered]@{asset = $Object }
-    $CompanyId = $Object.company_id
-
-    if ($Name) {
-        $Asset.asset.name = $Name
-    }
-
-    if ($AssetLayoutId) {
-        $Asset.asset.asset_layout_id = $AssetLayoutId
-    }
+    if ($Object) {
+        $Asset = [ordered]@{asset = $Object }
+        $CompanyId = $Object.company_id
     
-    if ($PrimarySerial) {
-        $Asset.asset.primary_serial = $PrimarySerial
-    }
-
-    if ($PrimaryMail) {
-        $Asset.asset.primary_mail = $PrimaryMail
-    }
-
-    if ($PrimaryModel) {
-        $Asset.asset.primary_model = $PrimaryModel
-    }
-
-    if ($PrimaryManufacturer) {
-        $Asset.asset.primary_manufacturer = $PrimaryManufacturer
-    }
-
-    if ($Fields) {
-        $Asset.asset.custom_fields = $Fields
-    }
-
-    if ($Slug) {
-        $Asset.asset.slug = $Slug
-    }
-
-    $JSON = $Asset | ConvertTo-Json -Depth 10
-
-    if ($PSCmdlet.ShouldProcess($ArticleId)) {
-        Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id" -Body $JSON
+        if ($Name) {
+            $Asset.asset.name = $Name
+        }
+    
+        if ($AssetLayoutId) {
+            $Asset.asset.asset_layout_id = $AssetLayoutId
+        }
+        
+        if ($PrimarySerial) {
+            $Asset.asset.primary_serial = $PrimarySerial
+        }
+    
+        if ($PrimaryMail) {
+            $Asset.asset.primary_mail = $PrimaryMail
+        }
+    
+        if ($PrimaryModel) {
+            $Asset.asset.primary_model = $PrimaryModel
+        }
+    
+        if ($PrimaryManufacturer) {
+            $Asset.asset.primary_manufacturer = $PrimaryManufacturer
+        }
+    
+        if ($Fields) {
+            $Asset.asset.custom_fields = $Fields
+        }
+    
+        if ($Slug) {
+            $Asset.asset.slug = $Slug
+        }
+    
+        $JSON = $Asset | ConvertTo-Json -Depth 10
+    
+        if ($PSCmdlet.ShouldProcess("Hudu Asset $($Asset.Name)", "Update Asset $($Id)")) {
+            Invoke-HuduRequest -Method put -Resource "/api/v1/companies/$CompanyId/assets/$Id" -Body $JSON
+        }
+    } else {
+    throw "A valid asset could not be found to update, please double check the ID and try again"
     }
 }
