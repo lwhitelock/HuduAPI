@@ -108,7 +108,7 @@ function New-HuduAssetLayout {
             'link'              { $field.'field_type' = 'Website' }
             'password'          { $field.'field_type' = 'Password' }
             'confidentialtext'  { $field.'field_type' = 'Password' }
-            Default { Write-Error "Invalid field type: $($field.'field_type') found in field $($field.name)"; break }
+            Default { throw "Invalid field type: $($field.'field_type') found in field $($field.name)" }
         }
     }
 
