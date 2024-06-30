@@ -1,4 +1,31 @@
 function Move-HuduAssetsToNewLayout {
+<#
+    .SYNOPSIS
+    Helper function that uses the Set-HuduAsset function to move an asset between asset layouts. This will leave behind orphan data in the database.
+    Review the article https://portal.risingtidegroup.net/kb?id=29 for more details.
+
+    .DESCRIPTION
+    Calls the Hudu API to update an asset by switching its asset_layout_id property to a different asset layout. 
+    This function migrates the asset to the specified new layout while maintaining its fields. Note that this 
+    operation may leave behind orphaned data in the Hudu database, so use it with caution.
+
+    .PARAMETER AssetsToMove
+    An array of assets to be moved to a new asset layout. Each asset must contain both 'id' and 'fields' properties.
+
+    .PARAMETER NewAssetLayoutID
+    The ID of the new asset layout to which the assets will be moved.
+
+    .EXAMPLE
+    $AssetLayout = Get-HuduAssetLayouts -Name "Servers"
+    $AssetsToUpdate = Get-HuduAssets -AssetLayoutId 9
+    Move-HuduAssetsToNewLayout -AssetsToMove $AssetsToUpdate -NewAssetLayoutID $AssetLayout.id
+
+    This example retrieves the asset layout with the name "Servers" and the assets with the layout ID 9, then moves those assets to the new layout.
+
+    .NOTES
+    Ensure that the new asset layout ID is valid and that the assets to be moved contain the required properties.
+    Using this function may result in orphaned data in your Hudu database. Review the provided article for more details.
+#>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
     param(
         [Parameter(Mandatory = $true)]
