@@ -105,10 +105,10 @@ function Set-HuduAssetLayout {
             'dropdown'          { $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }
             'phone'             { $field.'field_type' = 'Phone' }
-            ('email'    -or 'copyabletext')     { $field.'field_type' = 'Email' }
-            ('assettag' -or 'assetlink')        { $field.'field_type' = 'AssetTag' }
-            ('website'  -or 'link')             { $field.'field_type' = 'Website' }
-            ('password' -or 'confidentialtext') { $field.'field_type' = 'Password' }
+            {$_ -in 'email','copyabletext'}     { $field.'field_type' = 'Email' }
+            {$_ -in 'assettag','assetlink'}        { $field.'field_type' = 'AssetTag' }
+            {$_ -in 'website','link'}             { $field.'field_type' = 'Website' }
+            {$_ -in 'password','confidentialtext'} { $field.'field_type' = 'Password' }
             Default { Write-Error "Invalid field type: $($field.'field_type') found in field $($field.name)"; break }
         }
     }
