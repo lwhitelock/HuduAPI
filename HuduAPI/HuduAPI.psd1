@@ -131,7 +131,8 @@
     'Set-HuduMagicDash',
     'Set-HuduPassword',
     'Set-HuduPasswordArchive',
-    'Set-HuduWebsite'
+    'Set-HuduWebsite',
+    'Get-HuduLists'
 
 
 
