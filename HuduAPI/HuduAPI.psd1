@@ -93,6 +93,7 @@
     'Get-HuduSubFolders',
     'Get-HuduUploads',
     'Get-HuduWebsites',
+    'Get-HuduLists',
     'Initialize-HuduFolder',
     'Invoke-HuduRequest',
     'New-HuduAPIKey',
@@ -131,8 +132,7 @@
     'Set-HuduMagicDash',
     'Set-HuduPassword',
     'Set-HuduPasswordArchive',
-    'Set-HuduWebsite',
-    'Get-HuduLists'
+    'Set-HuduWebsite'
 
 
 
