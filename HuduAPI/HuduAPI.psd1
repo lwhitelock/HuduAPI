@@ -93,6 +93,7 @@
     'Get-HuduSubFolders',
     'Get-HuduUploads',
     'Get-HuduWebsites',
+    'Get-HuduLists',
     'Initialize-HuduFolder',
     'Invoke-HuduRequest',
     'New-HuduAPIKey',
