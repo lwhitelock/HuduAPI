@@ -37,11 +37,17 @@ function New-HuduAssetLayout {
     Url identifier
 
     .PARAMETER Fields
-    Array of nested fields
+    Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
+    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown, Embed, Email (aka CopyableText), Phone, AssetLink
+    Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
     .EXAMPLE
     New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
 
+    .EXAMPLE
+    New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true -Fields @(
+        @{label = 'Test field'; 'field_type' = 'Text'}
+    )
     #>
     [CmdletBinding(SupportsShouldProcess)]
     # This will silence the warning for variables with Password in their name.
@@ -83,6 +89,27 @@ function New-HuduAssetLayout {
         if ($field.show_in_list) { $field.show_in_list = [System.Convert]::ToBoolean($field.show_in_list) } else { $field.remove('show_in_list') }
         if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
         if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
+        # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
+        switch ($field.'field_type') {
+            'text'              { $field.'field_type' = 'Text' }
+            'richtext'          { $field.'field_type' = 'RichText' }
+            'heading'           { $field.'field_type' = 'Heading' }
+            'checkbox'          { $field.'field_type' = 'CheckBox' }
+            'number'            { $field.'field_type' = 'Number' }
+            'date'              { $field.'field_type' = 'Date' }
+            'dropdown'          { $field.'field_type' = 'Dropdown' }
+            'embed'             { $field.'field_type' = 'Embed' }
+            'phone'             { $field.'field_type' = 'Phone' }
+            'email'             { $field.'field_type' = 'Email' }
+            'copyabletext'      { $field.'field_type' = 'Email' }
+            'assettag'          { $field.'field_type' = 'AssetTag' }
+            'assetlink'         { $field.'field_type' = 'AssetTag' }
+            'website'           { $field.'field_type' = 'Website' }
+            'link'              { $field.'field_type' = 'Website' }
+            'password'          { $field.'field_type' = 'Password' }
+            'confidentialtext'  { $field.'field_type' = 'Password' }
+            Default { throw "Invalid field type: $($field.'field_type') found in field $($field.name)" }
+        }
     }
 
     $AssetLayout = [ordered]@{asset_layout = [ordered]@{} }

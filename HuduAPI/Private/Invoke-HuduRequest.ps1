@@ -61,6 +61,13 @@ function Invoke-HuduRequest {
         'x-api-key' = (New-Object PSCredential 'user', $HuduAPIKey).GetNetworkCredential().Password;
     }
 
+    if (($Script:Int_HuduCustomHeaders | Measure-Object).count -gt 0){
+        
+        foreach($Entry in $Int_HuduCustomHeaders.GetEnumerator()) {
+            $Headers[$Entry.Name] = $Entry.Value
+        }
+    }
+
     $ContentType = 'application/json; charset=utf-8'
 
     $Uri = '{0}{1}' -f $HuduBaseURL, $Resource

@@ -40,11 +40,17 @@ function Set-HuduAssetLayout {
     Url identifier
 
     .PARAMETER Fields
-    Array of nested fields
+    Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
+    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown, Embed, Email (aka CopyableText), Phone, AssetLink
+    Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
     .EXAMPLE
+    Set-HuduAssetLayout -Id 12 -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
 
-
+    .EXAMPLE
+    Set-HuduAssetLayout -Id 12 -Fields @(
+        @{label = 'Test field'; 'field_type' = 'Text'}
+    )
     #>
     [CmdletBinding(SupportsShouldProcess)]
     # This will silence the warning for variables with Password in their name.
@@ -88,6 +94,23 @@ function Set-HuduAssetLayout {
         $Field.show_in_list = [System.Convert]::ToBoolean($Field.show_in_list)
         $Field.required = [System.Convert]::ToBoolean($Field.required)
         $Field.expiration = [System.Convert]::ToBoolean($Field.expiration)
+        # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
+        switch ($field.'field_type') {
+            'text'              { $field.'field_type' = 'Text' }
+            'richtext'          { $field.'field_type' = 'RichText' }
+            'heading'           { $field.'field_type' = 'Heading' }
+            'checkbox'          { $field.'field_type' = 'CheckBox' }
+            'number'            { $field.'field_type' = 'Number' }
+            'date'              { $field.'field_type' = 'Date' }
+            'dropdown'          { $field.'field_type' = 'Dropdown' }
+            'embed'             { $field.'field_type' = 'Embed' }
+            'phone'             { $field.'field_type' = 'Phone' }
+            {$_ -in 'email','copyabletext'}     { $field.'field_type' = 'Email' }
+            {$_ -in 'assettag','assetlink'}        { $field.'field_type' = 'AssetTag' }
+            {$_ -in 'website','link'}             { $field.'field_type' = 'Website' }
+            {$_ -in 'password','confidentialtext'} { $field.'field_type' = 'Password' }
+            Default { Write-Error "Invalid field type: $($field.'field_type') found in field $($field.name)"; break }
+        }
     }
     $Object = Get-HuduAssetLayouts -id $Id
 
