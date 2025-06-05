@@ -1,3 +1,4 @@
+
 function Invoke-HuduRequest {
     <#
     .SYNOPSIS
@@ -99,19 +100,27 @@ function Invoke-HuduRequest {
     try {
         $Results = Invoke-RestMethod @RestMethod
     } catch {
-        if ("$_".trim() -eq 'Retry later' -or "$_".trim() -eq 'The remote server returned an error: (429) Too Many Requests.') {
+        $errorMessage = $_.Exception.Message
+        Write-Error "$(($RestMethod | ConvertTo-Json -Depth 24).ToString()) => $errorMessage"
+
+        if ($errorMessage -like '*Retry later*' -or $errorMessage -like '*429*Too Many Requests*') {
             $now = Get-Date
-            # get minutes.now modulo 5 *60 to get seconds to wait.
             $minutesIntoWindow = $now.Minute % 5
-            $secondsIntoWindow = ($minutesIntoWindow * 60) + $now.Second
+            $secondsIntoWindow = ($minutesIntoWindow * 60) + ($now.Second + 5)
             $secondsUntilNextWindow = (5 * 60) - $secondsIntoWindow
-            
-            Write-Information 'Hudu API Rate limited; Sleeping for $secondsUntilNextWindow seconds to wait for next rate limit window..."
+
+            Write-Information "Hudu API Rate limited; sleeping for $secondsUntilNextWindow seconds..."
             Start-Sleep -Seconds $secondsUntilNextWindow
-            # Retry the original REST call, not the whole wrapper function
-            $Results = Invoke-RestMethod @RestMethod
         } else {
-            Write-Error "'$_'"
+            Write-Error "'$_'... Trying again in 5 seconds."
+            Start-Sleep -Seconds 5
+        }
+
+        try {
+            $Results = Invoke-RestMethod @RestMethod
+        } catch {
+            Write-Error "Retry failed as well: $($_.Exception.Message)"
+            return $null
         }
     }
 
