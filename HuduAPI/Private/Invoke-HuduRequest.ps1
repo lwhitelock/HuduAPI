@@ -105,12 +105,18 @@ function Invoke-HuduRequest {
 
         if ($errorMessage -like '*Retry later*' -or $errorMessage -like '*429*Too Many Requests*') {
             $now = Get-Date
-            $minutesIntoWindow = $now.Minute % 5
-            $secondsIntoWindow = ($minutesIntoWindow * 60) + ($now.Second + 5)
-            $secondsUntilNextWindow = (5 * 60) - $secondsIntoWindow
+            $windowLength = 5 * 60  # 5 minutes in seconds
 
-            Write-Information "Hudu API Rate limited; sleeping for $secondsUntilNextWindow seconds..."
-            Start-Sleep -Seconds $secondsUntilNextWindow
+            # Current total seconds into the current 5-minute window
+            $secondsIntoWindow = (($now.Minute % 5) * 60) + $now.Second
+
+            # How many seconds until the next window (ensures result is 0–300)
+            $secondsUntilNextWindow = [math]::Max(0, $windowLength - $secondsIntoWindow)
+
+            $jitter = Get-Random -Minimum 1 -Maximum 5
+            $totalSleep = [math]::Max(0, $secondsUntilNextWindow + $jitter)
+            Write-Information "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
+            Start-Sleep -Seconds $totalSleep
         } else {
             Write-Error "'$_'... Trying again in 5 seconds."
             Start-Sleep -Seconds 5
