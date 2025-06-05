@@ -115,7 +115,7 @@ function Invoke-HuduRequest {
 
             $jitter = Get-Random -Minimum 1 -Maximum 5
             $totalSleep = [math]::Max(0, $secondsUntilNextWindow + $jitter)
-            Write-Information "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
+            Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
             Write-Error "'$_'... Trying again in 5 seconds."
