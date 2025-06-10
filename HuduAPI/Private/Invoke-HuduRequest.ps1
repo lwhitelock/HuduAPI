@@ -1,3 +1,29 @@
+function Write-APIErrorObjectToFile {
+    param (
+        [Parameter(Mandatory)]
+        [object]$ErrorObject,
+        [string]$Name
+    )
+    $stringOutput = $ErrorObject | Out-String
+    $jsonOutput = try {
+        $ErrorObject | ConvertTo-Json -Depth 96 -ErrorAction Stop
+    } catch {
+        "Failed to convert to JSON: $_"
+    }
+    $logContent = @"
+==== RAW STRING ====
+$stringOutput
+==== JSON FORMAT ====
+$jsonOutput
+"@
+    if ($null -ne $HAPI_ERRORS_DIRECTORY) {
+        $filename = "$($Name -replace '\s+', '')_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+        $fullPath = Join-Path $HAPI_ERRORS_DIRECTORY $filename
+        Set-Content -Path $fullpath -Value $logContent -Encoding UTF8
+    }
+        Write-Host "$logContent" -ForegroundColor Yellow
+}
+
 
 function Invoke-HuduRequest {
     <#
@@ -101,16 +127,10 @@ function Invoke-HuduRequest {
         $Results = Invoke-RestMethod @RestMethod
     } catch {
         $errorMessage = $_.Exception.Message
-        Write-Error "$(($RestMethod | ConvertTo-Json -Depth 24).ToString()) => $errorMessage"
-
         if ($errorMessage -like '*Retry later*' -or $errorMessage -like '*429*Too Many Requests*') {
             $now = Get-Date
             $windowLength = 5 * 60  # 5 minutes in seconds
-
-            # Current total seconds into the current 5-minute window
             $secondsIntoWindow = (($now.Minute % 5) * 60) + $now.Second
-
-            # How many seconds until the next window (ensures result is 0–300)
             $secondsUntilNextWindow = [math]::Max(0, $windowLength - $secondsIntoWindow)
 
             $jitter = Get-Random -Minimum 1 -Maximum 5
@@ -118,14 +138,22 @@ function Invoke-HuduRequest {
             Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
-            Write-Error "'$_'... Trying again in 5 seconds."
+            Write-APIErrorObjectToFile -name "$path-$method" -ErrorObject @{
+                exception = $_
+                request = $RestMethod
+                resolution = "Trying again in 5 seconds."
+            }
             Start-Sleep -Seconds 5
         }
 
         try {
             $Results = Invoke-RestMethod @RestMethod
         } catch {
-            Write-Error "Retry failed as well: $($_.Exception.Message)"
+            Write-APIErrorObjectToFile -name "$path-$method-retry" -ErrorObject @{
+                exception = $_
+                request = $RestMethod
+                resolution = "Retry failed as well. Handle this error here or avoid it prior."
+            }
             return $null
         }
     }
