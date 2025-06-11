@@ -45,6 +45,7 @@ $propertyDump
     Write-Host "$logContent" -ForegroundColor Yellow
 }
 
+
 function Invoke-HuduRequest {
     <#
     .SYNOPSIS
