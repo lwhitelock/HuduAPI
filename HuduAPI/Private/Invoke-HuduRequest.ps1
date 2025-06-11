@@ -6,33 +6,32 @@ function Write-APIErrorObjectToFile {
         [Parameter()]
         [string]$Name = "Unnamed"
     )
-    $stringOutput = $ErrorObject | Format-List -Force | Out-String
 
-    $jsonOutput = try {
-        $ErrorObject | ConvertTo-Json -Depth 100 -Compress -ErrorAction Stop
+    $stringOutput = try {
+        $ErrorObject | Format-List -Force | Out-String
     } catch {
-        "Failed to convert to JSON: $_"
+        "Failed to stringify object: $_"
     }
 
     $propertyDump = try {
         $props = $ErrorObject | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
-        $dict = @{}
-        foreach ($p in $props) {
-            $dict[$p] = try { $ErrorObject.$p } catch { "<unreadable>" }
+        $lines = foreach ($p in $props) {
+            try {
+                "$p = $($ErrorObject.$p)"
+            } catch {
+                "$p = <unreadable>"
+            }
         }
-        $dict | ConvertTo-Json -Depth 100 -Compress
+        $lines -join "`n"
     } catch {
         "Failed to enumerate properties: $_"
     }
 
     $logContent = @"
-==== RAW STRING ====
+==== OBJECT STRING ====
 $stringOutput
 
-==== JSON FORMAT ====
-$jsonOutput
-
-==== REFLECTED PROPERTIES ====
+==== PROPERTY DUMP ====
 $propertyDump
 "@
 
@@ -42,8 +41,10 @@ $propertyDump
         Set-Content -Path $fullPath -Value $logContent -Encoding UTF8
         Write-Host "Error written to $fullPath" -ForegroundColor Yellow
     }
-        Write-Host "$logContent" -ForegroundColor Yellow
+
+    Write-Host "$logContent" -ForegroundColor Yellow
 }
+
 function Invoke-HuduRequest {
     <#
     .SYNOPSIS
