@@ -59,8 +59,10 @@ function New-HuduRackStorage {
 
         [int]$StartingUnit,
 
+        [Parameter(Mandatory)]
         [int]$Height,
 
+        [Parameter(Mandatory)]
         [int]$Width
     )
 
