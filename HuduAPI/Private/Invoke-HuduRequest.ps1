@@ -36,7 +36,7 @@ $propertyDump
 "@
 
     if ($global:HAPI_ERRORS_DIRECTORY -and (Test-Path $global:HAPI_ERRORS_DIRECTORY)) {
-        $filename = "$($Name -replace '\s+', '')_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+        $filename = "$($Name.Trim())_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
         $fullPath = Join-Path $global:HAPI_ERRORS_DIRECTORY $filename
         Set-Content -Path $fullPath -Value $logContent -Encoding UTF8
         Write-Host "Error written to $fullPath" -ForegroundColor Yellow

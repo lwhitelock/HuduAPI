@@ -89,6 +89,7 @@
     'Get-HuduPasswords',
     'Get-HuduProcesses',
     'Get-HuduPublicPhotos',
+    'Get-HuduRackStorages',
     'Get-HuduRelations',
     'Get-HuduSubFolders',
     'Get-HuduUploads',
