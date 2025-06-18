@@ -94,7 +94,7 @@ function Get-HuduRackStorageItems {
 
     $HuduRequest = @{
         Method   = 'GET'
-        Resource = "$Resource?$QueryString"
+        Resource = if ($QueryString) {"$Resource?$QueryString"} else {"$Resource"}
     }
 
     Invoke-HuduRequest @HuduRequest
