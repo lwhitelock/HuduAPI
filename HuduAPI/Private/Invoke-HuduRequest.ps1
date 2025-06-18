@@ -170,7 +170,7 @@ function Invoke-HuduRequest {
         try {
             $Results = Invoke-RestMethod @RestMethod
         } catch {
-            Write-APIErrorObjectToFile -name "$path-$method-retry" -ErrorObject @{
+            Write-APIErrorObjectToFile -name "$resource-$method-retry" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
                 resolution = "Retry failed as well. Handle this error here or avoid it prior."

@@ -1,6 +1,6 @@
 
 
-function Get-HuduRackStorages {
+function Get-HuduRackStorageItems {
     <#
     .SYNOPSIS
     Get a list of Rack Storage Items
@@ -79,5 +79,5 @@ function Get-HuduRackStorages {
         Resource = "$Resource?$QueryString"
     }
 
-    Invoke-HuduRequest -HuduRequest $HuduRequest -Property 'rack_storage_items'
+    Invoke-HuduRequest @HuduRequest
 }
