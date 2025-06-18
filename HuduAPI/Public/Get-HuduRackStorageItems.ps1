@@ -37,18 +37,36 @@ function Get-HuduRackStorageItems {
 
     .PARAMETER UpdatedBefore
     End datetime for updated_at range
+    
+    .EXAMPLE
+    Get-HuduRackStorageItems -RoleId 12 -Side 'Front'
+
+    Returns all front-facing rack items associated with role ID 12.
+
+    .NOTES
+    API Endpoint: GET /api/v1/rack_storage_items
     #>
     [CmdletBinding()]
     param (
         [int]$RoleId,
+        
         [int]$AssetId,
+        
         [int]$StartUnit,
+        
         [int]$EndUnit,
+        
         [int]$Status,
-        [ValidateSet('Front', 'Rear')][string]$Side,
+        
+        [ValidateSet('Front', 'Rear')]
+        [string]$Side,
+        
         [datetime]$CreatedAfter,
+        
         [datetime]$CreatedBefore,
+        
         [datetime]$UpdatedAfter,
+        
         [datetime]$UpdatedBefore
     )
 

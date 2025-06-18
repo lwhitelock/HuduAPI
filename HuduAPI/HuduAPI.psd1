@@ -90,6 +90,9 @@
     'Get-HuduProcesses',
     'Get-HuduPublicPhotos',
     'Get-HuduRackStorageItems',
+    'Get-HuduRackStorageItem',
+    'Get-HuduRackStorages',
+    'Get-HuduRackStorage',
     'Get-HuduRelations',
     'Get-HuduSubFolders',
     'Get-HuduUploads',
@@ -106,6 +109,8 @@
     'New-HuduFolder',
     'New-HuduPassword',
     'New-HuduPublicPhoto',
+    'New-HuduRackStorageItem',
+    'New-HuduRackStorage',    
     'New-HuduRelation',
     'New-HuduUpload',
     'New-HuduWebsite',
@@ -118,6 +123,8 @@
     'Remove-HuduMagicDash',
     'Remove-HuduPassword',
     'Remove-HuduPassword',
+    'Remove-HuduRackStorageItem',
+    'Remove-HuduRackStorage',    
     'Remove-HuduRelation',
     'Remove-HuduUpload',
     'Remove-HuduWebsite',
@@ -134,6 +141,8 @@
     'Set-HuduMagicDash',
     'Set-HuduPassword',
     'Set-HuduPasswordArchive',
+    'Set-HuduRackStorageItem',
+    'Set-HuduRackStorage',
     'Set-HuduWebsite'
 
 

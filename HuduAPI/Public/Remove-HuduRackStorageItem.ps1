@@ -1,5 +1,23 @@
 function Remove-HuduRackStorageItem {
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+    [CmdletBinding()]
+    <#
+    .SYNOPSIS
+    Remove a single rack storage item from Hudu
+
+    .DESCRIPTION
+    Calls Hudu API to remove a rack storage item by Id
+
+    .PARAMETER Id
+    Id of rack storage item to delete from Hudu
+
+    .EXAMPLE
+    Remove-HuduRackStorageItem -Id 456
+
+    Deletes the Rack Storage Item with ID 456 from Hudu.
+
+    .NOTES
+    API Endpoint: DELETE /api/v1/rack_storage_items/{id}
+    #>
     param (
         [Parameter(Mandatory)]
         [int]$Id
