@@ -50,6 +50,7 @@ function New-HuduRackStorage {
 
         [int]$LocationId,
 
+        [Parameter(Mandatory)]
         [int]$CompanyId,
 
         [string]$Description,
