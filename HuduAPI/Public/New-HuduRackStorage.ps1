@@ -48,22 +48,22 @@ function New-HuduRackStorage {
         [Parameter(Mandatory)]
         [string]$Name,
 
-        [int]$LocationId,
-
         [Parameter(Mandatory)]
         [int]$CompanyId,
-
-        [string]$Description,
-
-        [int]$MaxWattage,
-
-        [int]$StartingUnit,
 
         [Parameter(Mandatory)]
         [int]$Height,
 
         [Parameter(Mandatory)]
-        [int]$Width
+        [int]$Width,
+
+        [int]$LocationId,
+
+        [string]$Description,
+
+        [int]$MaxWattage,
+
+        [int]$StartingUnit
     )
 
     $Body = @{
