@@ -1,1 +1,3 @@
 Output
+HuduAPI/tests/*environ*
+!HuduAPI/tests/*environ*.example.ps1
