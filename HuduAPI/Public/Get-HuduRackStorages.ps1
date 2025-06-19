@@ -68,6 +68,7 @@ function Get-HuduRackStorages {
         [datetime]$UpdatedBefore
     )
 
+    $BaseResource = "/api/v1/rack_storages"
 
     $Params = @{}
     if ($CompanyId)   { $Params.company_id = $CompanyId }
@@ -89,12 +90,12 @@ function Get-HuduRackStorages {
     $HuduRequest = if ($Id) {
         @{
             Method   = 'GET'
-            Resource = "/api/v1/rack_storages/$Id"
+            Resource = "$BaseResource/$Id"
         }        
     } else {
          @{
             Method   = 'GET'
-            Resource = '/api/v1/rack_storages'
+            Resource = "$BaseResource"
             Params   = $Params
         }
     }
