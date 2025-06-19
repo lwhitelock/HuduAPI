@@ -22,7 +22,7 @@ function New-HuduRackStorageItem {
     Integer status code for the rack storage item.
 
     .PARAMETER Side
-    Rack side: 'Front' or 'Rear'.
+    Rack side: 1 or 0.
 
     .PARAMETER MaxWattage
     Max wattage allowed in the rack section.
@@ -44,6 +44,9 @@ function New-HuduRackStorageItem {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
+        [int]$RackStorageId,
+
+        [Parameter(Mandatory)]
         [int]$RackStorageRoleId,
 
         [Parameter(Mandatory)]
@@ -55,33 +58,36 @@ function New-HuduRackStorageItem {
         [Parameter(Mandatory)]
         [int]$EndUnit,
 
+        [ValidateSet(0, 1)]
         [int]$Status,
 
-        [ValidateSet("Front", "Rear")]
-        [string]$Side,
+        [ValidateSet(0, 1)]
+        [int]$Side,
         
         [int]$MaxWattage,
         
         [int]$PowerDraw,
         
         [string]$ReservedMessage,
-        
+
+        [Parameter(Mandatory)]
         [int]$CompanyId
     )
-
-    $Body = @{
+    $ItemPayload = @{
+        rack_storage_id     = $RackStorageId
+        asset_id            = $AssetId
         rack_storage_role_id = $RackStorageRoleId
-        asset_id              = $AssetId
-        start_unit            = $StartUnit
-        end_unit              = $EndUnit
+        start_unit       = $StartUnit
+        end_unit            = $EndUnit
+        company_id          = $CompanyID
+        side                = $Side
     }
 
-    if ($Status)           { $Body.status = $Status }
-    if ($Side)             { $Body.side = $Side }
-    if ($MaxWattage)       { $Body.max_wattage = $MaxWattage }
-    if ($PowerDraw)        { $Body.power_draw = $PowerDraw }
-    if ($ReservedMessage)  { $Body.reserved_message = $ReservedMessage }
-    if ($CompanyId)        { $Body.company_id = $CompanyId }
+    if ($PSBoundParameters.ContainsKey('MaxWattage'))      { $ItemPayload.max_wattage = $MaxWattage }
+    if ($PSBoundParameters.ContainsKey('PowerDraw'))       { $ItemPayload.power_draw = $PowerDraw }
+    if ($PSBoundParameters.ContainsKey('ReservedMessage')) { $ItemPayload.reserved_message = $ReservedMessage }
+
+    $Body = @{ rack_storage_item = $ItemPayload }
 
     $HuduRequest = @{
         Method   = 'POST'
@@ -90,4 +96,5 @@ function New-HuduRackStorageItem {
     }
 
     Invoke-HuduRequest @HuduRequest
+
 }

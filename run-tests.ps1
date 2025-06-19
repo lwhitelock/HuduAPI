@@ -6,6 +6,10 @@ param (
     [switch]$VerboseOutput
 )
 
+$modulePath = Join-Path $PSScriptRoot 'HuduAPI\Huduapi.psd1'
+Remove-Module Huduapi -ErrorAction SilentlyContinue
+Import-Module $modulePath -Force
+
 # Ensure Pester 5+
 $requiredVersion = "5.0.0"
 if (-not (Get-Module -ListAvailable Pester | Where-Object { $_.Version -ge $requiredVersion })) {

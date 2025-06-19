@@ -65,7 +65,7 @@ function Set-HuduRackStorageItem {
 
     if ($RackStorageRoleId) { $Body.rack_storage_role_id = $RackStorageRoleId }
     if ($AssetId)           { $Body.asset_id = $AssetId }
-    if ($StartUnit)         { $Body.start_unit = $StartUnit }
+    if ($StartUnit)         { $Body.starting_unit = $StartUnit }
     if ($EndUnit)           { $Body.end_unit = $EndUnit }
     if ($Status)            { $Body.status = $Status }
     if ($Side)              { $Body.side = $Side }

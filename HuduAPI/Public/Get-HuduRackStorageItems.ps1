@@ -75,7 +75,7 @@ function Get-HuduRackStorageItems {
 
     if ($RoleId) { $Query.Add("rack_storage_role_id=$RoleId") }
     if ($AssetId) { $Query.Add("asset_id=$AssetId") }
-    if ($StartUnit) { $Query.Add("start_unit=$StartUnit") }
+    if ($StartUnit) { $Query.Add("starting_unit=$StartUnit") }
     if ($EndUnit) { $Query.Add("end_unit=$EndUnit") }
     if ($Status) { $Query.Add("status=$Status") }
     if ($Side) { $Query.Add("side=$Side") }

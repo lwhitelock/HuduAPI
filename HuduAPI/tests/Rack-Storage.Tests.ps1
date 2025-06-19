@@ -58,24 +58,26 @@ Context "Hudu RackStorage Integration Tests" {
         # First create a rack
         $rack_width = $(Get-Random -Minimum $settings.rack_minwidth -Maximum $settings.rack_maxwidth)
         $rack_height = $(Get-Random -Minimum $settings.rack_minheight -Maximum $settings.rack_maxheight)
-        $side = if ((Get-Random -Minimum 0 -Maximum 2) -eq 0) { "Front" } else { "Rear" }
+        $side = (Get-Random -Minimum 0 -Maximum 1)
         $item_width = $(get-random -minimum 1 -maximum $($rack_width - 1))
-        
-
+        $StartUnit = 0
+        $MaxAllowedWidth = [math]::Min(5, $rack_width - 1)
+        $EndUnit = $StartUnit + (Get-Random -Minimum 1 -Maximum ($MaxAllowedWidth + 1))
         Write-Host "rack storage will be $rack_width units wide, $rack_height units tall"
         $rack = New-HuduRackStorage -Name "RackForItem-$(Get-Random)" `
             -CompanyId $testCompanyId `
             -Height $rack_height `
             -Width $rack_width
 
-        $item = New-HuduRackStorageItem `
+        $Item = New-HuduRackStorageItem `
             -RackStorageRoleId $testRackRoleId `
             -AssetId $testAssetId `
-            -StartUnit 1 `
-            -Status 1 `
-            -EndUnit $item_width `
+            -StartUnit $startunit `
+            -EndUnit $endunit `
             -Side $side `
+            -RackStorageId $rack.id `
             -CompanyId $testCompanyId
+
         if (-not $item -or -not $item.id) {
             Write-Warning "Failed to create RackStorageItem. Possible payload error."
             $rack | ConvertTo-Json -Depth 10 | Write-Host
