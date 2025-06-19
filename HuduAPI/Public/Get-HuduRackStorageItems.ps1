@@ -3,7 +3,7 @@
 function Get-HuduRackStorageItems {
     <#
     .SYNOPSIS
-    Get a list of Rack Storage Items
+    Provide a rack storage item id to Get a single rack storage item, otherwise Get a list of Rack Storage Items
 
     .DESCRIPTION
     Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
@@ -24,7 +24,7 @@ function Get-HuduRackStorageItems {
     Filter by Status
 
     .PARAMETER Side
-    Filter by Side ('Front' or 'Rear')
+    Filter by Side (0='Front' or 1='Rear')
 
     .PARAMETER CreatedAfter
     Start datetime for created_at range
@@ -48,6 +48,8 @@ function Get-HuduRackStorageItems {
     #>
     [CmdletBinding()]
     param (
+        [int]$Id,
+
         [int]$RoleId,
         
         [int]$AssetId,
@@ -58,8 +60,8 @@ function Get-HuduRackStorageItems {
         
         [int]$Status,
         
-        [ValidateSet('Front', 'Rear')]
-        [string]$Side,
+        [ValidateSet(0, 1)]
+        [int]$Side,
         
         [datetime]$CreatedAfter,
         
@@ -92,9 +94,17 @@ function Get-HuduRackStorageItems {
 
     $QueryString = ($Query -join '&')
 
-    $HuduRequest = @{
-        Method   = 'GET'
-        Resource = if ($QueryString) {"$Resource?$QueryString"} else {"$Resource"}
+    $HuduRequest = if ($Id) {
+        @{
+            Method   = 'GET'
+            Resource = "/api/v1/rack_storage_items/$Id"
+        }
+    } else {
+        $BaseResource = "/api/v1/rack_storage_items"    
+        @{
+            Method   = 'GET'
+            Resource = if ($QueryString) {"$BaseResource?$QueryString"} else {"$BaseResource"}
+        }
     }
 
     Invoke-HuduRequest @HuduRequest

@@ -64,7 +64,7 @@ Context "Hudu RackStorage Integration Tests" {
 
         # 1.2 Retrieve / compare
         Write-Host "Retrieving the rackstorage we created."
-        $retrieved = Get-HuduRackStorage -Id $rack.id
+        $retrieved = Get-HuduRackStorages -Id $rack.id
         $retrieved.name | Should -Be $rack_name
         $retrieved.width | Should -Be $rack_width
         $retrieved.height | Should -Be $rack_height
@@ -136,7 +136,7 @@ Context "Hudu RackStorage Integration Tests" {
         Write-Host "Created RackStorageItem ID: $($Item.id)"
 
         #2.2 Retrieve and compare
-        $retrievedItem = Get-HuduRackStorageItem -Id $Item.id
+        $retrievedItem = Get-HuduRackStorageItems -Id $Item.id
         $retrievedItem.start_unit | Should -Be $StartUnit
         $retrievedItem.end_unit | Should -Be $EndUnit
         $retrievedItem.side | Should -Be $Item.side

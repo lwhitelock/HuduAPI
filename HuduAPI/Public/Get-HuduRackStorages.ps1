@@ -1,10 +1,13 @@
 function Get-HuduRackStorages {
     <#
     .SYNOPSIS
-    Get a list of Rack Storage Items
+    Get a list of Rack Storages or provide ID to get a single rack storage
 
     .DESCRIPTION
     Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
+    
+    .PARAMETER Id
+    ID of the Rack Storage to update.
 
     .PARAMETER CompanyId
     Filter Rack Storages by Company Id
@@ -44,6 +47,8 @@ function Get-HuduRackStorages {
     #>    
     [CmdletBinding()]
     param (
+        [int]$Id,
+
         [int]$CompanyId,
 
         [int]$LocationId,
@@ -63,6 +68,7 @@ function Get-HuduRackStorages {
         [datetime]$UpdatedBefore
     )
 
+
     $Params = @{}
     if ($CompanyId)   { $Params.company_id = $CompanyId }
     if ($LocationId)  { $Params.location_id = $LocationId }
@@ -80,10 +86,17 @@ function Get-HuduRackStorages {
         $Params.updated_at = $updatedRange
     }
 
-    $HuduRequest = @{
-        Method   = 'GET'
-        Resource = '/api/v1/rack_storages'
-        Params   = $Params
+    $HuduRequest = if ($Id) {
+        @{
+            Method   = 'GET'
+            Resource = "/api/v1/rack_storages/$Id"
+        }        
+    } else {
+         @{
+            Method   = 'GET'
+            Resource = '/api/v1/rack_storages'
+            Params   = $Params
+        }
     }
 
     Invoke-HuduRequest @HuduRequest
