@@ -58,9 +58,11 @@ function New-HuduRackStorageItem {
         [Parameter(Mandatory)]
         [int]$EndUnit,
 
+        [Parameter(Mandatory)]
         [ValidateSet(0, 1)]
         [int]$Status,
 
+        [Parameter(Mandatory)]
         [ValidateSet(0, 1)]
         [int]$Side,
         
@@ -83,9 +85,9 @@ function New-HuduRackStorageItem {
         side                = $Side
     }
 
-    if ($PSBoundParameters.ContainsKey('MaxWattage'))      { $ItemPayload.max_wattage = $MaxWattage }
-    if ($PSBoundParameters.ContainsKey('PowerDraw'))       { $ItemPayload.power_draw = $PowerDraw }
-    if ($PSBoundParameters.ContainsKey('ReservedMessage')) { $ItemPayload.reserved_message = $ReservedMessage }
+    if ($MaxWattage)      { $ItemPayload.max_wattage = $MaxWattage }
+    if ($PowerDraw)       { $ItemPayload.power_draw = $PowerDraw }
+    if ($ReservedMessage) { $ItemPayload.reserved_message = $ReservedMessage }
 
     $Body = @{ rack_storage_item = $ItemPayload }
 

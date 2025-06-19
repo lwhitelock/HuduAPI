@@ -75,20 +75,16 @@ Context "Hudu RackStorage Integration Tests" {
             -StartUnit $startunit `
             -EndUnit $endunit `
             -Side $side `
+            -Status 1 `
             -RackStorageId $rack.id `
             -CompanyId $testCompanyId
 
-        if (-not $item -or -not $item.id) {
-            Write-Warning "Failed to create RackStorageItem. Possible payload error."
-            $rack | ConvertTo-Json -Depth 10 | Write-Host
-            $item | ConvertTo-Json -Depth 10 | Write-Host
-            throw "Aborting test due to invalid response from API."
-        }
+
 
         $item.id | Should -Not -BeNullOrEmpty
         Write-Host "Created RackStorageItem ID: $($item.id)"
 
-        Remove-HuduRackStorageItem -Id $item.id -Confirm:$false
-        Remove-HuduRackStorage -Id $rack.id -Confirm:$false
+        Remove-HuduRackStorageItem -Id $item.id 
+        Remove-HuduRackStorage -Id $rack.id
     }
 }
