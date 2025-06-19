@@ -55,7 +55,7 @@ function Set-HuduRackStorageItem {
         [int]$StartUnit,
         [int]$EndUnit,
         [int]$Status,
-        [ValidateSet('Front', 'Rear')][string]$Side,
+        [ValidateSet(1, 0)][int]$Side,
         [int]$MaxWattage,
         [int]$PowerDraw,
         [string]$ReservedMessage
@@ -65,19 +65,27 @@ function Set-HuduRackStorageItem {
 
     if ($RackStorageRoleId) { $Body.rack_storage_role_id = $RackStorageRoleId }
     if ($AssetId)           { $Body.asset_id = $AssetId }
-    if ($StartUnit)         { $Body.starting_unit = $StartUnit }
     if ($EndUnit)           { $Body.end_unit = $EndUnit }
-    if ($Status)            { $Body.status = $Status }
-    if ($Side)              { $Body.side = $Side }
     if ($MaxWattage)        { $Body.max_wattage = $MaxWattage }
     if ($PowerDraw)         { $Body.power_draw = $PowerDraw }
     if ($ReservedMessage)   { $Body.reserved_message = $ReservedMessage }
 
-    $HuduRequest = @{
-        Method   = 'PUT'
-        Resource = "/api/v1/rack_storage_items/$Id"
-        Body     = $Body
+    $existing = Get-HuduRackStorageItem -Id $Id
+
+    if (-not $PSBoundParameters.ContainsKey('StartUnit')) {
+        $StartUnit = $existing.start_unit
+    }
+    if (-not $PSBoundParameters.ContainsKey('Side')) {
+        $Side = if ($existing.side.ToLower() -eq "front") {0} else {1}
+    }
+    if (-not $PSBoundParameters.ContainsKey('Status')) {
+        $Status = if ($existing.status.toLower() -eq "reserved") {0} else {1}
     }
 
-    Invoke-HuduRequest -HuduRequest $HuduRequest -Property 'rack_storage_item'
+    $HuduRequest = @{
+        Method      = 'PUT'
+        Resource    = "/api/v1/rack_storage_items/$Id"
+        Body        = ($Body | ConvertTo-Json -Depth 10)
+    }
+    Invoke-HuduRequest @HuduRequest
 }
