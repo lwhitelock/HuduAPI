@@ -1,5 +1,3 @@
-$HUDU_API_KEY = "xxx"
-$HUDU_BASE_URL = "https://your.huducloud.com"
-$HUDU_TEST_COMPANY_ID = "123"
-$HUDU_TEST_RACK_ROLE_ID = "456"
-$HUDU_TEST_ASSET_ID = "789"
+$env:HUDU_API_KEY = "xyz"
+$env:HUDU_BASE_URL = "https://urinstance.huducloud.com"
+$env:HUDU_TEST_RACK_ROLE_ID = "1"
