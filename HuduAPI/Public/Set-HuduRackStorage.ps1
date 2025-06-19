@@ -45,13 +45,21 @@ function Set-HuduRackStorage {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)][int]$Id,
+
         [string]$Name,
+
         [int]$LocationId,
+
         [int]$CompanyId,
+
         [string]$Description,
+
         [int]$MaxWattage,
+
         [int]$StartingUnit,
+
         [int]$Height,
+
         [int]$Width
     )
 

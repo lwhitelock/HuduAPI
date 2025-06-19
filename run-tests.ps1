@@ -3,7 +3,8 @@
 
 param (
     [string]$TestPath = "$PSScriptRoot\HuduAPI\Tests\Rack-Storage.Tests.ps1",
-    [switch]$VerboseOutput
+    [string]$EnvironFile,
+    [switch]$VerboseOutput  
 )
 
 $modulePath = Join-Path $PSScriptRoot 'HuduAPI\Huduapi.psd1'
@@ -22,13 +23,13 @@ Remove-Module Pester -ErrorAction SilentlyContinue
 Import-Module Pester -MinimumVersion $requiredVersion -Force
 
 # Optional: Load environment from .env file
-$envFile = "$PSScriptRoot\tests\environ-d.ps1"
+$envFile = $(join-path "$PSScriptRoot\tests" "$EnvironFile")
 if (Test-Path $envFile) {
     Write-Host "Sourcing environment variables from $envFile" -ForegroundColor Cyan
     . $envFile
 }
 
-# Confirm key env vars
+# Confirm key =env vars
 $requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL"
 foreach ($var in $requiredVars) {
     if (-not (Get-Item -Path "env:$var" -ErrorAction SilentlyContinue)) {
