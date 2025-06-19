@@ -24,7 +24,7 @@ function Get-HuduRackStorageItems {
     Filter by Status
 
     .PARAMETER Side
-    Filter by Side ('Front' or 'Rear')
+    Filter by Side (0='Front' or 1='Rear')
 
     .PARAMETER CreatedAfter
     Start datetime for created_at range
@@ -61,7 +61,7 @@ function Get-HuduRackStorageItems {
         [int]$Status,
         
         [ValidateSet(0, 1)]
-        [string]$Side,
+        [int]$Side,
         
         [datetime]$CreatedAfter,
         
@@ -100,9 +100,10 @@ function Get-HuduRackStorageItems {
             Resource = "/api/v1/rack_storage_items/$Id"
         }
     } else {
+        $BaseResource = "/api/v1/rack_storage_items"    
         @{
             Method   = 'GET'
-            Resource = if ($QueryString) {"$Resource?$QueryString"} else {"$Resource"}
+            Resource = if ($QueryString) {"$BaseResource?$QueryString"} else {"$BaseResource"}
         }
     }
 

@@ -70,7 +70,7 @@ function Set-HuduRackStorageItem {
     if ($PowerDraw)         { $Body.power_draw = $PowerDraw }
     if ($ReservedMessage)   { $Body.reserved_message = $ReservedMessage }
 
-    $existing = Get-HuduRackStorageItem -Id $Id
+    $existing = Get-HuduRackStorageItems -Id $Id
 
     if (-not $PSBoundParameters.ContainsKey('StartUnit')) {
         $StartUnit = $existing.start_unit

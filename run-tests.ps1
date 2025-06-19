@@ -2,14 +2,16 @@
 # Run-HuduTests.ps1
 
 param (
-    [string]$TestPath = "$PSScriptRoot\HuduAPI\Tests\Rack-Storage.Tests.ps1",
-    [string]$EnvironFile,
-    [switch]$VerboseOutput  
+    [string]$EnvironFile
 )
 
-$modulePath = Join-Path $PSScriptRoot 'HuduAPI\Huduapi.psd1'
-Remove-Module Huduapi -ErrorAction SilentlyContinue
-Import-Module $modulePath -Force
+$testsPath = Join-Path $PSScriptRoot "HuduAPI" "tests"
+$modulePath = Join-Path $PSScriptRoot "HuduAPI" 'Huduapi.psd1'
+$envFile = Join-Path $testsPath $EnvironFile
+
+Write-Host "Starting tests in: $testsPath"
+Write-Host "Using module: $modulePath"
+Write-Host "Env file: $envFile"
 
 # Ensure Pester 5+
 $requiredVersion = "5.0.0"
@@ -18,29 +20,34 @@ if (-not (Get-Module -ListAvailable Pester | Where-Object { $_.Version -ge $requ
     Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
 }
 
-# Reload latest Pester
 Remove-Module Pester -ErrorAction SilentlyContinue
 Import-Module Pester -MinimumVersion $requiredVersion -Force
 
-# Optional: Load environment from .env file
-$envFile = $(join-path "$PSScriptRoot\tests" "$EnvironFile")
+Remove-Module Huduapi -ErrorAction SilentlyContinue
+Import-Module $modulePath -Force
+
+# Load env
 if (Test-Path $envFile) {
-    Write-Host "Sourcing environment variables from $envFile" -ForegroundColor Cyan
+    Write-Host "Sourcing environment from $envFile" -ForegroundColor Cyan
     . $envFile
 }
 
-# Confirm key =env vars
-$requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL"
+# Validate env vars
+$requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL", "HUDU_TEST_RACK_ROLE_ID"
 foreach ($var in $requiredVars) {
-    if (-not (Get-Item -Path "env:$var" -ErrorAction SilentlyContinue)) {
+    if (-not (Get-Item "env:$var" -ErrorAction SilentlyContinue)) {
         throw "Missing required environment variable: $var"
     }
 }
-Write-Host "Using Hudu at ${env:HUDU_BASE_URL}" -ForegroundColor Green
+Write-Host "Using Hudu at $env:HUDU_BASE_URL" -ForegroundColor Green
 
 # Run tests
-$configuration = New-PesterConfiguration
-$configuration.Run.Path = $TestPath
-$configuration.Output.Verbosity = if ($VerboseOutput) { "Detailed" } else { "Normal" }
+$integrationTests = Get-ChildItem -Path $testsPath -Filter *.Tests.ps1 -Recurse
 
-Invoke-Pester -Configuration $configuration
+foreach ($integrationTest in $integrationTests) {
+    Write-Host "Running: $($integrationTest.Name)" -ForegroundColor Blue
+    $config = New-PesterConfiguration
+    $config.Run.Path = $integrationTest.FullName
+    $config.Output.Verbosity = "detailed"
+    Invoke-Pester -Configuration $config
+}
