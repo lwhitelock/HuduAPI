@@ -68,6 +68,7 @@ function Get-HuduRackStorages {
         [datetime]$UpdatedBefore
     )
 
+    $BaseResource = "/api/v1/rack_storages"
 
     $Params = @{}
     if ($CompanyId)   { $Params.company_id = $CompanyId }
@@ -77,24 +78,24 @@ function Get-HuduRackStorages {
     if ($MaxWidth)    { $Params.max_width = $MaxWidth }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ',') {
+    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
         $Params.created_at = $createdRange
     }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ',') {
+    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
         $Params.updated_at = $updatedRange
     }
 
     $HuduRequest = if ($Id) {
         @{
             Method   = 'GET'
-            Resource = "/api/v1/rack_storages/$Id"
+            Resource = "$BaseResource/$Id"
         }        
     } else {
          @{
             Method   = 'GET'
-            Resource = '/api/v1/rack_storages'
+            Resource = "$BaseResource"
             Params   = $Params
         }
     }

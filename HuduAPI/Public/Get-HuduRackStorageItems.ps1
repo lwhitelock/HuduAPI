@@ -72,38 +72,36 @@ function Get-HuduRackStorageItems {
         [datetime]$UpdatedBefore
     )
 
-    $Resource = "/api/v1/rack_storage_items"
-    $Query = [System.Collections.ArrayList]@()
+    $BaseResource = "/api/v1/rack_storage_items"
 
-    if ($RoleId) { $Query.Add("rack_storage_role_id=$RoleId") }
-    if ($AssetId) { $Query.Add("asset_id=$AssetId") }
-    if ($StartUnit) { $Query.Add("starting_unit=$StartUnit") }
-    if ($EndUnit) { $Query.Add("end_unit=$EndUnit") }
-    if ($Status) { $Query.Add("status=$Status") }
-    if ($Side) { $Query.Add("side=$Side") }
+    $Params = @{}
+    if ($RoleId) { $Params["rack_storage_role_id"] = $RoleId }
+    if ($AssetId) { $Params["asset_id"] = $AssetId }
+    if ($StartUnit) { $Params["starting_unit"] = $StartUnit }
+    if ($EndUnit) { $Params["end_unit"] = $EndUnit }
+    if ($Status) { $Params["status"] = $Status }
+    if ($Side) { $Params["side"] = $Side }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ",") {
-        $Query.Add("created_at=$createdRange")
+    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
+        $Params.created_at = $createdRange
     }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ",") {
-        $Query.Add("updated_at=$updatedRange")
+    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+        $Params.updated_at = $updatedRange
     }
-
-    $QueryString = ($Query -join '&')
-
+    
     $HuduRequest = if ($Id) {
         @{
             Method   = 'GET'
-            Resource = "/api/v1/rack_storage_items/$Id"
+            Resource = "$BaseResource/$Id"
         }
     } else {
-        $BaseResource = "/api/v1/rack_storage_items"    
         @{
             Method   = 'GET'
-            Resource = if ($QueryString) {"$BaseResource?$QueryString"} else {"$BaseResource"}
+            Resource = "$BaseResource"
+            Params   = if ($Params.Count -gt 0) { $Params } else { $null }
         }
     }
 

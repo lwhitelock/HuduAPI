@@ -7,5 +7,5 @@ function Convert-ToHuduDateRange {
     $startStr = if ($Start) { $Start.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") } else { '' }
     $endStr = if ($End) { $End.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") } else { '' }
 
-    return "$startStr,$endStr"
+    return $(if (("$startStr,$endStr").StartsWith(",")) {$null} else {"$startStr,$endStr"})
 }
