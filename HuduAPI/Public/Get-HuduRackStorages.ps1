@@ -78,12 +78,12 @@ function Get-HuduRackStorages {
     if ($MaxWidth)    { $Params.max_width = $MaxWidth }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ',') {
+    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
         $Params.created_at = $createdRange
     }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ',') {
+    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
         $Params.updated_at = $updatedRange
     }
 

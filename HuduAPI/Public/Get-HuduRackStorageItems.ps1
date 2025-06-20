@@ -83,11 +83,15 @@ function Get-HuduRackStorageItems {
     if ($Side) { $Params["side"] = $Side }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ",") { $Params["created_at"] = $createdRange }
+    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
+        $Params.created_at = $createdRange
+    }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ",") { $Params["updated_at"] = $updatedRange }
-
+    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+        $Params.updated_at = $updatedRange
+    }
+    
     $HuduRequest = if ($Id) {
         @{
             Method   = 'GET'
