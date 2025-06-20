@@ -48,19 +48,20 @@ function Set-HuduRackStorage {
 
         [string]$Name,
 
-        [int]$LocationId,
-
         [int]$CompanyId,
+
+        [int]$Height,
+
+        [int]$Width,
+
+        [int]$LocationId,
 
         [string]$Description,
 
         [int]$MaxWattage,
 
-        [int]$StartingUnit,
+        [int]$StartingUnit
 
-        [int]$Height,
-
-        [int]$Width
     )
 
     $Body = @{}

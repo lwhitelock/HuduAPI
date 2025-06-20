@@ -51,13 +51,21 @@ function Set-HuduRackStorageItem {
         [int]$Id,
 
         [int]$RackStorageRoleId,
+
         [int]$AssetId,
+
         [int]$StartUnit,
+
         [int]$EndUnit,
+
         [int]$Status,
+
         [ValidateSet(1, 0)][int]$Side,
+
         [int]$MaxWattage,
+
         [int]$PowerDraw,
+
         [string]$ReservedMessage
     )
 
