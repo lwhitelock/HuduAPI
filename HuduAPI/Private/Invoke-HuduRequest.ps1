@@ -1,51 +1,3 @@
-function Write-APIErrorObjectToFile {
-    param (
-        [Parameter(Mandatory)]
-        [object]$ErrorObject,
-
-        [Parameter()]
-        [string]$Name = "Unnamed"
-    )
-
-    $stringOutput = try {
-        $ErrorObject | Format-List -Force | Out-String
-    } catch {
-        "Failed to stringify object: $_"
-    }
-
-    $propertyDump = try {
-        $props = $ErrorObject | Get-Member -MemberType Properties | Select-Object -ExpandProperty Name
-        $lines = foreach ($p in $props) {
-            try {
-                "$p = $($ErrorObject.$p)"
-            } catch {
-                "$p = <unreadable>"
-            }
-        }
-        $lines -join "`n"
-    } catch {
-        "Failed to enumerate properties: $_"
-    }
-
-    $logContent = @"
-==== OBJECT STRING ====
-$stringOutput
-
-==== PROPERTY DUMP ====
-$propertyDump
-"@
-
-    if ($global:HAPI_ERRORS_DIRECTORY -and (Test-Path $global:HAPI_ERRORS_DIRECTORY)) {
-        $filename = "$($Name.Trim())_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
-        $fullPath = Join-Path $global:HAPI_ERRORS_DIRECTORY $filename
-        Set-Content -Path $fullPath -Value $logContent -Encoding UTF8
-        Write-Host "Error written to $fullPath" -ForegroundColor Yellow
-    }
-
-    Write-Host "$logContent" -ForegroundColor Yellow
-}
-
-
 function Invoke-HuduRequest {
     <#
     .SYNOPSIS
@@ -159,7 +111,7 @@ function Invoke-HuduRequest {
             Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
-            Write-APIErrorObjectToFile -name "$path-$method" -ErrorObject @{
+            Write-APIErrorObject -name "$path-$method" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
                 resolution = "Trying again in 5 seconds."
@@ -170,7 +122,7 @@ function Invoke-HuduRequest {
         try {
             $Results = Invoke-RestMethod @RestMethod
         } catch {
-            Write-APIErrorObjectToFile -name "$resource-$method-retry" -ErrorObject @{
+            Write-APIErrorObject -name "$resource-$method-retry" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
                 resolution = "Retry failed as well. Handle this error here or avoid it prior."
