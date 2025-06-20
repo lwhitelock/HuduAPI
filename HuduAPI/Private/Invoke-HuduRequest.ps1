@@ -88,7 +88,7 @@ function Invoke-HuduRequest {
         [string]$Body,
 
         [Parameter()]
-        [hashtable]$Form
+        [hashtable]$Form  
     )
 
     $HuduAPIKey = Get-HuduApiKey
@@ -178,6 +178,7 @@ function Invoke-HuduRequest {
             return $null
         }
     }
+
 
     $Results
 }
