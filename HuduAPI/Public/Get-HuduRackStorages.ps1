@@ -7,7 +7,7 @@ function Get-HuduRackStorages {
     Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
     
     .PARAMETER Id
-    ID of the Rack Storage to update.
+    ID of the Rack Storage to get
 
     .PARAMETER CompanyId
     Filter Rack Storages by Company Id
