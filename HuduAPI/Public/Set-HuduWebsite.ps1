@@ -61,6 +61,14 @@ function Set-HuduWebsite {
 
         [Alias('disable_whois')]
         [String]$DisableWhois = '',
+        [Alias('enabledmarc')]
+        [String]$enable_dmarc_tracking = '',
+
+        [Alias('enabledkim')]
+        [String]$enable_dkim_tracking = '',
+
+        [Alias('enablespf')]
+        [String]$enable_spf_tracking = '',
 
         [string]$Slug
     )
@@ -92,7 +100,19 @@ function Set-HuduWebsite {
     }
 
     if ($Slug) {
-        $Website.website.add('slug', $Slug)
+        $Website.website.slug = $Slug
+    }
+
+    if ($enable_dmarc_tracking) {
+        $Website.website.enable_dmarc_tracking = $enable_dmarc_tracking
+    }
+
+    if ($enable_dkim_tracking) {
+        $Website.website.enable_dkim_tracking = $enable_dkim_tracking
+    }
+
+    if ($enable_spf_tracking) {
+        $Website.website.enable_spf_tracking = $enable_spf_tracking
     }
 
     $JSON = $Website | ConvertTo-Json
