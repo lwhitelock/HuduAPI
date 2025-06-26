@@ -27,6 +27,15 @@ function New-HuduWebsite {
     .PARAMETER DisableWhois
     When true, whois monitoring is paused.
 
+    .PARAMETER EnableDMARC
+    When true, DMARC monitoring is enabled.
+    
+    .PARAMETER EnableDKIM
+    When true, DKIM monitoring is enabled.
+    
+    .PARAMETER EnableSPF
+    When true, SPF monitoring is enabled.
+
     .PARAMETER Slug
     Url identifier
 
@@ -55,6 +64,15 @@ function New-HuduWebsite {
 
         [Alias('disable_whois')]
         [String]$DisableWhois = '',
+
+        [Alias('enable_dmarc')]
+        [String]$EnableDMARC = '',
+
+        [Alias('enable_dkim')]
+        [String]$EnableDKIM = '',
+
+        [Alias('enable_spf')]
+        [String]$EnableSPF = '',
 
         [string]$Slug
     )
@@ -87,6 +105,18 @@ function New-HuduWebsite {
 
     if ($Slug) {
         $Website.website.add('slug', $Slug)
+    }
+
+    if ($EnableDMARC) {
+        $Website.website.add('enable_dmarc_tracking', $EnableDMARC)
+    }
+
+    if ($EnableDKIM) {
+        $Website.website.add('enable_dkim_tracking', $EnableDKIM)
+    }
+
+    if ($EnableSPF) {
+        $Website.website.add('enable_spf_tracking', $EnableSPF)
     }
 
     $JSON = $Website | ConvertTo-Json
