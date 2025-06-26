@@ -2,7 +2,7 @@ name: Publish New Version
 
 on:
   push:
-    tags: '*'
+    tags: [never]
 
 jobs:
   publish:   
