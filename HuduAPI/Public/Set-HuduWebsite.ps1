@@ -61,13 +61,13 @@ function Set-HuduWebsite {
 
         [Alias('disable_whois')]
         [String]$DisableWhois = '',
-        [Alias('enabledmarc')]
+        [Alias('enable_dmarc')]
         [String]$enable_dmarc_tracking = '',
 
-        [Alias('enabledkim')]
+        [Alias('enable_dkim')]
         [String]$enable_dkim_tracking = '',
 
-        [Alias('enablespf')]
+        [Alias('enable_spf')]
         [String]$enable_spf_tracking = '',
 
         [string]$Slug
