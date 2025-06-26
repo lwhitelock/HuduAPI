@@ -42,7 +42,7 @@ function Set-HuduWebsite {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [String]$Name,
 
         [String]$Notes = '',
@@ -50,7 +50,7 @@ function Set-HuduWebsite {
         [String]$Paused = '',
 
         [Alias('company_id')]
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [Int]$CompanyId,
 
         [Alias('disable_dns')]
@@ -72,31 +72,39 @@ function Set-HuduWebsite {
 
         [string]$Slug
     )
+    
+    $Object = Get-HuduWebsites -Id $Id
+    if (-not $Object) {
+        Throw "Website with Id $Id not found or invalid object returned."
+    }
+    $Website = [ordered]@{website = $Object }
 
-    $Website = [ordered]@{website = [ordered]@{} }
-
-    $Website.website.add('name', $Name)
+    If ($Name) {
+        $Website.website.name = $Name
+    }
 
     if ($Notes) {
-        $Website.website.add('notes', $Notes)
+        $Website.website.notes = $Notes
     }
 
     if ($Paused) {
-        $Website.website.add('paused', $Paused)
+        $Website.website.paused = $Paused
     }
 
-    $Website.website.add('company_id', $companyid)
+    if ($CompanyId) {
+        $Website.website.company_id = $companyid
+    }
 
     if ($DisableDNS) {
-        $Website.website.add('disable_dns', $DisableDNS)
+        $Website.website.disable_dns = $DisableDNS
     }
 
     if ($DisableSSL) {
-        $Website.website.add('disable_ssl', $DisableSSL)
+        $Website.website.disable_ssl = $DisableSSL
     }
 
     if ($DisableWhois) {
-        $Website.website.add('disable_whois', $DisableWhois)
+        $Website.website.disable_whois = $DisableWhois
     }
 
     if ($Slug) {
@@ -115,7 +123,7 @@ function Set-HuduWebsite {
         $Website.website.enable_spf_tracking = $enable_spf_tracking
     }
 
-    $JSON = $Website | ConvertTo-Json
+    $JSON = $Website | ConvertTo-Json -Depth 10
 
     if ($PSCmdlet.ShouldProcess($Id)) {
         Invoke-HuduRequest -Method put -Resource "/api/v1/websites/$Id" -Body $JSON
