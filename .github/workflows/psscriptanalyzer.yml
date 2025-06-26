@@ -2,7 +2,7 @@ name: Run PSScriptAnalyzer
 
 on:
   push:
-    branches: [disabled]
+    branches: [master]
 
 jobs:
   check:
