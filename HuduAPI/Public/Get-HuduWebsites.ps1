@@ -25,7 +25,7 @@ function Get-HuduWebsites {
     [CmdletBinding()]
     Param (
         [String]$Name,
-        [Alias('website_id')]
+        [Alias('website_id','Id')]
         [Int]$WebsiteId,
         [String]$Slug,
         [string]$Search
