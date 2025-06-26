@@ -30,6 +30,15 @@ function Set-HuduWebsite {
     .PARAMETER DisableWhois
     When true, whois monitoring is paused.
 
+    .PARAMETER EnableDMARC
+    When true, DMARC monitoring is enabled.
+    
+    .PARAMETER EnableDKIM
+    When true, DKIM monitoring is enabled.
+    
+    .PARAMETER EnableSPF
+    When true, SPF monitoring is enabled.
+
     .PARAMETER Slug
     Url identifier
 
@@ -61,14 +70,15 @@ function Set-HuduWebsite {
 
         [Alias('disable_whois')]
         [String]$DisableWhois = '',
+
         [Alias('enable_dmarc')]
-        [String]$enable_dmarc_tracking = '',
+        [String]$EnableDMARC = '',
 
         [Alias('enable_dkim')]
-        [String]$enable_dkim_tracking = '',
+        [String]$EnableDKIM = '',
 
         [Alias('enable_spf')]
-        [String]$enable_spf_tracking = '',
+        [String]$EnableSPF = '',
 
         [string]$Slug
     )
@@ -111,16 +121,16 @@ function Set-HuduWebsite {
         $Website.website.slug = $Slug
     }
 
-    if ($enable_dmarc_tracking) {
-        $Website.website.enable_dmarc_tracking = $enable_dmarc_tracking
+    if ($EnableDMARC) {
+        $Website.website.enable_dmarc_tracking = $EnableDMARC
     }
 
-    if ($enable_dkim_tracking) {
-        $Website.website.enable_dkim_tracking = $enable_dkim_tracking
+    if ($EnableDKIM) {
+        $Website.website.enable_dkim_tracking = $EnableDKIM
     }
 
-    if ($enable_spf_tracking) {
-        $Website.website.enable_spf_tracking = $enable_spf_tracking
+    if ($EnableSPF) {
+        $Website.website.enable_spf_tracking = $EnableSPF
     }
 
     $JSON = $Website | ConvertTo-Json -Depth 10
