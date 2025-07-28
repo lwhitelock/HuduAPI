@@ -1,17 +1,44 @@
-function Get-HuduList {
+function Get-HuduLists {
+    <#
+    .SYNOPSIS
+    Get a list of Hudu Lists or List by ID
+
+    .DESCRIPTION
+    Calls the Hudu API to retrieve all Lists. Optionally filter by exact name.
+
+    .PARAMETER Name
+    Filter by exact list name (optional)
+
+    .PARAMETER Id
+    ID of the list to retrieve
+
+    .EXAMPLE
+    Get-HuduListById -Id 123
+
+    .EXAMPLE
+    Get-HuduLists
+
+    .EXAMPLE
+    Get-HuduLists -Name "Device Status"
+
+#>    
     [CmdletBinding()]
     param(
-        [string]$Name
+        [string]$Name,
+        [int]$Id
     )
 
-    $response = Invoke-HuduRequest -Method GET -Resource "/api/v1/lists"
+
+    if ($null -ne $Id) {
+        $response = Invoke-HuduRequest -Method GET -Resource "/api/v1/lists/$Id"
+    } else {
+        $response = Invoke-HuduRequest -Method GET -Resource "/api/v1/lists"
+    }
 
     if (-not $response) {
-        Write-Warning "⚠️ No lists returned from Hudu."
         return $null
     }
 
-    # Flat array (not wrapped)
     $lists = $response
 
     if ($Name) {
@@ -23,6 +50,5 @@ function Get-HuduList {
             return $null
         }
     }
-
     return $lists
 }

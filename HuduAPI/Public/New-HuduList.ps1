@@ -1,4 +1,21 @@
 function New-HuduList {
+    <#
+    .SYNOPSIS
+    Create a new Hudu List
+
+    .DESCRIPTION
+    Calls the Hudu API to create a new List with the specified name and items.
+
+    .PARAMETER Name
+    Name of the new list
+
+    .PARAMETER Items
+    An array of item names to include in the list
+
+    .EXAMPLE
+    New-HuduList -Name "Device Status" -Items @("Online", "Offline", "Decommissioned")
+
+    #>    
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
