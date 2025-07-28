@@ -83,13 +83,22 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
                                               -Description $ProcedureDescription `
                                               -CompanyTemplate $true).procedure
 
+        Write-Host "Created process template: $($createdTemplateProcedure.id)" -ForegroundColor Green
+
         # 1.5 Create copy from template of procedure
         $createdProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id -CompanyId $testCompanyId)
+        Write-Host "Created process fron template $($createdProcedureFromTemplate.id)" -ForegroundColor Green
 
         # 1.6 Create gloabl template of procedure
         $createdGlobalProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id)
+        Write-Host "Created global process template $($createdGlobalProcedureFromTemplate.id)" -ForegroundColor Green
 
-    
+        # 1.7 Kick off a procedure against first asset of test company
+        $target_asset=$(Get-HuduAssets -CompanyId $testCompanyId | Select-Object -First 1).asset
+        $kickoff = Start-HuduProcedure -id $createdProcedureFromTemplate.id -AssetId $target_asset.id -name "kickoff -$($target_asset.name)"
+        $kickoff | Get-Member
+        Write-Host "Kicked off new process $($kickoff.id) against asset $($target_asset.id)" -ForegroundColor Green
+
         $proceduresToCleanup = @(
             $ProcedureWithTasks.id, $createdProcedureFromTemplate.id, $createdGlobalProcedureFromTemplate.id
         )
