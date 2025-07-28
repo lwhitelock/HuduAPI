@@ -16,13 +16,12 @@ function Remove-HuduProcedure {
     param (
         [Parameter(Mandatory)] [int]$Id
     )
-
-    if ($PSCmdlet.ShouldProcess("Procedure ID $Id", "Delete procedure")) {
-        try {
-            Invoke-HuduRequest -Method DELETE -Resource "/api/v1/procedures/$Id"
-            Write-Host "✅ Successfully deleted procedure ID $Id" -ForegroundColor Green
-        } catch {
-            Write-Warning "⚠️ Failed to delete procedure ID $Id"
-        }
+    $response = $null
+    try {
+        $response = Invoke-HuduRequest -Method DELETE -Resource "/api/v1/procedures/$Id"
+        Write-Host "Successfully deleted procedure ID $Id" -ForegroundColor Green
+    } catch {
+        Write-Warning "Failed to delete procedure ID $Id"
     }
+    return $response
 }

@@ -26,21 +26,18 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
     It "Creates, retrieves, updates, and deletes a Procedure (with tasks), switches to procedure template, creates from template, duplicates, then cleans up" {
 
     # Test 1- Create Procedure, Assign Tasks, Modify Tasks, Remove Tasks, Modify Procedure, Clean Up
-        # 1.1 Create
+        # 1.1 Create Procedure (parent object)
         $ProcedureName = "Procedure-$(Get-Random)"
         $ProcedureTasksCount = $(Get-Random -Minimum $MinProcedureTaskCount -Maximum $MaxProcedureTaskCount)
-        $ProcedureDescription = "(from Huduapi module integration tests). Procedure $ProcedureName will have $ProcedureTasksCount Procedures assigned to Company $testCompanyId."
-        
-        Write-host "$ProcedureDescription... Creating" -ForegroundColor Green
-
+        $ProcedureDescription = "Procedure $ProcedureName with $ProcedureTasksCount assigned procedures for Company $testCompanyId."
+        Write-host "$ProcedureDescription... Creating now!" -ForegroundColor Green
         $createdProcedure = $(New-HuduProcedure -CompanyId $testCompanyId `
                                               -Name $ProcedureName `
                                               -Description $ProcedureDescription).procedure
-
         $createdProcedure | ConvertTo-Json -Depth 6 | Write-Host
-        Write-host "Created tasks will be assigned to user $testUserId and Due By $DueDate with priority of $Priority"
+        Write-host "Created New Procedure $($createdProcedure.name)... Procedure tasks will be assigned to user $testUserId with random Due date and Priority"
         
-
+        # 1.2 Create Procedure Tasks under this procedure
         $ProposedProcedureTasks = @()        
         $CreatedProcedureTasks = @()
 
@@ -74,12 +71,32 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         $ProcedureWithTasks.name | Should -Be $ProcedureName
         $ProcedureWithTasks.description | Should -Be $ProcedureDescription
 
+        # Remove for now, not sure copy is working correctly?
+        # 1.3 Create a copy of this procedure before modifying tasks, compare to original or copied values    
+        # Write-Host "Copying Procedure with tasks before modifying tasks!"
+        # Copy-HuduProcedure -id $createdProcedure.id -name "copy-$($createdProcedure.name)"
 
+        # 1.4 
+        # Create a template version of this procedure to copy template from procedure
+        $createdTemplateProcedure = $(New-HuduProcedure -CompanyId $testCompanyId `
+                                              -Name "Template-$ProcedureName" `
+                                              -Description $ProcedureDescription `
+                                              -CompanyTemplate $true).procedure
+
+        # 1.5 Create copy from template of procedure
+        $createdProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id -CompanyId $testCompanyId)
+
+        # 1.6 Create gloabl template of procedure
+        $createdGlobalProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id)
+
+    
+        $proceduresToCleanup = @(
+            $ProcedureWithTasks.id, $createdProcedureFromTemplate.id, $createdGlobalProcedureFromTemplate.id
+        )
 
         foreach ($task in $CreatedProcedureTasks) {
             $original = $original = Get-HuduProcedureTasks -Id $task.id
             $modifiedName = $(if ($(Get-Random -Minimum 0 -Maximum 1) -eq 0) {"A-$(Get-Random -Minimum 256 -Maximum 512)-$($original.Name)"} else {"Z-$($original.Name)$(Get-Random -Minimum 256 -Maximum 512)"})
-            $dueDateStr = $original.due_date
             $newDueDate = (Get-Date).AddDays((Get-Random -Minimum 4 -Maximum 8))
             $newDueDateFormatted = $newDueDate.ToString("yyyy-MM-dd")
             $newPriority = $priorities | Get-Random
@@ -110,6 +127,9 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
 
             Write-Host "Modified Task $($updatedProcedureTask.Name) checks out, cleaning up"
             Remove-HuduProcedureTask -id $updatedProcedureTask.id
+        }
+        foreach ($procedureId in $proceduresToCleanup) {
+            Remove-HuduProcedure -id $procedureId
         }
     }
 }
