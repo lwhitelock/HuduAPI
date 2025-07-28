@@ -15,9 +15,6 @@ function Get-HuduProcedures {
     .PARAMETER Name
     Fitler by name of article
 
-    .PARAMETER Slug
-    Filter by url slug
-
     .PARAMETER GlobalTemplate
     Filter for global templates (true/false)
 
@@ -43,7 +40,6 @@ function Get-HuduProcedures {
         [Alias('company_id')]
         [Int]$CompanyId = '',
         [String]$Name = '',
-        [String]$Slug,
         [string]$GlobalTemplate,
         [int]$CompanyTemplate,
         [int]$ParentProcedureId
