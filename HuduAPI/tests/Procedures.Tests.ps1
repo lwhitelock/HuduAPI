@@ -45,7 +45,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
             $newTask = @{
                 ProcedureId   = $createdProcedure.id
                 Name          = "$ProcedureName-Task-$i"
-                DueDate       = (Get-Date).AddDays((Get-Random -Minimum -5 -Maximum 15)).ToString("yyyy-MM-dd")
+                DueDate       = (Get-Date).AddHours((Get-Random -Minimum -5 -Maximum 15)).AddMonths((Get-Random -Minimum -5 -Maximum 15)).AddDays((Get-Random -Minimum -5 -Maximum 15)).ToString("yyyy-MM-dd")
                 Description   = "Task $i of $ProcedureTasksCount for $ProcedureName"
                 Priority      = $priorities | Get-Random
                 UserId        = $testUserId
@@ -100,7 +100,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         Write-Host "Kicked off new process $($kickoff.id) against asset $($target_asset.id)" -ForegroundColor Green
 
         $proceduresToCleanup = @(
-            $ProcedureWithTasks.id,  $createdProcedureFromTemplate.id, $createdGlobalProcedureFromTemplate.id
+           $createdGlobalProcedureFromTemplate.id, $createdProcedureFromTemplate.id, $createdTemplateProcedure.id,  $ProcedureWithTasks.id 
         )
 
         foreach ($task in $CreatedProcedureTasks) {
