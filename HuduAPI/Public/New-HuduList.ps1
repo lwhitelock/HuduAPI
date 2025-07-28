@@ -14,8 +14,7 @@ function New-HuduList {
 
     .EXAMPLE
     New-HuduList -Name "Device Status" -Items @("Online", "Offline", "Decommissioned")
-
-    #>    
+    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
@@ -25,25 +24,20 @@ function New-HuduList {
         [string[]]$Items
     )
 
+    $listItems = $Items | ForEach-Object { @{ name = $_ } }
+
     $payload = @{
         list = @{
             name = $Name
-            list_items_attributes = @()
+            list_items_attributes = $listItems
         }
-    }
-
-    foreach ($item in $Items) {
-        $payload.list.list_items_attributes += @{ name = $item }
-    }
-
-    $jsonBody = $payload | ConvertTo-Json -Depth 100
+    } | ConvertTo-Json -Depth 10
 
     try {
-        $response = Invoke-HuduRequest -Method POST -Resource "/api/v1/lists" -Body $jsonBody
-        if ($response) {
-            return $($response | ConvertFrom-Json -depth 6)
-        }
+        $response = Invoke-HuduRequest -Method POST -Resource "/api/v1/lists" -Body $payload
+        return $response
     } catch {
+        Write-Warning "Failed to create list '$Name'"
         return $null
     }
 }

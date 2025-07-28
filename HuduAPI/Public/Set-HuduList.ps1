@@ -1,4 +1,4 @@
-function Update-HuduList {
+function Set-HuduList {
     <#
     .SYNOPSIS
     Update an existing Hudu List
@@ -21,8 +21,7 @@ function Update-HuduList {
         @{ name = "New Value" },
         @{ id = 2; _destroy = $true }
     )
-
-    #>    
+    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
@@ -40,15 +39,11 @@ function Update-HuduList {
             name = $Name
             list_items_attributes = $ListItems
         }
-    }
-
-    $jsonBody = $payload | ConvertTo-Json -Depth 100
+    } | ConvertTo-Json -Depth 10
 
     try {
-        $response = Invoke-HuduRequest -Method PUT -Resource "/api/v1/lists/$Id" -Body $jsonBody
-        if ($response) {
-            return $response | ConvertFrom-Json -Depth 6
-        }
+        $response = Invoke-HuduRequest -Method PUT -Resource "/api/v1/lists/$Id" -Body $payload
+        return $response
     } catch {
         Write-Warning "Failed to update list with ID $Id"
         return $null
