@@ -49,6 +49,7 @@ function Set-HuduProcedureTask {
         [int]$Position,
         [int]$UserId,
         [string]$DueDate,
+        [ValidateSet("unsure", "low", "normal", "high", "urgent")]
         [string]$Priority,
         [int[]]$AssignedUsers
     )

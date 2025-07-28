@@ -16,7 +16,7 @@ function New-HuduProcedureTask {
     Optional task description
 
     .PARAMETER Priority
-    Optional priority level (e.g., 'unsure', 'low', 'medium', 'high')
+    Optional priority level (e.g., "unsure", "low", "normal", "high", "urgent")
 
     .PARAMETER UserId
     Optional single user assignment
@@ -38,7 +38,7 @@ function New-HuduProcedureTask {
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$ProcedureId,
         [string]$Description,
-        [ValidateSet("unsure", "low", "medium", "high")]
+        [ValidateSet("unsure", "low", "normal", "high", "urgent")]
         [string]$Priority,
         [int]$UserId,
         [int[]]$AssignedUsers,

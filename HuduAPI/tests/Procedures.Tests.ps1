@@ -14,8 +14,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         new-hudubaseurl $hudu_base_url
         new-huduapikey $hudu_api_key
         Write-Host "setting up test for Procedures and Procedure Tasks, Hudu version $((Get-HuduAppInfo).version)... Prerequisites:`n1: test environment must have a predefined Company, Asset, and User."
-        $priorities = @("unsure", "low", "medium", "high")
-        $TemplateOptions = @($false, $true)
+        $priorities = @("unsure", "low", "normal", "high", "urgent")
         $testCompanyId        = [int]$env:HUDU_TEST_COMPANY_ID ?? $(Get-HuduCompanies | Select-Object -First 1).id
         $testUserId           = [int]$env:HUDU_TEST_USER_ID ?? $(Get-HuduUsers | Select-Object -First 1).id
 
@@ -31,42 +30,42 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         $ProcedureName = "Procedure-$(Get-Random)"
         $ProcedureTasksCount = $(Get-Random -Minimum $MinProcedureTaskCount -Maximum $MaxProcedureTaskCount)
         $ProcedureDescription = "(from Huduapi module integration tests). Procedure $ProcedureName will have $ProcedureTasksCount Procedures assigned to Company $testCompanyId."
+        
         Write-host "$ProcedureDescription... Creating" -ForegroundColor Green
 
         $createdProcedure = New-HuduProcedure -CompanyId $testCompanyId `
                                               -Name $ProcedureName `
-                                              -Description $ProcedureDescription `
-                                              -AssignedUsers @($testUserId) `
-                                              -Priority $Priority
+                                              -Description $ProcedureDescription
 
-        Write-Host "Created Procedure $($createdProcedure | ConvertFrom-json -Depth 6 | Out-String)"
+        $createdProcedure | ConvertTo-Json -Depth 6 | Write-Host
         Write-host "Created tasks will be assigned to user $testUserId and Due By $DueDate with priority of $Priority"
         
 
         $ProposedProcedureTasks = @()        
         $CreatedProcedureTasks = @()
-        $ProcedureTaskIDX = 0
-        foreach ($genProcedureTask in $ProcedureTasksCount){
-            $ProcedureTaskIDX = $ProcedureTaskIDX +1
-            $newProcedureTask = @{
-                Name = "$ProcedureName-Task-$($genProcedureTask)"
-                ProcedureId = $createdProcedure.Id
-                DueDate = $((get-date).AddDays($(Get-Random -Minimum -5 -Maximum 15)).AddMonths($(Get-Random -Minimum -10 -Maximum 10)))
-                Description = "Procedure from integration tests Number $ProcedureTaskIDX of $ProcedureTasksCount for Procedure $ProcedureName"
-                Priority = $priorities[(Get-Random -Minimum 0 -Maximum $priorities.Length)]
-                UserID = $testUserId
+
+        for ($i = 1; $i -le $ProcedureTasksCount; $i++) {
+            $newTask = @{
+                Name          = "$ProcedureName-Task-$i"
+                ProcedureId   = $createdProcedure.id
+                DueDate       = (Get-Date).AddDays((Get-Random -Minimum -5 -Maximum 15)).ToString("yyyy-MM-dd")
+                Description   = "Task $i of $ProcedureTasksCount for $ProcedureName"
+                Priority      = $priorities | Get-Random
+                UserId        = $testUserId
                 AssignedUsers = @($testUserId)
             }
-            $ProposedProcedureTasks += $newProcedureTask
-            Write-Host "Creating Procedure Task $ProcedureTaskIDX with DueDate $($newProcedureTask.DueDate) and priority $($newProcedureTask.Priority) for Procedure $($newProcedureTask.ProcedureId)"
+
+            $ProposedProcedureTasks += $newTask
+
+            Write-Host "Creating Procedure Task $i → Due: $($newTask.DueDate), Priority: $($newTask.Priority)"
+
             try {
-                $CreatedProcedureTask = New-HuduProcedureTask @newProcedureTask
+                $CreatedProcedureTask = New-HuduProcedureTask @newTask
                 $CreatedProcedureTasks += $CreatedProcedureTask
             } catch {
-                Write-Error $_
+                Write-Error "Failed to create task $i... $_"
             }
         }
-
         $ProcedureWithTasks=Get-HuduProcedures -id $createdProcedure.id
 
         $ProcedureWithTasks.procedure_task_attributes | Should -Not -BeNullOrEmpty
