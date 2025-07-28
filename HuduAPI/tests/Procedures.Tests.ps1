@@ -33,9 +33,9 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         
         Write-host "$ProcedureDescription... Creating" -ForegroundColor Green
 
-        $createdProcedure = New-HuduProcedure -CompanyId $testCompanyId `
+        $createdProcedure = $(New-HuduProcedure -CompanyId $testCompanyId `
                                               -Name $ProcedureName `
-                                              -Description $ProcedureDescription
+                                              -Description $ProcedureDescription).procedure
 
         $createdProcedure | ConvertTo-Json -Depth 6 | Write-Host
         Write-host "Created tasks will be assigned to user $testUserId and Due By $DueDate with priority of $Priority"
@@ -46,8 +46,8 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
 
         for ($i = 1; $i -le $ProcedureTasksCount; $i++) {
             $newTask = @{
-                Name          = "$ProcedureName-Task-$i"
                 ProcedureId   = $createdProcedure.id
+                Name          = "$ProcedureName-Task-$i"
                 DueDate       = (Get-Date).AddDays((Get-Random -Minimum -5 -Maximum 15)).ToString("yyyy-MM-dd")
                 Description   = "Task $i of $ProcedureTasksCount for $ProcedureName"
                 Priority      = $priorities | Get-Random
@@ -66,7 +66,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
                 Write-Error "Failed to create task $i... $_"
             }
         }
-        $ProcedureWithTasks=Get-HuduProcedures -id $createdProcedure.id
+        $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id).procedure
 
         $ProcedureWithTasks.procedure_task_attributes | Should -Not -BeNullOrEmpty
         $ProcedureWithTasks.procedure_task_attributes.Count | Should -Be $ProcedureTasksCount
