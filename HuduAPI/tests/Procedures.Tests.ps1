@@ -100,7 +100,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         Write-Host "Kicked off new process $($kickoff.id) against asset $($target_asset.id)" -ForegroundColor Green
 
         $proceduresToCleanup = @(
-            $ProcedureWithTasks.id, $createdTemplateProcedure.id, $createdProcedureFromTemplate.id, $createdGlobalProcedureFromTemplate.id
+            $ProcedureWithTasks.id,  $createdProcedureFromTemplate.id, $createdGlobalProcedureFromTemplate.id
         )
 
         foreach ($task in $CreatedProcedureTasks) {
