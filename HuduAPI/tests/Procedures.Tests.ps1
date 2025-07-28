@@ -66,11 +66,50 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
                 Write-Error "Failed to create task $i... $_"
             }
         }
-        $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id)
 
+
+        $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id)
         $ProcedureWithTasks.procedure_tasks_attributes | Should -Not -BeNullOrEmpty
         $ProcedureWithTasks.procedure_tasks_attributes.Count | Should -Be $ProcedureTasksCount
+        $ProcedureWithTasks.name | Should -Be $ProcedureName
+        $ProcedureWithTasks.description | Should -Be $ProcedureDescription
 
+
+
+        foreach ($task in $CreatedProcedureTasks) {
+            $original = $original = Get-HuduProcedureTasks -Id $task.id
+            $modifiedName = $(if ($(Get-Random -Minimum 0 -Maximum 1) -eq 0) {"A-$(Get-Random -Minimum 256 -Maximum 512)-$($original.Name)"} else {"Z-$($original.Name)$(Get-Random -Minimum 256 -Maximum 512)"})
+            $dueDateStr = $original.due_date
+            $newDueDate = (Get-Date).AddDays((Get-Random -Minimum 4 -Maximum 8))
+            $newDueDateFormatted = $newDueDate.ToString("yyyy-MM-dd")
+            $newPriority = $priorities | Get-Random
+            $NewDescription = "ModifiedDescription-$(Get-Random -Minimum 0 -Maximum 9999) --- $($original.Description)"
+            Write-Host "Modifying Procedure Task Name $($original.Name) → $modifiedName"
+            Write-Host "Modifying Procedure Task Description $($original.description) → $NewDescription"
+            Write-Host "Modifying Procedure Task Due Date $($OriginalDueDateObj) → $newDueDate"
+            Write-Host "Modifying Procedure Task Priority $($original.priority) → $newPriority"
+            Write-Host "Modifying Procedure Task [removing assigned users]"
+            $updatedProcedureTask = $(Set-HuduProcedureTask -id $original.Id `
+                                                   -DueDate $newDueDateFormatted `
+                                                   -Name $modifiedName `
+                                                   -Priority $newPriority `
+                                                   -Description $NewDescription `
+                                                   -AssignedUsers @())
+
+            $updatedProcedureTask.name | Should -Not -Be $original.name
+            $updatedProcedureTask.name | Should -Be $modifiedName
+            $UpdatedDueDate = [datetime]::ParseExact($updatedProcedureTask.due_date, "yyyy-MM-dd", $null)
+
+            $UpdatedDueDate | Should -Not -Be $OriginalDueDateObj
+            $UpdatedDueDate.ToString("yyyy-MM-dd") | Should -Be $newDueDateFormatted
+
+            $updatedProcedureTask.priority | Should -Be $newPriority
+
+            $updatedProcedureTask.description | Should -Not -Be $original.description
+            $updatedProcedureTask.description | Should -Be $NewDescription
+
+            Write-Host "Modified Task $($updatedProcedureTask.Name) checks out, cleaning up"
+            Remove-HuduProcedureTask -id $updatedProcedureTask.id
+        }
     }
-
 }
