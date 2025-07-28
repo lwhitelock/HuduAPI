@@ -9,7 +9,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         $HUDU_API_KEY     = $env:HUDU_API_KEY     ?? "$(read-host "enter hudu api key for rackstorage test")"
         $HUDU_BASE_URL    = $env:HUDU_BASE_URL    ?? "$(read-host "enter hudu base url for rackstorage test")"
         $MinProcedureTaskCount = 1
-        $MaxProcedureTaskCount = 12
+        $MaxProcedureTaskCount = 36
 
         new-hudubaseurl $hudu_base_url
         new-huduapikey $hudu_api_key
@@ -66,10 +66,11 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
                 Write-Error "Failed to create task $i... $_"
             }
         }
-        $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id).procedure
+        $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id)
 
-        $ProcedureWithTasks.procedure_task_attributes | Should -Not -BeNullOrEmpty
-        $ProcedureWithTasks.procedure_task_attributes.Count | Should -Be $ProcedureTasksCount
+        $ProcedureWithTasks.procedure_tasks_attributes | Should -Not -BeNullOrEmpty
+        $ProcedureWithTasks.procedure_tasks_attributes.Count | Should -Be $ProcedureTasksCount
 
     }
+
 }
