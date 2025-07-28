@@ -69,7 +69,9 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport =	'Get-HuduActivityLogs',
+    FunctionsToExport =	
+    'Copy-HuduProcedure',
+    'Get-HuduActivityLogs',
     'Get-HuduAPIKey',
     'Get-HuduAppInfo',
     'Get-HuduArticles',
@@ -88,7 +90,7 @@
     'Get-HuduLists',
     'Get-HuduMagicDashes',
     'Get-HuduPasswords',
-    'Get-HuduProcesses',
+    'Get-HuduProcedures',
     'Get-HuduPublicPhotos',
     'Get-HuduRackStorageItems',
     'Get-HuduRackStorages',
@@ -109,6 +111,8 @@
     'New-HuduList',
     'New-HuduPassword',
     'New-HuduPublicPhoto',
+    'New-HuduProcedure',
+    'New-HuduProcedureFromTemplate',
     'New-HuduRackStorageItem',
     'New-HuduRackStorage',    
     'New-HuduRelation',
@@ -123,6 +127,7 @@
     'Remove-HuduList',
     'Remove-HuduMagicDash',
     'Remove-HuduPassword',
+    'Remove-HuduProcedure',
     'Remove-HuduRackStorageItem',
     'Remove-HuduRackStorage',    
     'Remove-HuduRelation',
@@ -140,11 +145,13 @@
     'Set-HuduIntegrationMatcher',
     'Set-HuduList',
     'Set-HuduMagicDash',
+    'Set-HuduProcedure',
     'Set-HuduPassword',
     'Set-HuduPasswordArchive',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
-    'Set-HuduWebsite'
+    'Set-HuduWebsite',
+    'Start-HuduProcedure'
 
 
 
