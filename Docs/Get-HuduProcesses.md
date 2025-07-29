@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduProcesses
+# Get-HuduProcedures
 
 ## SYNOPSIS
 Get a list of Procedures (Processes)
@@ -13,7 +13,7 @@ Get a list of Procedures (Processes)
 ## SYNTAX
 
 ```
-Get-HuduProcesses [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
+Get-HuduProcedures [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
  [<CommonParameters>]
 ```
 

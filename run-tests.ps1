@@ -33,7 +33,7 @@ if (Test-Path $envFile) {
 }
 
 # Validate env vars
-$requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL", "HUDU_TEST_RACK_ROLE_ID"
+$requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL", "HUDU_TEST_RACK_ROLE_ID", "HUDU_TEST_USER_ID", "HUDU_TEST_COMPANY_ID"
 foreach ($var in $requiredVars) {
     if (-not (Get-Item "env:$var" -ErrorAction SilentlyContinue)) {
         throw "Missing required environment variable: $var"

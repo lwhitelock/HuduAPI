@@ -37,7 +37,7 @@ Added the ability to set primary_serial, primary_mail, primary_model, primary_ma
 Set fields to be optional for New-HuduAsset and Set-HuduAsset
 ```
 ### Version 2.0.0-alpha1
-Added Get-HuduProcesses
+Added Get-HuduProcedures
 ### Version 2.0.0-alpha
 ```
 Added support for 2.1.5.8
