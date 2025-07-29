@@ -64,6 +64,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
             }
         }
 
+        # 1.3 Check Tasks under this procedure
 
         $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id)
         $ProcedureWithTasks.procedure_tasks_attributes | Should -Not -BeNullOrEmpty
@@ -74,6 +75,7 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
             $ProcedureWithTasks.id 
         )
 
+        # 1.4 Modify each task and validate expected results
         foreach ($task in $CreatedProcedureTasks) {
             $original = $original = Get-HuduProcedureTasks -Id $task.id
             $modifiedName = $(if ($(Get-Random -Minimum 0 -Maximum 1) -eq 0) {"A-$(Get-Random -Minimum 256 -Maximum 512)-$($original.Name)"} else {"Z-$($original.Name)$(Get-Random -Minimum 256 -Maximum 512)"})
@@ -114,8 +116,8 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
     }
 It "Creates a Procedure (with tasks), switches to procedure template, creates from template, kicks off against asset, then cleans up" {
 
-    # Test 1- Create Procedure, Assign Tasks, Modify Tasks, Remove Tasks, Modify Procedure, Clean Up
-        # 1.1 Create Procedure (parent object)
+    # Test 2- Create Procedure, Assign Tasks, Modify Tasks, Remove Tasks, Modify Procedure, Clean Up
+        # 2.1 Create Procedure (parent object)
         $ProcedureName = "Procedure-$(Get-Random)"
         $ProcedureTasksCount = $(Get-Random -Minimum $MinProcedureTaskCount -Maximum 6)
         $ProcedureDescription = "Procedure $ProcedureName with $ProcedureTasksCount assigned procedures for Company $testCompanyId."
@@ -126,7 +128,7 @@ It "Creates a Procedure (with tasks), switches to procedure template, creates fr
         $createdProcedure | ConvertTo-Json -Depth 6 | Write-Host
         Write-host "Created New Procedure $($createdProcedure.name)... Procedure tasks will be assigned to user $testUserId with random Due date and Priority"
         
-        # 1.2 Create Procedure Tasks under this procedure
+        # 2.2 Create Procedure Tasks under this procedure
         $ProposedProcedureTasks = @()        
         $CreatedProcedureTasks = @()
 
@@ -161,15 +163,15 @@ It "Creates a Procedure (with tasks), switches to procedure template, creates fr
 
         Write-Host "Created process template: $($createdTemplateProcedure.id)" -ForegroundColor Green
 
-        # 1.5 Create copy from template of procedure
+        # 2.5 Create copy from template of procedure
         $createdProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id -CompanyId $testCompanyId)
         Write-Host "Created process fron template $($createdProcedureFromTemplate.id)" -ForegroundColor Green
 
-        # 1.6 Create gloabl template of procedure
+        # 2.6 Create gloabl template of procedure
         $createdGlobalProcedureFromTemplate = $(New-HuduProcedureFromTemplate -id $createdTemplateProcedure.id)
         Write-Host "Created global process template $($createdGlobalProcedureFromTemplate.id)" -ForegroundColor Green
 
-        # 1.7 Kick off a procedure against first asset of test company
+        # 2.7 Kick off a procedure against first asset of test company
         $target_asset=$(Get-HuduAssets -CompanyId $testCompanyId | Select-Object -First 1).asset
         $kickoff = Start-HuduProcedure -id $createdProcedureFromTemplate.id -AssetId $target_asset.id -name "kickoff -$($target_asset.name)"
         $kickoff | Get-Member
