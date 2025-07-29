@@ -34,7 +34,9 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
         $createdProcedure = $(New-HuduProcedure -CompanyId $testCompanyId `
                                               -Name $ProcedureName `
                                               -Description $ProcedureDescription).procedure
-        $createdProcedure | ConvertTo-Json -Depth 6 | Write-Host
+
+        $createdProcedure.name | Should -Be $ProcedureName
+        $createdProcedure.description | Should -Be $ProcedureDescription
         Write-host "Created New Procedure $($createdProcedure.name)... Procedure tasks will be assigned to user $testUserId with random Due date and Priority"
         
         # 1.2 Create Procedure Tasks under this procedure
@@ -64,13 +66,12 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
             }
         }
 
-        # 1.3 Check Tasks under this procedure
-
+        # 1.3 Fetch / Check Tasks under this procedure
         $ProcedureWithTasks=$(Get-HuduProcedures -id $createdProcedure.id)
+        $ProcedureWithTasks.name | Should -Be $ProcedureName
+        $ProcedureWithTasks.description | Should -Be $ProcedureDescription        
         $ProcedureWithTasks.procedure_tasks_attributes | Should -Not -BeNullOrEmpty
         $ProcedureWithTasks.procedure_tasks_attributes.Count | Should -Be $ProcedureTasksCount
-        $ProcedureWithTasks.name | Should -Be $ProcedureName
-        $ProcedureWithTasks.description | Should -Be $ProcedureDescription
         $proceduresToCleanup = @(
             $ProcedureWithTasks.id 
         )
@@ -154,8 +155,14 @@ It "Creates a Procedure (with tasks), switches to procedure template, creates fr
                 Write-Error "Failed to create task $i... $_"
             }
         }
+        # 2.3 Rename procedure and check name
+        $updatedProcedure = Set-HuduProcedure -Id $createdProcedure.id -Name "newname-$($createdProcedure.Name)" -CompanyId $testCompanyId
+        $updatedProcedure.name | Should -Not -Be $ProcedureName
+        $updatedProcedure.name | Should -Be "newname-$($createdProcedure.Name)"
+        $updatedProcedure.id | Should -Be $createdProcedure.id
 
-        # Create a template version of this procedure to copy template from procedure
+
+        # 2.4 Create a template version of this procedure to copy template from procedure
         $createdTemplateProcedure = $(New-HuduProcedure -CompanyId $testCompanyId `
                                               -Name "Template-$ProcedureName" `
                                               -Description $ProcedureDescription `
