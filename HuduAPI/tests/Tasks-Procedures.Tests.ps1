@@ -109,8 +109,11 @@ Context "Hudu Procedures and Procedure Tasks Integration Tests" {
             $updatedProcedureTask.description | Should -Be $NewDescription
 
             Write-Host "Modified Task $($updatedProcedureTask.Name) checks out, cleaning up"
+
+            # 1.5 Clean-Up tasks
             Remove-HuduProcedureTask -id $updatedProcedureTask.id
         }
+        # 1.6 Clean-Up procedures
         foreach ($procedureId in $proceduresToCleanup) {
             Remove-HuduProcedure -id $procedureId
         }
@@ -187,6 +190,7 @@ It "Creates a Procedure (with tasks), switches to procedure template, creates fr
         $proceduresToCleanup = @(
            $createdGlobalProcedureFromTemplate.id, $createdProcedureFromTemplate.id, $createdTemplateProcedure.id,  $createdProcedure.id 
         )
+        # 2.8 Clean up procedures
 
         foreach ($procedureId in $proceduresToCleanup) {
             Remove-HuduProcedure -id $procedureId
