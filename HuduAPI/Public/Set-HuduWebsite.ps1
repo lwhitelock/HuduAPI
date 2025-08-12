@@ -30,6 +30,15 @@ function Set-HuduWebsite {
     .PARAMETER DisableWhois
     When true, whois monitoring is paused.
 
+    .PARAMETER EnableDMARC
+    When true, DMARC monitoring is enabled.
+    
+    .PARAMETER EnableDKIM
+    When true, DKIM monitoring is enabled.
+    
+    .PARAMETER EnableSPF
+    When true, SPF monitoring is enabled.
+
     .PARAMETER Slug
     Url identifier
 
@@ -42,7 +51,7 @@ function Set-HuduWebsite {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [String]$Name,
 
         [String]$Notes = '',
@@ -50,7 +59,7 @@ function Set-HuduWebsite {
         [String]$Paused = '',
 
         [Alias('company_id')]
-        [Parameter(Mandatory = $true)]
+        [Parameter()]
         [Int]$CompanyId,
 
         [Alias('disable_dns')]
@@ -62,40 +71,69 @@ function Set-HuduWebsite {
         [Alias('disable_whois')]
         [String]$DisableWhois = '',
 
+        [Alias('enable_dmarc')]
+        [String]$EnableDMARC = '',
+
+        [Alias('enable_dkim')]
+        [String]$EnableDKIM = '',
+
+        [Alias('enable_spf')]
+        [String]$EnableSPF = '',
+
         [string]$Slug
     )
+    
+    $Object = Get-HuduWebsites -Id $Id
+    if (-not $Object) {
+        Throw "Website with Id $Id not found or invalid object returned."
+    }
+    $Website = [ordered]@{website = $Object }
 
-    $Website = [ordered]@{website = [ordered]@{} }
-
-    $Website.website.add('name', $Name)
+    If ($Name) {
+        $Website.website.name = $Name
+    }
 
     if ($Notes) {
-        $Website.website.add('notes', $Notes)
+        $Website.website.notes = $Notes
     }
 
     if ($Paused) {
-        $Website.website.add('paused', $Paused)
+        $Website.website.paused = $Paused
     }
 
-    $Website.website.add('company_id', $companyid)
+    if ($CompanyId) {
+        $Website.website.company_id = $companyid
+    }
 
     if ($DisableDNS) {
-        $Website.website.add('disable_dns', $DisableDNS)
+        $Website.website.disable_dns = $DisableDNS
     }
 
     if ($DisableSSL) {
-        $Website.website.add('disable_ssl', $DisableSSL)
+        $Website.website.disable_ssl = $DisableSSL
     }
 
     if ($DisableWhois) {
-        $Website.website.add('disable_whois', $DisableWhois)
+        $Website.website.disable_whois = $DisableWhois
     }
 
     if ($Slug) {
-        $Website.website.add('slug', $Slug)
+        $Website.website.slug = $Slug
     }
 
-    $JSON = $Website | ConvertTo-Json
+    if ($EnableDMARC) {
+        $Website.website.enable_dmarc_tracking = $EnableDMARC
+    }
+
+    if ($EnableDKIM) {
+        $Website.website.enable_dkim_tracking = $EnableDKIM
+    }
+
+    if ($EnableSPF) {
+        $Website.website.enable_spf_tracking = $EnableSPF
+    }
+
+    $JSON = $Website | ConvertTo-Json -Depth 10
 
     if ($PSCmdlet.ShouldProcess($Id)) {
         Invoke-HuduRequest -Method put -Resource "/api/v1/websites/$Id" -Body $JSON
