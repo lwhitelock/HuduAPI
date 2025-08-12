@@ -153,6 +153,7 @@
     'Set-HuduPasswordArchive',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
+    'Set-HuduWebsite',
     'Start-HuduProcedure'
 
 
