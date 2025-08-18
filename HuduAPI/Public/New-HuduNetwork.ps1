@@ -11,7 +11,7 @@ function New-HuduNetwork {
         [string]$Description,
         [int]$NetworkType,
         [int]$VlanId,
-        [bool]$Archived=$false
+        [string]$Archived
     )
     if (@($Name, $Address, $CompanyId) -contains $null) {
         Write-Warning "Missing required item."
@@ -20,7 +20,7 @@ function New-HuduNetwork {
 
 
     $network= @{
-        Name            = $Name
+        name            = $Name
         address         = $Address
         company_id      = $CompanyId
     }
@@ -38,7 +38,10 @@ function New-HuduNetwork {
     }
     if ($Archived){
         $network["archived"]=$Archived
+    } else {
+        $network["archived"]="false"
     }
+
     $payload = $network | ConvertTo-Json -depth 10
     try {
         $response = Invoke-HuduRequest -Method POST -Resource "/api/v1/networks" -Body $payload
