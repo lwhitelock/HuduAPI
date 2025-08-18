@@ -9,43 +9,41 @@ function Set-HuduNetwork {
         [int]$LocationId,
         [string]$Description,
         [int]$NetworkType,
-        [int]$VlanId,
-        [ValidateSet('true', 'True', 'False', 'false')]
-        [string]$Archived
+        [int]$VlanId
     )
-    $network = Get-HuduNetworks -id $Id
+    $object = Get-HuduNetworks -id $Id
+    $hudunetwork = [ordered]@{network = $object }
+
     if ($Name) {
-        $network.name = $name
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name
     }
     if ($Address) {
-        $network.address = $Address
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name address -Force -Value $Address
     }
     if ($CompanyId) {
-        $network.company_id = $CompanyId
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name company_id -Force -Value $CompanyId
     }
     if ($LocationId) {
-        $network.location_id = $LocationId
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name location_id -Force -Value $LocationId
     }
     if ($Description) {
-        $network.description = $Description
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
     }
     if ($NetworkType) {
-        $network.network_type = $NetworkType
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name network_type -Force -Value $NetworkType
     }
     if ($VlanId) {
-        $network.vlan_id = $VlanId
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name vlan_id -Force -Value $VlanId
     }
-    if ($Archived) {
-        $network.archived = "$Archived".ToLower()
-    }        
+ 
 
 
-    $payload = @{network = $network} | ConvertTo-Json -depth 10
+    $payload = $hudunetwork | ConvertTo-Json -depth 10
     try {
         $response = Invoke-HuduRequest -Method PUT -Resource "/api/v1/networks/$Id" -Body $payload
         return $response
     } catch {
-        Write-Warning "Failed to create network '$Name'"
+        Write-Warning "Failed to set network '$Id'"
         return $null
     }
 }

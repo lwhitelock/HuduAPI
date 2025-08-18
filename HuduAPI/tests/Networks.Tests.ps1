@@ -21,9 +21,9 @@ Context "Hudu Networks / IPAM Integration Tests" {
 
             if ($AvoidReservedFirstOctet) {
                 do { $b0 = Get-Random -Minimum 1 -Maximum 224 } while ($b0 -eq 127)
-                $bytes = @([byte]$b0) + (1..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 256) })
+                $bytes = @([byte]$b0) + (1..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 252) })
             } else {
-                $bytes = 0..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 256) }
+                $bytes = 0..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 252) }
             }
 
             $ip = [System.Net.IPAddress]::new($bytes)
@@ -38,25 +38,22 @@ Context "Hudu Networks / IPAM Integration Tests" {
             $netBytes = [BitConverter]::GetBytes($netInt); [array]::Reverse($netBytes)
             $netIp    = [System.Net.IPAddress]::new($netBytes)
 
-            "$netIp/$prefix"
+            return "$netIp/$prefix"
         }
     
     }
 
     It "Creates a number of randomly-generated networks/addresses" {
-        $MinPrefix = 8
-        $MaxPrefix = 30
-
         $addressesToCreate  = Get-Random -Minimum 10 -Maximum 16
         $allNetworks        = Get-HuduNetworks
         $addressCount       = ($allNetworks).Count
-        $createdNetworks    = New-Object System.Collections.Generic.List[hashtable]
-        $modifiedNetworks   = New-Object System.Collections.Generic.List[hashtable]
-        $archivedNetworks   = New-Object System.Collections.Generic.List[hashtable]
-        $deletedNetworks    = New-Object System.Collections.Generic.List[hashtable]
+        $createdNetworks    = @()
+        $modifiedNetworks   = @()
+        $archivedNetworks   = @()
+        $deletedNetworks    = @()
         Write-Host "Current Address count in Hudu is $addressCount. Set to create, check, update, check, then delete $addressesToCreate new addresses."
 
-        foreach ($i in 1..$numAddresses) {
+        for ($i = 1; $i -le $addressesToCreate; $i++) {
             $name = [Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()
             $newAddress = @{
                 Name        = "TestNetwork-$name"
@@ -64,7 +61,7 @@ Context "Hudu Networks / IPAM Integration Tests" {
                 CompanyId   = $testCompanyId
                 Description = "$([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()) is $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()) for $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant())"
             }
-            Write-Host "creating network $($newAddress.Name), $($newAddress.Address), $($newAddress.Description) for $($newAddress.CompanyId)"
+            Write-Host "creating network $($newAddress.Name), $($newAddress.Address), $($newAddress.Description) for company id: $($newAddress.CompanyId)"
             $createdNetwork = New-HuduNetwork -Name $newAddress.Name -CompanyId $newAddress.CompanyId -Description $newAddress.Description -Address $newAddress.address
             $createdNetwork.name | Should -Be $newAddress.Name
             $createdNetwork.description | Should -Be $newAddress.Description
@@ -74,7 +71,7 @@ Context "Hudu Networks / IPAM Integration Tests" {
             # $retrievedNetwork.description | Should -Be $createdNetwork.Description
             # $retrievedNetwork.company_id | Should -Be $createdNetwork.CompanyId
             # $retrievedNetwork.Address | Should -Be $createdNetwork.address
-            $createdNetworks+=$createdNetworks
+            $createdNetworks += $createdNetwork
         }
         Write-host "Successfully created/retrieved $($createdNetworks.count) Networks."
 
@@ -83,35 +80,37 @@ Context "Hudu Networks / IPAM Integration Tests" {
                 Name        = "$($originalAddress.name)-Modified-$([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(4)).ToLowerInvariant())"
                 Address     = $(Get-RandomIPV4Range)
                 CompanyId   = $testCompanyId
+                NetworkType = $(Get-Random -Minimum 0 -Maximum 4)
                 Description = "Modified $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant()) is $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant()) as $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant())"
             }
             Write-Host "Modifying network $($originalAddress.Name)=>$($modified.name), $($originalAddress.Address)=>$($modified.Address), $($originalAddress.Description)=>$($modified.Description) for address $($originalAddress.id)"
-            $modifiedNetwork=Set-HuduNetwork -id $modified.id -name $modified.name -CompanyId $modified.CompanyId -Description $modified.Description
+            $modifiedNetwork=Set-HuduNetwork -id $originalAddress.id -name $modified.name -CompanyId $modified.CompanyId -Description $modified.Description -NetworkType $modified.NetworkType -Address $modified.Address
             $modifiedNetwork.id | Should -Be $originalAddress.id
             $modifiedNetwork.name | Should -Be $modified.Name
             $modifiedNetwork.description | Should -Be $modified.Description
+            $modifiedNetwork.network_type | Should -Be $modified.NetworkType
             $modifiedNetwork.company_id | Should -Be $modified.CompanyId
-            $modifiedNetwork.Address | Should -Be $modified.address
+            $modifiedNetwork.address | Should -Be $modified.address
             $modifiedNetwork.name | Should -Not -Be $originalAddress.Name
             $modifiedNetwork.description | Should -Not -Be $originalAddress.Description
             $modifiedNetwork.company_id | Should -Not -Be $originalAddress.CompanyId
-            $modifiedNetwork.Address | Should -Not -Be $originalAddress.address
-            $modifiedNetworks+=$modifiedNetwork
+            $modifiedNetwork.address | Should -Not -Be $originalAddress.address
+            $modifiedNetworks += $modifiedNetwork
         }
 
         Write-host "Successfully modified $($modifiedNetworks.count) Networks."
         
         foreach ($modifiedAddress in $modifiedNetworks){
-            $archivedNetwork = Set-HuduNetwork -id $modifiedAddress -Archived 'true'
+            $archivedNetwork = Set-HuduNetwork -id $originalAddress.id -Archived 'true'
             @($true, "True", "true") | Should -contains -Be $archivedNetwork.archived
-            $archivedNetworks+=$archivedNetwork
+            $archivedNetworks += $archivedNetwork
         }
 
         Write-host "Successfully archived $($archivedNetworks.count) Networks."
 
 
         foreach ($archivedNetwork in $archivedNetworks){
-            $removedNetwork = Remove-HuduNetwork -id $archivedNetwork.id
+            $removedNetwork = Remove-HuduNetwork -id $originalAddress.id
             $deletedNetworks += $removedNetwork
         }
 

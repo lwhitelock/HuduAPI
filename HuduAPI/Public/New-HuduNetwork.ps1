@@ -10,8 +10,7 @@ function New-HuduNetwork {
         [int]$LocationId,
         [string]$Description,
         [int]$NetworkType,
-        [int]$VlanId,
-        [string]$Archived
+        [int]$VlanId
     )
     if (@($Name, $Address, $CompanyId) -contains $null) {
         Write-Warning "Missing required item."
@@ -36,11 +35,7 @@ function New-HuduNetwork {
     if ($vlanId){
         $network["vlan_id"]=$vlanId
     }
-    if ($Archived){
-        $network["archived"]=$Archived
-    } else {
-        $network["archived"]="false"
-    }
+
 
     $payload = $network | ConvertTo-Json -depth 10
     try {
