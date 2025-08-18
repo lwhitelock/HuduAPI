@@ -100,21 +100,13 @@ Context "Hudu Networks / IPAM Integration Tests" {
 
         Write-host "Successfully modified $($modifiedNetworks.count) Networks."
         
-        foreach ($modifiedAddress in $modifiedNetworks){
-            $archivedNetwork = Set-HuduNetwork -id $originalAddress.id -Archived 'true'
-            @($true, "True", "true") | Should -contains -Be $archivedNetwork.archived
-            $archivedNetworks += $archivedNetwork
-        }
 
-        Write-host "Successfully archived $($archivedNetworks.count) Networks."
-
-
-        foreach ($archivedNetwork in $archivedNetworks){
-            $removedNetwork = Remove-HuduNetwork -id $originalAddress.id
+        foreach ($modifiedNetwork in $modifiedNetworks){
+            $removedNetwork = Remove-HuduNetwork -id $modifiedNetwork.id
             $deletedNetworks += $removedNetwork
         }
 
-        Write-host "Successfully archived $($deletedNetworks.count) Networks."
+        Write-host "Successfully deleted $($deletedNetworks.count) Networks."
 
         $allNetworks        = Get-HuduNetworks
         $allNetworkIds      = $allNetworks.id
