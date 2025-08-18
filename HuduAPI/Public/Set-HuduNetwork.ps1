@@ -10,7 +10,8 @@ function Set-HuduNetwork {
         [string]$Description,
         [int]$NetworkType,
         [int]$VlanId,
-        [bool]$Archived
+        [ValidateSet('true', 'True', 'False', 'false')]
+        [string]$Archived
     )
     $network = Get-HuduNetworks -id $Id
     if ($Name) {
@@ -35,7 +36,7 @@ function Set-HuduNetwork {
         $network.vlan_id = $VlanId
     }
     if ($Archived) {
-        $network.archived = $Archived
+        $network.archived = "$Archived".ToLower()
     }        
 
 
