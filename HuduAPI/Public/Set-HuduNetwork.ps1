@@ -1,4 +1,43 @@
 function Set-HuduNetwork {
+<#
+.SYNOPSIS
+Update a Hudu network.
+
+.DESCRIPTION
+Updates a Hudu IPAM Network object for a Company.
+Returns the updated network object on success, or $null on failure.
+
+.PARAMETER Id
+The unique network ID to update. (Required)
+
+.PARAMETER Name
+New name for the network.
+
+.PARAMETER Address
+CIDR notation for the network (e.g. 192.168.10.0/24).
+
+.PARAMETER CompanyId
+Company ID to associate with the network.
+
+.PARAMETER LocationId
+Location ID to associate with the network.
+
+.PARAMETER Description
+Free-form description of the network.
+
+.PARAMETER NetworkType
+Numeric network type as used by Hudu (module/API enum value).
+
+.PARAMETER VlanId
+VLAN identifier for the network.
+
+.EXAMPLE
+Set-HuduNetwork -Id 123 -Name "Core LAN" -Description "Primary office network"
+
+.EXAMPLE
+Set-HuduNetwork -Id 123 -Address "10.20.30.0/24" -VlanId 30 -LocationId 456
+#>    
+
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
