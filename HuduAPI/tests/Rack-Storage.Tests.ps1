@@ -24,7 +24,7 @@ Context "Hudu RackStorage Integration Tests" {
         Write-Host "setting up test for rackstorage, Hudu version $((Get-HuduAppInfo).version)... Prerequisites:`n1: test environment must have a predefined rack storage role."
 
         $testCompanyId        = [int]$env:HUDU_TEST_COMPANY_ID ?? $(Get-HuduCompanies | Select-Object -First 1).id
-        $testRackRoleId       = [int]$env:HUDU_TEST_RACK_ROLE_ID ?? 1
+        $testRackRoleId       = [int]$env:HUDU_TEST_RACK_ROLE_ID
         $testAssetId          = [int]$env:HUDU_TEST_ASSET_ID ?? $(Get-HuduAssets -CompanyId $testCompanyId | Select-Object -First 1).id
 
         if (-not $testCompanyId -or -not $testRackRoleId -or -not $testAssetId) {
