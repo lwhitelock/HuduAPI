@@ -4,9 +4,17 @@ function Write-APIErrorObject {
         [object]$ErrorObject,
 
         [Parameter()]
-        [string]$Name = "Unnamed"
-    )
+        [string]$Name = "unnamed",
 
+        [Parameter()]
+        [ValidateSet("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White")]
+        [string]$Color, 
+
+    )
+    <#
+    .SYNOPSIS
+    Unwraps and prints an object, error, and logs error to a specific file safely.
+#>
     $stringOutput = try {
         $ErrorObject | Format-List -Force | Out-String
     } catch {
@@ -36,11 +44,25 @@ $propertyDump
 "@
 
     if ($global:HAPI_ERRORS_DIRECTORY -and (Test-Path $global:HAPI_ERRORS_DIRECTORY)) {
-        $filename = "$($Name.Trim())_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
-        $fullPath = Join-Path $global:HAPI_ERRORS_DIRECTORY $filename
+        $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
+        if ($SafeName.Length -gt 60) {
+            $SafeName = $SafeName.Substring(0, 60)
+        }
+        $filename = "${SafeName}_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
+        $fullPath = Join-Path $ErroredItemsFolder $filename
         Set-Content -Path $fullPath -Value $logContent -Encoding UTF8
-        Write-Host "Error written to $fullPath" -ForegroundColor Yellow
+        if ($Color) {
+            Write-Host "Error written to $fullPath" -ForegroundColor $Color
+        } else {
+            Write-Host "Error written to $fullPath"
+        }
     }
 
-    Write-Host "$logContent" -ForegroundColor Yellow
+    if ($global:HAPI_ERROR_COLOR -and @("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White") -contains $global:HAPI_ERROR_COLOR) {
+        Write-Host "$logContent" -ForegroundColor $global:HAPI_ERROR_COLOR
+    elseif ($Color) {
+        Write-Host "$logContent" -ForegroundColor $Color
+    } else {
+        Write-Host "$logContent"
+    }
 }
