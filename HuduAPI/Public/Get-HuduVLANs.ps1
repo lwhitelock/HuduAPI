@@ -1,6 +1,7 @@
 function Get-HuduVLANs {
     [CmdletBinding()]
     param(
+        [int]$Id,
         [int]$VLANId,
         [int]$VLANZoneID,
         [int]$CompanyId,

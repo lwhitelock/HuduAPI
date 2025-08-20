@@ -1,6 +1,7 @@
 function Get-HuduVLANZones {
     [CmdletBinding()]
     param(
+        [int]$Id,
         [int]$CompanyId,
         [string]$Name,
         [string]$Archived,

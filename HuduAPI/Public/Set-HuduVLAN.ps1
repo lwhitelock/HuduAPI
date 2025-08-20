@@ -7,7 +7,7 @@ function Set-HuduVLAN {
         [string]$Description,
         [int]$RoleListItemID,
         [int]$StatusListItemID,
-        [int]$VLANId,
+        [Parameter(Mandatory)][int]$VLANId,
         [int]$VLANZoneId,
         [string]$Archived
     )
@@ -43,7 +43,7 @@ function Set-HuduVLAN {
 
     try {
         $res = Invoke-HuduRequest -Method PUT -Resource "/api/v1/vlans/$Id" -Body $payload
-        return $res.procedure
+        return $res
     } catch {
         Write-Warning "Failed to vlan ID $Id"
         return $null
