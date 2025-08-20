@@ -10,10 +10,32 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
         New-HuduApiKey $HUDU_API_KEY
         if (-not $env:HUDU_TEST_COMPANY_ID ) {
             throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_COMPANY_ID)"
-        }
+        } else {$HUDU_TEST_COMPANY_ID=$env:HUDU_TEST_COMPANY_ID}
         if (-not $env:HUDU_TEST_VLAN_ID ) {
             throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_VLAN_ID)"
+        } else {$HUDU_TEST_VLAN_ID=$env:HUDU_TEST_VLAN_ID}
+        if (-not $env:RoleListItemID ) {
+            throw "Missing required test environment variable- testCompanyId= $RoleListItemID)"
+        } else {$RoleListItemID=$env:RoleListItemID}
+        if (-not $env:StatusListItemID ) {
+            throw "Missing required test environment variable- testCompanyId= $StatusListItemID)"
+        } else {$StatusListItemID=$env:StatusListItemID}
+        function Get-RandomVlanRange {
+            param(
+                [int]$Min = 1,
+                [int]$Max = 4094
+            )
+            $start = Get-Random -Minimum $Min -Maximum $Max
+            $end   = Get-Random -Minimum $start -Maximum ($Max + 1)
+            return "$start-$end"
+        }        
+        function Get-RandomHexString {
+            param (
+                [int]$bytes=8
+            )
+            return "$([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes($bytes)).ToLowerInvariant())"
         }
+
         $testCompany        = Get-HuduCompanies -id $env:HUDU_TEST_COMPANY_ID
         $testVLAN.          = Get-Hudu -id $env:HUDU_TEST_COMPANY_ID
         Write-Host "Setting up test for Vlan and Vlan Zones endpoints using test VLAN $... Hudu version: $((Get-HuduAppInfo).version)"
@@ -24,74 +46,71 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
         $testCompany = 
         $vlanInfo = @{
             Required = $(Get-Random -Minimum 8 -Maximum 12)
+            VLanIDs = @()
             Created = @()
+
         }
         $zonesInfo = @{
-            Required = $(Get-Random -Minimum 3 -Maximum 5)
+            MaxZones = $(Get-Random -Minimum 3 -Maximum 5)
             Created = @()
         }
 
 
-        Write-Host "creating $($vlanInfo.Required) VLans with $($zonesInfo.Required) Zones each for test company"
-
-        for ($i = 1; $i -le $addressesToCreate; $i++) {
-            $name = [Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()
-            $newAddress = @{
-                Name        = "TestNetwork-$name"
-                Address     = $(Get-RandomIPV4Range)
-                CompanyId   = $testCompanyId
-                Description = "$([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()) is $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()) for $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant())"
-            }
-            Write-Host "creating network $($newAddress.Name), $($newAddress.Address), $($newAddress.Description) for company id: $($newAddress.CompanyId)"
-            $createdNetwork = New-HuduNetwork -Name $newAddress.Name -CompanyId $newAddress.CompanyId -Description $newAddress.Description -Address $newAddress.address
-            $createdNetwork.name | Should -Be $newAddress.Name
-            $createdNetwork.description | Should -Be $newAddress.Description
-            $createdNetwork.company_id | Should -Be $newAddress.CompanyId
-            $createdNetwork.Address | Should -Be $newAddress.address
-            $retrievedNetwork = Get-HuduNetworks -id $createdNetwork.id
-            # $retrievedNetwork.description | Should -Be $createdNetwork.Description
-            # $retrievedNetwork.company_id | Should -Be $createdNetwork.CompanyId
-            # $retrievedNetwork.Address | Should -Be $createdNetwork.address
-            $createdNetworks += $createdNetwork
-        }
-        Write-host "Successfully created/retrieved $($createdNetworks.count) Networks."
-
-        foreach ($originalAddress in $createdNetworks){
-            $modified= @{
-                Name        = "$($originalAddress.name)-Modified-$([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(4)).ToLowerInvariant())"
-                Address     = $(Get-RandomIPV4Range)
-                CompanyId   = $testCompanyId
-                NetworkType = $(Get-Random -Minimum 0 -Maximum 4)
-                Description = "Modified $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant()) is $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant()) as $([Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(8)).ToLowerInvariant())"
-            }
-            Write-Host "Modifying network $($originalAddress.Name)=>$($modified.name), $($originalAddress.Address)=>$($modified.Address), $($originalAddress.Description)=>$($modified.Description) for address $($originalAddress.id)"
-            $modifiedNetwork=Set-HuduNetwork -id $originalAddress.id -name $modified.name -CompanyId $modified.CompanyId -Description $modified.Description -NetworkType $modified.NetworkType -Address $modified.Address
-            $modifiedNetwork.id | Should -Be $originalAddress.id
-            $modifiedNetwork.name | Should -Be $modified.Name
-            $modifiedNetwork.description | Should -Be $modified.Description
-            $modifiedNetwork.network_type | Should -Be $modified.NetworkType
-            $modifiedNetwork.company_id | Should -Be $modified.CompanyId
-            $modifiedNetwork.address | Should -Be $modified.address
-            $modifiedNetwork.name | Should -Not -Be $originalAddress.Name
-            $modifiedNetwork.description | Should -Not -Be $originalAddress.Description
-            $modifiedNetwork.company_id | Should -Not -Be $originalAddress.CompanyId
-            $modifiedNetwork.address | Should -Not -Be $originalAddress.address
-            $modifiedNetworks += $modifiedNetwork
-        }
-
-        Write-host "Successfully modified $($modifiedNetworks.count) Networks."
+        Write-Host "creating $($vlanInfo.Required) VLans with $($zonesInfo.Required) Zones each for test company $($testCompany.name)"
         
+        for ($i = 1; $i -le $wlanInfo.Required; $i++) {
+            $NewVLANId = $(Get-Random -Minimum 4 -Maximum 4094)
+            $NewVLANId = $(if ($vlanInfo.VlanIds -contains $NewVLANId) {$(Get-Random -Minimum 4 -Maximum 4094)} else $NewVLANId)
+            $vlanInfo.VLanIDs+=$NewVLANId
+            Write-Host "Creating vlan $i of $($wlanInfo.Required) with vlan Id $NewVLANId"
 
-        foreach ($modifiedNetwork in $modifiedNetworks){
-            $removedNetwork = Remove-HuduNetwork -id $modifiedNetwork.id
-            $deletedNetworks += $removedNetwork
+            $VlanRequest = @{
+                Name        = "Vlan-$(Get-RandomHexString -bytes 12)-$i-of-$($($wlanInfo.Required))"
+                CompanyId   = $testCompany.Id
+                VLANId      = $NewVLANId
+                Description = "VLAN from Integration Test $(Get-RandomHexString -bytes 2) $(Get-RandomHexString -bytes 4) $(Get-RandomHexString -bytes 6)."
+            }
+            if ($(Get-Random -Minimum 0 -Maximum 1) -eq 1){
+                $VlanRequest["StatusListItemID"] =$StatusListItemID
+            }
+            if ($(Get-Random -Minimum 0 -Maximum 1) -eq 1){
+                $VlanRequest["RoleListItemID"] = $RoleListItemID
+            }
+            $createdVLAN = New-HuduVLAN @request
+            $vlanInfo.Created+=$createdVLAN
+
+            $createdVLAN.Name | Should -Be $VlanRequest.Name
+            $createdVLAN.CompanyId | Should -Be $VlanRequest.CompanyId
+            $createdVLAN.VLANId | Should -Be $VlanRequest.VLANId
+            $createdVLAN.Description | Should -Be $VlanRequest.Description
+            if ($VlanRequest["RoleListItemID"] -and $null -ne $VlanRequest["RoleListItemID"]) {
+                $createdVLAN.RoleListItemID Should -Be $VlanRequest["RoleListItemID"]
+            }
+            if ($VlanRequest["StatusListItemID"] -and $null -ne $VlanRequest["StatusListItemID"]) {
+                $createdVLAN.StatusListItemID Should -Be $VlanRequest["StatusListItemID"]
+            }
+            $zonesToCreate = $(Get-Random -Minimum 1 -Maximum $zonesInfo.MaxZones)
+            for ($d = 1; $d -le $zonesToCreate; $d++) {
+                
+                Write-Host "Creating vlan zone $d of $($zonesToCreate) for vlan $($VlanRequest.Name), $i of $($wlanInfo.Required)"
+                $ZoneRequest = @{
+                    Name              = "Zone-$(Get-RandomHexString -bytes 3)-$(Get-RandomHexString -bytes 3)-$d-of-$($($zonesToCreate))"
+                    CompanyId         = $testCompany.Id
+                    VlanIDRanges      = $(Get-RandomVlanRange)
+                    Description = "VLAN Zone from Integration Test $(Get-RandomHexString -bytes 2) $(Get-RandomHexString -bytes 16)."
+                }
+                $newVLanZone = New-HuduVlanZone @ZoneRequest
+                $zonesInfo.Created +=$newVLanZone
+                $createdVLAN.Name | Should -Be $ZoneRequest.Name
+                $createdVLAN.CompanyId | Should -Be $ZoneRequest.CompanyId
+                $createdVLAN.VlanIDRanges | Should -Be $ZoneRequest.VlanIDRanges
+                $createdVLAN.Description | Should -Be $ZoneRequest.Description
+            }
         }
 
-        Write-host "Successfully deleted $($deletedNetworks.count) Networks."
+        Write-Host "Created $($vlanInfo.Created.Count) Vlans with $($zonesInfo.Created.Count) total Zones. Now Modifying and Archiving, then deleting"
 
-        $allNetworks        = Get-HuduNetworks
-        $allNetworkIds      = $allNetworks.id
-        $allNetworks.count | Should -Be $addressCount
+
 
 
 
