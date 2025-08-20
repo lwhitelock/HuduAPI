@@ -2,7 +2,8 @@
 # Run-HuduTests.ps1
 
 param (
-    [string]$EnvironFile
+    [string]$EnvironFile,
+    [string]$FilterTests=$null
 )
 
 $testsPath = Join-Path $PSScriptRoot "HuduAPI" "tests"
@@ -33,7 +34,18 @@ if (Test-Path $envFile) {
 }
 
 # Validate env vars
-$requiredVars = "HUDU_API_KEY", "HUDU_BASE_URL", "HUDU_TEST_RACK_ROLE_ID", "HUDU_TEST_USER_ID", "HUDU_TEST_COMPANY_ID"
+$requiredVars = @(
+"HUDU_API_KEY",
+"HUDU_BASE_URL",
+"HUDU_TEST_RACK_ROLE_ID",
+"HUDU_TEST_COMPANY_ID",
+"HUDU_TEST_ASSET_ID",
+"HUDU_TEST_USER_ID",
+"HUDU_TEST_VLAN_ID",
+"HUDU_TEST_IPAM_LIST_ITEM_ID",
+"HUDU_TEST_IPAM_LIST_ITEM_ID",
+"HUDU_TEST_NETWORK_ID"
+)
 foreach ($var in $requiredVars) {
     if (-not (Get-Item "env:$var" -ErrorAction SilentlyContinue)) {
         throw "Missing required environment variable: $var"
@@ -42,7 +54,12 @@ foreach ($var in $requiredVars) {
 Write-Host "Using Hudu at $env:HUDU_BASE_URL" -ForegroundColor Green
 
 # Run tests
-$integrationTests = Get-ChildItem -Path $testsPath -Filter *.Tests.ps1 -Recurse
+if (-not $FilterTests -or $FilterTests -eq $null){
+    $Filter = "*.Tests.ps1"
+} else {
+    $Filter = "*$FilterTests*.Tests.ps1"
+}
+$integrationTests = Get-ChildItem -Path $testsPath -Filter $Filter -Recurse
 
 foreach ($integrationTest in $integrationTests) {
     Write-Host "Running: $($integrationTest.Name)" -ForegroundColor Blue
