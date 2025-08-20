@@ -2,14 +2,41 @@ function New-HuduVLAN {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [string]$Name,
+        [Parameter(Mandatory)] [int]$CompanyId,
+        [string]$Description,
+        [int]$RoleListItemID,
+        [int]$StatusListItemID,
+        [int]$VLANId,
+        [int]$VLANZoneId,
+        [string]$Archived='false',
     )
 
-    $payload = @{
-        name             = $Name
-    } | ConvertTo-Json -Depth 10
+    $vlan = @{name=$Name; company_id = $CompanyId}
+    if ($Description) {
+        $vlan['description']=$Description
+    }
+    if ($RoleListItemID) {
+        $vlan['role_list_item_id']=$RoleListItemID
+    }
+    if ($StatusListItemID) {
+        $vlan['status_list_item_id']=$StatusListItemID
+    }
+    if ($VLANId) {
+        $vlan['vlan_id']=$VLANId
+    }
+    if ($VLANZoneId) {
+        $vlan['vlan_zone_id']=$VLANZoneId
+    }
+    if ($Archived) {
+        $vlan['archived']=$Archived
+    }
+      
 
+    $payload = @{
+        vlan = $vlan
+    } | ConvertTo-Json -Depth 10
     try {
-        $res = Invoke-HuduRequest -Method POST -Resource "/api/v1/vlans" -Body $payload
+        $res = Invoke-HuduRequest -Method POST -Resource "/api/v1/vlan" -Body $payload
         return $res
     } catch {
         Write-Warning "Failed to create vlan '$Name'"

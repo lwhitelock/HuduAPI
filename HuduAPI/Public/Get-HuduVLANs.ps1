@@ -6,7 +6,7 @@ function Get-HuduVLANs {
         [int]$CompanyId,
         [string]$Slug,
         [string]$Name,
-        [bool]$Archived,
+        [string]$Archived,
         [datetime]$CreatedAfter,
         [datetime]$CreatedBefore,
         [datetime]$UpdatedAfter,

@@ -3,7 +3,7 @@ function Get-HuduVLANZones {
     param(
         [int]$CompanyId,
         [string]$Name,
-        [bool]$Archived,
+        [string]$Archived,
         [datetime]$CreatedAfter,
         [datetime]$CreatedBefore,
         [datetime]$UpdatedAfter,
