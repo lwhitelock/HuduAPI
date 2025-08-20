@@ -58,6 +58,8 @@ $propertyDump
         }
     }
 
+    if ($global:HAPI_ERROR_COLOR -and @("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White") -contains $global:HAPI_ERROR_COLOR) {
+        Write-Host "$logContent" -ForegroundColor $Color
     if ($Color) {
         Write-Host "$logContent" -ForegroundColor $Color
     } else {
