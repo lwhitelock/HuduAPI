@@ -1,4 +1,29 @@
 function Set-HuduVLANZone {
+<#
+.SYNOPSIS
+Update an existing VLAN Zone.
+
+.DESCRIPTION
+Modifies VLAN Zone properties such as company, description, VLAN Id ranges, or archival status.
+
+.PARAMETER Id
+The Id of the VLAN Zone to update.
+
+.PARAMETER CompanyId
+Company identifier (optional override).
+
+.PARAMETER Description
+Update the description text.
+
+.PARAMETER VLANIdRanges
+New VLAN ranges string (e.g. "100-200,300-350").
+
+.PARAMETER Archived
+Set archival status: "true" or "false".
+
+.EXAMPLE
+Set-HuduVLANZone -Id 5 -Description "Updated description" -Archived "false"
+#>`    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [int]$Id,

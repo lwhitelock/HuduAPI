@@ -1,4 +1,17 @@
 function Remove-HuduVLANZone {
+<#
+.SYNOPSIS
+Delete a VLAN Zone from Hudu.
+
+.DESCRIPTION
+Removes the VLAN Zone with the specified Id. Supports `-WhatIf`/`-Confirm`.
+
+.PARAMETER Id
+The Id of the VLAN Zone to delete.
+
+.EXAMPLE
+Remove-HuduVLANZone -Id 12 -Confirm:$false
+#>    
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)] [int]$Id

@@ -1,4 +1,17 @@
 function Remove-HuduVLAN {
+<#
+.SYNOPSIS
+Delete a VLAN from Hudu.
+
+.DESCRIPTION
+Removes the VLAN with the specified Id. Supports `-WhatIf`/`-Confirm`.
+
+.PARAMETER Id
+The Id of the VLAN to delete.
+
+.EXAMPLE
+Remove-HuduVLAN -Id 45 -Confirm:$false
+#>    
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)] [int]$Id

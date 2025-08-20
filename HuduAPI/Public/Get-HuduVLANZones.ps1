@@ -1,4 +1,42 @@
 function Get-HuduVLANZones {
+<#
+.SYNOPSIS
+Retrieve VLAN Zone records from Hudu.
+
+.DESCRIPTION
+Queries the Hudu API for VLAN Zones. Can filter by Id, CompanyId, Name, VLAN ranges, or archival status, 
+as well as created/updated date ranges.
+
+.PARAMETER Id
+Specific VLAN Zone Id.
+
+.PARAMETER CompanyId
+Filter by company identifier.
+
+.PARAMETER Name
+Filter by name (string match).
+
+.PARAMETER Archived
+Filter by archival status: "true" or "false".
+
+.PARAMETER VLANIdRanges
+Filter by VLAN Id ranges (e.g. "1-4", "200-300,400-450").
+
+.PARAMETER CreatedAfter
+Return only VLAN Zones created after this date/time.
+
+.PARAMETER CreatedBefore
+Return only VLAN Zones created before this date/time.
+
+.PARAMETER UpdatedAfter
+Return only VLAN Zones updated after this date/time.
+
+.PARAMETER UpdatedBefore
+Return only VLAN Zones updated before this date/time.
+
+.EXAMPLE
+Get-HuduVLANZones -CompanyId 5 -Archived "false"
+#>    
     [CmdletBinding()]
     param(
         [int]$Id,

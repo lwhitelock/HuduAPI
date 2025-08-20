@@ -1,4 +1,30 @@
 function New-HuduVLANZone {
+<#
+.SYNOPSIS
+Create a new VLAN Zone in Hudu.
+
+.DESCRIPTION
+Creates a VLAN Zone under a specified company, with VLAN Id ranges and optional description. 
+VLAN ranges must be expressed as "start-end" and may be comma-separated.
+
+.PARAMETER Name
+The name of the VLAN Zone.
+
+.PARAMETER CompanyId
+The company identifier to associate with this VLAN Zone.
+
+.PARAMETER VLANIdRanges
+VLAN Id ranges string (e.g. "1-4", "200-300,400-450").
+
+.PARAMETER Description
+Optional description text.
+
+.PARAMETER Archived
+Whether the VLAN Zone should be archived upon creation ("true"/"false"). Defaults to "false".
+
+.EXAMPLE
+New-HuduVLANZone -Name "East Coast Zone" -CompanyId 1 -VLANIdRanges "200-300" -Description "Datacenter VLANs"
+#>    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [string]$Name,

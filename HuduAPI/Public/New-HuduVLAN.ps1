@@ -1,4 +1,39 @@
 function New-HuduVLAN {
+<#
+.SYNOPSIS
+Create a new VLAN in Hudu.
+
+.DESCRIPTION
+Creates a VLAN under a specified company. Requires a unique VLAN Id (between 4 and 4094).
+Optionally associates role, status, or VLAN Zone.
+
+.PARAMETER Name
+The name of the VLAN.
+
+.PARAMETER CompanyId
+The company identifier to associate with this VLAN.
+
+.PARAMETER VLANId
+The numeric VLAN Id (between 4 and 4094).
+
+.PARAMETER Description
+Optional description text.
+
+.PARAMETER RoleListItemID
+Optional Id of the role list item to associate.
+
+.PARAMETER StatusListItemID
+Optional Id of the status list item to associate.
+
+.PARAMETER VLANZoneId
+Optional VLAN Zone Id to associate.
+
+.PARAMETER Archived
+Whether the VLAN should be archived upon creation ("true"/"false"). Defaults to "false".
+
+.EXAMPLE
+New-HuduVLAN -Name "VLAN-200" -CompanyId 1 -VLANId 200 -Description "Internal traffic"
+#>    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [string]$Name,

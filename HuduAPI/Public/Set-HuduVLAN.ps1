@@ -1,4 +1,42 @@
 function Set-HuduVLAN {
+<#
+.SYNOPSIS
+Update an existing VLAN.
+
+.DESCRIPTION
+Modifies VLAN properties such as name, company association, description, role/status list Ids, 
+VLAN Id, VLAN Zone association, or archival status.
+
+.PARAMETER Id
+The Id of the VLAN to update.
+
+.PARAMETER Name
+New VLAN name.
+
+.PARAMETER CompanyId
+Company identifier (optional override).
+
+.PARAMETER Description
+Update the description text.
+
+.PARAMETER RoleListItemID
+Update the role list item association.
+
+.PARAMETER StatusListItemID
+Update the status list item association.
+
+.PARAMETER VLANId
+Update the VLAN Id (between 4 and 4094).
+
+.PARAMETER VLANZoneId
+Associate with a VLAN Zone.
+
+.PARAMETER Archived
+Set archival status: "true" or "false".
+
+.EXAMPLE
+Set-HuduVLAN -Id 7 -Description "Changed purpose" -VLANId 250
+#>    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [int]$Id,
