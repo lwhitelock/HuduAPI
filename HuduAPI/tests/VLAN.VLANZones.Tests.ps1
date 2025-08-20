@@ -8,18 +8,7 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
 
         New-HuduBaseURL $HUDU_BASE_URL
         New-HuduApiKey $HUDU_API_KEY
-        if (-not $env:HUDU_TEST_COMPANY_ID ) {
-            throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_COMPANY_ID)"
-        } else {$HUDU_TEST_COMPANY_ID=$env:HUDU_TEST_COMPANY_ID}
-        if (-not $env:HUDU_TEST_VLAN_ID ) {
-            throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_VLAN_ID)"
-        } else {$HUDU_TEST_VLAN_ID=$env:HUDU_TEST_VLAN_ID}
-        if (-not $env:RoleListItemID ) {
-            throw "Missing required test environment variable- testCompanyId= $RoleListItemID)"
-        } else {$RoleListItemID=$env:RoleListItemID}
-        if (-not $env:StatusListItemID ) {
-            throw "Missing required test environment variable- testCompanyId= $StatusListItemID)"
-        } else {$StatusListItemID=$env:StatusListItemID}
+
         function Get-RandomVlanRange {
             param(
                 [int]$Min = 1,
@@ -37,7 +26,6 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
         }
 
         $testCompany        = Get-HuduCompanies -id $env:HUDU_TEST_COMPANY_ID
-        $testVLAN.          = Get-Hudu -id $env:HUDU_TEST_COMPANY_ID
         Write-Host "Setting up test for Vlan and Vlan Zones endpoints using test VLAN $... Hudu version: $((Get-HuduAppInfo).version)"
     }
 
@@ -60,7 +48,7 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
         
         for ($i = 1; $i -le $wlanInfo.Required; $i++) {
             $NewVLANId = $(Get-Random -Minimum 4 -Maximum 4094)
-            $NewVLANId = $(if ($vlanInfo.VlanIds -contains $NewVLANId) {$(Get-Random -Minimum 4 -Maximum 4094)} else $NewVLANId)
+            $NewVLANId = $(if ($vlanInfo.VlanIds -contains $NewVLANId) {$(Get-Random -Minimum 4 -Maximum 4094)} else {$NewVLANId})
             $vlanInfo.VLanIDs+=$NewVLANId
             Write-Host "Creating vlan $i of $($wlanInfo.Required) with vlan Id $NewVLANId"
 
@@ -84,10 +72,10 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
             $createdVLAN.VLANId | Should -Be $VlanRequest.VLANId
             $createdVLAN.Description | Should -Be $VlanRequest.Description
             if ($VlanRequest["RoleListItemID"] -and $null -ne $VlanRequest["RoleListItemID"]) {
-                $createdVLAN.RoleListItemID Should -Be $VlanRequest["RoleListItemID"]
+                $createdVLAN.RoleListItemID | Should -Be $VlanRequest["RoleListItemID"]
             }
             if ($VlanRequest["StatusListItemID"] -and $null -ne $VlanRequest["StatusListItemID"]) {
-                $createdVLAN.StatusListItemID Should -Be $VlanRequest["StatusListItemID"]
+                $createdVLAN.StatusListItemID | Should -Be $VlanRequest["StatusListItemID"]
             }
             $zonesToCreate = $(Get-Random -Minimum 1 -Maximum $zonesInfo.MaxZones)
             for ($d = 1; $d -le $zonesToCreate; $d++) {
