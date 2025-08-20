@@ -141,7 +141,7 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
             Write-Host "Modifying And Checking VlanRange for zone $modifiedIDX"
             $newVlanRange = Get-RandomVlanRange
             $updated = Set-HuduVLANZone -id $createdZone.id -VLANIdRanges $newVlanRange
-            $updated.vlan_id_ranges | Should -Be $newDescription            
+            $updated.vlan_id_ranges | Should -Be $newVlanRange
         }
         write-host "Deleting Zone with id $($createdZone.id)"
         Remove-HuduVlanZone -id $createdZone.id
@@ -151,7 +151,7 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
     foreach ($createdVlan in $vlaninfo.Created) {
         $modifiedIDX=$modifiedIDX+1
         Write-Host "UnArchiving Vlan $modifiedIDX of $($vlanInfo.Created.Count)"
-        $archived = Set-HuduVLANZone -id $createdVlan.id -Archived 'false'
+        $archived = Set-HuduVLAN -id $createdVlan.id -Archived 'false'
         $ModifyPropIdx=$(Get-Random -Maximum 2 -Minimum 0)
         if ($ModifyPropIdx -eq 1) {
             Write-Host "Modifying And Checking Description for vlan $modifiedIDX"
@@ -160,18 +160,14 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
             $updated.description | Should -Be $newDescription
         } else {
             Write-Host "Modifying And Checking VlanID for vlan $modifiedIDX"
-            $newVlanID = Get-Random -Minimum 4 -Maximum 4095 
-            $updated = Set-HuduVlan -id $createdVlan.id -VLANZoneId $newVlanID
-            $updated.vlan_zone_id | Should -Be $newVlanID            
+            $newVlanID = Get-Random -Minimum 4 -Maximum 4000 
+            $updated = Set-HuduVlan -id $createdVlan.id -VlanId $newVlanID
+            $updated.vlan_id | Should -Be $newVlanID
         } 
 
         write-host "Deleting Vlan with id $($createdVlan.id)"
         Remove-HuduVlan -id $createdVlan.id
     }    
-
-
-  
-  
   
   }
 }
