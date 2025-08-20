@@ -1,0 +1,19 @@
+function Set-HuduVLANZone {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)] [int]$Id,
+        [string]$Name
+    )
+
+    $payload = @{
+        name             = $Name
+    } | ConvertTo-Json -Depth 10
+
+    try {
+        $res = Invoke-HuduRequest -Method PUT -Resource "/api/v1/vlan_zones/$Id" -Body $payload
+        return $res.procedure
+    } catch {
+        Write-Warning "Failed to update vlan zone ID $Id"
+        return $null
+    }
+}
