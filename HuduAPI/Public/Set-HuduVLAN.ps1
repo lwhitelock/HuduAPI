@@ -7,7 +7,7 @@ function Set-HuduVLAN {
         [string]$Description,
         [int]$RoleListItemID,
         [int]$StatusListItemID,
-        [Parameter(Mandatory)][ValidateRange(4,4094)][int]$VLANId,
+        [ValidateRange(4,4094)][int]$VLANId,
         [int]$VLANZoneId,
         [ValidateSet("true","false")][string]$Archived
     )
