@@ -1,7 +1,13 @@
 function Get-HuduVLANZones {
     [CmdletBinding()]
     param(
-        [int]$Id
+        [int]$CompanyId,
+        [string]$Name,
+        [bool]$Archived,
+        [datetime]$CreatedAfter,
+        [datetime]$CreatedBefore,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore        
     )
 
     if ($Id) {
@@ -15,11 +21,23 @@ function Get-HuduVLANZones {
     }
 
     $params = @{}
-    if ($Name)        { $params.name         = $Name }
+    if ($CompanyId)         { $params.company_id   = $CompanyId }
+    if ($Name)              { $params.name         = $Name }
+    if ($Archived)          { $params.archived     = $Archived }
 
-    Invoke-HuduRequestPaginated -HuduRequest @{
+    $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
+    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
+        $params.created_at = $createdRange
+    }
+
+    $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+        $params.updated_at = $updatedRange
+    }
+
+    Invoke-HuduRequest -HuduRequest @{
         Method   = 'GET'
         Resource = '/api/v1/vlan_zones'
         Params   = $params
-    } -Property vlans
+    } -Property vlan_zones
 }
