@@ -40,10 +40,9 @@ function Get-HuduVLANs {
     if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
         $params.updated_at = $updatedRange
     }
-
-    Invoke-HuduRequest -HuduRequest @{
-        Method   = 'GET'
-        Resource = '/api/v1/vlans'
-        Params   = $params
-    } -Property vlans
+    if ($params) {
+        Invoke-HuduRequest -Method GET -Resource '/api/v1/vlans' -Params $params
+    } else {
+        Invoke-HuduRequest -Method GET -Resource "/api/v1/vlans"    
+    }
 }

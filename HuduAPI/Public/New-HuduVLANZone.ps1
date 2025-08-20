@@ -4,8 +4,8 @@ function New-HuduVLANZone {
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$CompanyId,
         [string]$Description,
-        [int]$VLANIdRanges,
-        [string]$Archived='false',
+        [Parameter(Mandatory)][string]$VLANIdRanges,
+        [string]$Archived='false'
     )
 
     $vlan_zone = @{name=$Name; company_id = $CompanyId}

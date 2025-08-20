@@ -8,7 +8,7 @@ function New-HuduVLAN {
         [int]$StatusListItemID,
         [int]$VLANId,
         [int]$VLANZoneId,
-        [string]$Archived='false',
+        [string]$Archived='false'
     )
 
     $vlan = @{name=$Name; company_id = $CompanyId}

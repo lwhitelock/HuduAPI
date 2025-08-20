@@ -9,7 +9,7 @@ function Set-HuduVLAN {
         [int]$StatusListItemID,
         [int]$VLANId,
         [int]$VLANZoneId,
-        [string]$Archived='false',
+        [string]$Archived
     )
     $vlan = Get-HuduVLANs -id $Id
     if ($Name) {
