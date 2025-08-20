@@ -3,10 +3,10 @@ function New-HuduVLAN {
     param (
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$CompanyId,
+        [Parameter(Mandatory)][int]$VLANId,
         [string]$Description,
         [int]$RoleListItemID,
         [int]$StatusListItemID,
-        [int]$VLANId,
         [int]$VLANZoneId,
         [string]$Archived='false'
     )
@@ -36,7 +36,7 @@ function New-HuduVLAN {
         vlan = $vlan
     } | ConvertTo-Json -Depth 10
     try {
-        $res = Invoke-HuduRequest -Method POST -Resource "/api/v1/vlan" -Body $payload
+        $res = Invoke-HuduRequest -Method POST -Resource "/api/v1/vlans" -Body $payload
         return $res
     } catch {
         Write-Warning "Failed to create vlan '$Name'"

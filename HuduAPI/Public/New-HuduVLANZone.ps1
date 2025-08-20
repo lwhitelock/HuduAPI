@@ -3,8 +3,8 @@ function New-HuduVLANZone {
     param (
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$CompanyId,
-        [string]$Description,
         [Parameter(Mandatory)][string]$VLANIdRanges,
+        [string]$Description,
         [string]$Archived='false'
     )
 

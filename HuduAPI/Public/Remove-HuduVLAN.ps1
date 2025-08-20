@@ -5,7 +5,7 @@ function Remove-HuduVLAN {
     )
     $response = $null
     try {
-        $response = Invoke-HuduRequest -Method DELETE -Resource "/api/v1/vlan/$Id"
+        $response = Invoke-HuduRequest -Method DELETE -Resource "/api/v1/vlans/$Id"
         Write-Host "Successfully deleted vlan ID $Id" -ForegroundColor Green
     } catch {
         Write-Warning "Failed to delete vlan ID $Id"
