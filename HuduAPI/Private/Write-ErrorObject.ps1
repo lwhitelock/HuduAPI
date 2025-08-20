@@ -8,7 +8,7 @@ function Write-APIErrorObject {
 
         [Parameter()]
         [ValidateSet("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White")]
-        [string]$Color, 
+        [string]$Color
 
     )
     <#
