@@ -9,9 +9,6 @@ function Invoke-HuduRequest {
     .PARAMETER Method
     GET,POST,DELETE,PUT,etc
 
-    .PARAMETER Path
-    Path to API endpoint
-
     .PARAMETER Params
     Hashtable of parameters
 
