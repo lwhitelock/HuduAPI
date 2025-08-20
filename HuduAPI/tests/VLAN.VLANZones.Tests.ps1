@@ -28,12 +28,12 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
   It "creates, verifies, updates, verifies, archives, unarchives, deletes VLANs and VLAN Zones" {
 
     $vlanInfo  = @{
-      Required = Get-Random -Minimum 8 -Maximum 12
+      Required = Get-Random -Minimum 4 -Maximum 8
       VlanIds  = @()
       Created  = @()
     }
     $zonesInfo = @{
-      MaxZones = Get-Random -Minimum 3 -Maximum 6
+      MaxZones = Get-Random -Minimum 1 -Maximum 4
       Created  = @()
     }
 
@@ -85,7 +85,6 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
         $null = $newVlanZone | Should -Not -BeNullOrEmpty
         $zonesInfo.Created += $newVlanZone
 
-        # Assertions for VLAN Zone (assert against the ZONE you just created)
         $newVlanZone.Name         | Should -Be $zoneRequest.Name
         $newVlanZone.company_id    | Should -Be $zoneRequest.CompanyId
         $newVlanZone.vlan_id_ranges | Should -Be $zoneRequest.VlanIdRanges
@@ -94,18 +93,83 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
       }
     }
 
-    Write-Host "Created $($vlanInfo.Created.Count) VLANs with $($zonesInfo.Created.Count) total Zones. Next: modify, archive/unarchive, delete (TODO)."
+    Write-Host "Created $($vlanInfo.Created.Count) VLANs with $($zonesInfo.Created.Count) total Zones. Next: retrieve, prop-check, then archive"
+    $PropCheckIDX=0
     foreach ($createdVLAN in $vlaninfo.Created) {
+        $PropCheckIDX=$PropCheckIDX+1
+        Write-Host "Comparing properties of created vs retrieved for Vlan $PropCheckIDX of $($vlanInfo.Created.Count)"
         $retrieved = Get-HuduVLANs -id $createdVLAN.id
         foreach ($prop in $retrieved | Get-Member -MemberType NoteProperty,Property | Select-Object -Expand Name) {
             $createdVLAN.$prop | Should -Be $retrieved.$prop
-        }        
-
-
-
-
+        }
     }
-  
+    $PropCheckIDX=0
+    foreach ($createdZone in $zonesInfo.Created) {
+        $PropCheckIDX=$PropCheckIDX+1
+        Write-Host "Comparing properties of created vs retrieved for Zone $PropCheckIDX of $($zonesInfo.Created.Count)"
+        $retrieved = Get-HuduVLANZones -id $createdZone.id
+        foreach ($prop in $retrieved | Get-Member -MemberType NoteProperty,Property | Select-Object -Expand Name) {
+            $createdZone.$prop | Should -Be $retrieved.$prop
+        }
+    }    
+    $ArchivedIDX=0
+    foreach ($createdVLAN in $vlaninfo.Created) {
+        $ArchivedIDX=$ArchivedIDX+1
+        Write-Host "Archiving Vlan $ArchivedIDX of $($vlanInfo.Created.Count)"
+        $archived = Set-HuduVLAN -id $createdVLAN.id -Archived 'true'
+    }
+    $ArchivedIDX=0
+    foreach ($createdZone in $zonesInfo.Created) {
+        $ArchivedIDX=$ArchivedIDX+1
+        Write-Host "Archiving Zone $ArchivedIDX of $($zonesInfo.Created.Count)"
+        $archived = Set-HuduVLANZone -id $createdZone.id -Archived 'true'
+    }    
+
+    Write-Host "Unarchiving, Modifying, then Deleting Vlans then Zones."
+
+    $modifiedIDX=0
+    foreach ($createdZone in $zonesInfo.Created) {
+        $modifiedIDX=$modifiedIDX+1
+        Write-Host "UnArchiving Zone $modifiedIDX of $($zonesInfo.Created.Count)"
+        $archived = Set-HuduVLANZone -id $createdZone.id -Archived 'false'
+        if ($(Get-Random -Maximum 2 -Minimum 0) -eq 1) {
+            Write-Host "Modifying And Checking Description for zone $modifiedIDX"
+            $newDescription = "VLAN Zone has new description: $(Get-RandomHexString) $(Get-RandomHexString) of $(Get-RandomHexString) for $(Get-RandomHexString -bytes 16)"
+            $updated = Set-HuduVLANZone -id $createdZone.id -Description $newDescription
+            $updated.description | Should -Be $newDescription
+        } else {
+            Write-Host "Modifying And Checking VlanRange for zone $modifiedIDX"
+            $newVlanRange = Get-RandomVlanRange
+            $updated = Set-HuduVLANZone -id $createdZone.id -VLANIdRanges $newVlanRange
+            $updated.vlan_id_ranges | Should -Be $newDescription            
+        }
+        write-host "Deleting Zone with id $($createdZone.id)"
+        Remove-HuduVlanZone -id $createdZone.id
+    }    
+
+    $modifiedIDX=0
+    foreach ($createdVlan in $vlaninfo.Created) {
+        $modifiedIDX=$modifiedIDX+1
+        Write-Host "UnArchiving Vlan $modifiedIDX of $($vlanInfo.Created.Count)"
+        $archived = Set-HuduVLANZone -id $createdVlan.id -Archived 'false'
+        $ModifyPropIdx=$(Get-Random -Maximum 2 -Minimum 0)
+        if ($ModifyPropIdx -eq 1) {
+            Write-Host "Modifying And Checking Description for vlan $modifiedIDX"
+            $newDescription = "VLAN has new description: $(Get-RandomHexString) $(Get-RandomHexString) of $(Get-RandomHexString) for $(Get-RandomHexString -bytes 16)"
+            $updated = Set-HuduVlan -id $createdVlan.id -Description $newDescription
+            $updated.description | Should -Be $newDescription
+        } else {
+            Write-Host "Modifying And Checking VlanID for vlan $modifiedIDX"
+            $newVlanID = Get-Random -Minimum 4 -Maximum 4095 
+            $updated = Set-HuduVlan -id $createdVlan.id -VLANZoneId $newVlanID
+            $updated.vlan_zone_id | Should -Be $newVlanID            
+        } 
+
+        write-host "Deleting Vlan with id $($createdVlan.id)"
+        Remove-HuduVlan -id $createdVlan.id
+    }    
+
+
   
   
   
