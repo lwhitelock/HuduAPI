@@ -4,8 +4,10 @@ function Set-HuduVLANZone {
         [Parameter(Mandatory)] [int]$Id,
         [int]$CompanyId,
         [string]$Description,
+        # VLAN ranges: "1-4", "200-300,400-450", etc.
+        [ValidatePattern('^([1-9][0-9]{0,3}-[1-9][0-9]{0,3})(,([1-9][0-9]{0,3}-[1-9][0-9]{0,3}))*$')]
         [string]$VLANIdRanges,
-        [string]$Archived
+        [ValidateSet("true","false")][string]$Archived
     )
     $vlan_zone = Get-HuduVLANZones -id $Id
     if ($Archived) {

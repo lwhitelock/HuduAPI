@@ -8,51 +8,31 @@ Context "Hudu VLAN / VLAN Zones Integration Tests" {
 
         New-HuduBaseURL $HUDU_BASE_URL
         New-HuduApiKey $HUDU_API_KEY
-        $testCompanyId        = [int]$env:HUDU_TEST_COMPANY_ID ?? $(Get-HuduCompanies | Select-Object -First 1).id
-        if (-not $testCompanyId ) {
-            throw "Missing required test environment variable- testCompanyId= $testCompanyId)"
+        if (-not $env:HUDU_TEST_COMPANY_ID ) {
+            throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_COMPANY_ID)"
         }
-        Write-Host "Setting up test for Networks endpoint... Hudu version: $((Get-HuduAppInfo).version)"
-        function Get-RandomIPV4Range {
-            param(
-                [int]$MinPrefix = 8,
-                [int]$MaxPrefix = 30,
-                [bool]$AvoidReservedFirstOctet=$true
-            )
-
-            if ($AvoidReservedFirstOctet) {
-                do { $b0 = Get-Random -Minimum 1 -Maximum 224 } while ($b0 -eq 127)
-                $bytes = @([byte]$b0) + (1..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 252) })
-            } else {
-                $bytes = 0..3 | ForEach-Object { [byte](Get-Random -Minimum 0 -Maximum 252) }
-            }
-
-            $ip = [System.Net.IPAddress]::new($bytes)
-            $prefix   = Get-Random -Minimum $MinPrefix -Maximum ($MaxPrefix + 1)
-            $hostBits = 32 - $prefix
-            $mask     = [uint32](-bnot ([uint32]((1 -shl $hostBits) - 1)))
-
-            # align to network
-            $ipBytes = $ip.GetAddressBytes(); [array]::Reverse($ipBytes)
-            $ipInt   = [BitConverter]::ToUInt32($ipBytes, 0)
-            $netInt  = $ipInt -band $mask
-            $netBytes = [BitConverter]::GetBytes($netInt); [array]::Reverse($netBytes)
-            $netIp    = [System.Net.IPAddress]::new($netBytes)
-
-            return "$netIp/$prefix"
+        if (-not $env:HUDU_TEST_VLAN_ID ) {
+            throw "Missing required test environment variable- testCompanyId= $HUDU_TEST_VLAN_ID)"
         }
-    
+        $testCompany        = Get-HuduCompanies -id $env:HUDU_TEST_COMPANY_ID
+        $testVLAN.          = Get-Hudu -id $env:HUDU_TEST_COMPANY_ID
+        Write-Host "Setting up test for Vlan and Vlan Zones endpoints using test VLAN $... Hudu version: $((Get-HuduAppInfo).version)"
     }
 
-    It "Creates a number of randomly-generated networks/addresses" {
-        $addressesToCreate  = Get-Random -Minimum 10 -Maximum 16
-        $allNetworks        = Get-HuduNetworks
-        $addressCount       = ($allNetworks).Count
-        $createdNetworks    = @()
-        $modifiedNetworks   = @()
-        $archivedNetworks   = @()
-        $deletedNetworks    = @()
-        Write-Host "Current Address count in Hudu is $addressCount. Set to create, check, update, check, then delete $addressesToCreate new addresses."
+    It "Creates, verifies, updates, verifies, archives, unarchives, deletes vlan and vlan zones." {
+
+        $testCompany = 
+        $vlanInfo = @{
+            Required = $(Get-Random -Minimum 8 -Maximum 12)
+            Created = @()
+        }
+        $zonesInfo = @{
+            Required = $(Get-Random -Minimum 3 -Maximum 5)
+            Created = @()
+        }
+
+
+        Write-Host "creating $($vlanInfo.Required) VLans with $($zonesInfo.Required) Zones each for test company"
 
         for ($i = 1; $i -le $addressesToCreate; $i++) {
             $name = [Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(6)).ToLowerInvariant()

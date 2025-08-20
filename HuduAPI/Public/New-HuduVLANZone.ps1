@@ -3,9 +3,11 @@ function New-HuduVLANZone {
     param (
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$CompanyId,
-        [Parameter(Mandatory)][string]$VLANIdRanges,
+        # VLAN ranges: "1-4", "200-300,400-450", etc.
+        [ValidatePattern('^([1-9][0-9]{0,3}-[1-9][0-9]{0,3})(,([1-9][0-9]{0,3}-[1-9][0-9]{0,3}))*$')]
+        [string]$VLANIdRanges,
         [string]$Description,
-        [string]$Archived='false'
+        [ValidateSet("true","false")][string]$Archived='false'
     )
 
     $vlan_zone = @{name=$Name; company_id = $CompanyId}

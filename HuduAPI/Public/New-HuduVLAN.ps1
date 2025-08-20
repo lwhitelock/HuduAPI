@@ -3,12 +3,12 @@ function New-HuduVLAN {
     param (
         [Parameter(Mandatory)] [string]$Name,
         [Parameter(Mandatory)] [int]$CompanyId,
-        [Parameter(Mandatory)][int]$VLANId,
+        [Parameter(Mandatory)][ValidateRange(4,4094)][int]$VLANId,
         [string]$Description,
         [int]$RoleListItemID,
         [int]$StatusListItemID,
         [int]$VLANZoneId,
-        [string]$Archived='false'
+        [ValidateSet("true","false")][string]$Archived='false'
     )
 
     $vlan = @{name=$Name; company_id = $CompanyId}

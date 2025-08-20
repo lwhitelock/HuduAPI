@@ -5,6 +5,9 @@ function Get-HuduVLANZones {
         [int]$CompanyId,
         [string]$Name,
         [string]$Archived,
+        # VLAN ranges: "1-4", "200-300,400-450", etc.
+        [ValidatePattern('^([1-9][0-9]{0,3}-[1-9][0-9]{0,3})(,([1-9][0-9]{0,3}-[1-9][0-9]{0,3}))*$')]
+        [string]$VLANIdRanges,
         [datetime]$CreatedAfter,
         [datetime]$CreatedBefore,
         [datetime]$UpdatedAfter,
