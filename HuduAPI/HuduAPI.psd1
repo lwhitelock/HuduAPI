@@ -166,7 +166,9 @@
     'Set-HuduVLAN',
     'Set-HuduVLANZone',    
     'Set-HuduWebsite',
-    'Start-HuduProcedure'
+    'Start-HuduProcedure',
+    'Start-HuduExport',
+    'Start-HuduS3Export'
 
 
 
