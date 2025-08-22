@@ -146,8 +146,9 @@
     'Set-HuduPassword',
     'Set-HuduPasswordArchive',
     'Set-HuduWebsite',
-    'Start-HuduProcedure'
-
+    'Start-HuduProcedure',
+    'Start-HuduExport',
+    'Start-HuduS3Export'
 
 
 
