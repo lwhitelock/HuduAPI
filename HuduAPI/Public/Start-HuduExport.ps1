@@ -1,10 +1,32 @@
 function Start-HuduExport {
+    <#
+    .SYNOPSIS
+    Initiate a PDF or CSV backup of Hudu Data for a given company
+
+    .DESCRIPTION
+    Uses Hudu API to initiate a backup for a company
+
+    .PARAMETER CompanyId
+    Company Identifier for company you wish to initiate export for
+
+    .PARAMETER AssetLayoutIDs
+    Optional- List/Array for Layout Identifiers you'd like to include in backup, defaults to all
+
+    .PARAMETER IncludePasswords
+    Include Passwords in export, true/false (defaults to false if not provided)
+
+    .PARAMETER IncludeWebsites
+    Include Websites in export, true/false (defaults to true if not provided)
+
+    .PARAMETER format
+    format desired for export (csv or pdf)
+    #>    
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
         [int]$CompanyId,
         [array]$AssetLayoutIDs=$null,
-        [bool]$IncludePasswords=$true,
+        [bool]$IncludePasswords=$false,
         [bool]$IncludeWebsites=$true,
         [ValidateSet("pdf","csv","PDF","CSV")][string]$format='pdf'
     )
