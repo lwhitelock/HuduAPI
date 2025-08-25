@@ -23,6 +23,6 @@ function Get-HuduGroups {
             Resource = '/api/v1/groups'
             Params   = $Params
         }
-        $result = Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property group
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -property groups
     }
 }

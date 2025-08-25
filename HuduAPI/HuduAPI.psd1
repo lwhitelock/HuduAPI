@@ -117,6 +117,7 @@
     'New-HuduList',
     'New-HuduNetwork',
     'New-HuduPassword',
+    'New-HuduPasswordFolder',
     'New-HuduPublicPhoto',
     'New-HuduProcedure',
     'New-HuduProcedureTask',
