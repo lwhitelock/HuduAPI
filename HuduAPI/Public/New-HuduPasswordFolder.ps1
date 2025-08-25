@@ -8,7 +8,7 @@ function New-HuduPasswordFolder {
         [Parameter(Mandatory)][int]$CompanyId,
         [string]$Description,
         [ValidateSet("all_users","specific")][String]$Security,
-        [array]$AllowedGroups=@())
+        [array]$AllowedGroups)
 
     $password_folder=@{
         name             = $Name
@@ -19,12 +19,12 @@ function New-HuduPasswordFolder {
     }
     if ($security -and $security -eq "specific"){
         $password_folder["security"] = $security
-        $allGroups = Get-HuduGroups
+        $allGroups = $(Get-HuduGroups).id
         $password_folder["allowed_groups"]= 
             $(if ($null -eq $AllowedGroups -or $AllowedGroups.count -lt 1){
                 @($allGroups.id)
             } else {
-                $AllowedGroups | where-object {$allGroups -contains $_.id}
+                $AllowedGroups | where-object {$allGroups -contains $_}
             })
     } else {
         $password_folder["security"] = 'all_users'
