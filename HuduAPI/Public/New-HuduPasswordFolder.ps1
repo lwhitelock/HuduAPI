@@ -20,15 +20,15 @@ function New-HuduPasswordFolder {
     if ($security -and $security -eq "specific"){
         $password_folder["security"] = $security
         $allGroups = $(Get-HuduGroups).id
-        $password_folder["allowed_groups"]= 
-            $(if ($null -eq $AllowedGroups -or $AllowedGroups.count -lt 1){
-                @($allGroups.id)
-            } else {
-                $AllowedGroups | where-object {$allGroups -contains $_}
-            })
+        
+        if ($($AllowedGroups | where-object {$allGroups -contains $_}).count -gt 0) {
+            $password_folder["allowed_groups"]= $AllowedGroups | where-object {$allGroups -contains $_}
+        } else {
+            $password_folder["allowed_groups"]=@("0")
+        }
     } else {
         $password_folder["security"] = 'all_users'
-        $password_folder["allowed_groups"]= 0
+        $password_folder["allowed_groups"]= @()
     }
     $payload = @{password_folder = $password_folder} | ConvertTo-Json -Depth 10
     try {

@@ -164,6 +164,7 @@
     'Set-HuduProcedure',
     'Set-HuduProcedureTask',
     'Set-HuduPassword',
+    'Set-HuduPasswordFolder',
     'Set-HuduPasswordArchive',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
