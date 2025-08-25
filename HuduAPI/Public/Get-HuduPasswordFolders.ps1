@@ -21,13 +21,11 @@ function Get-HuduPasswordFolders {
     #>
     [CmdletBinding()]
     Param (
-        [Int]$Id = '',
-        [String]$Name = '',
-        [String]$Search = '',
+        [Int]$Id,
+        [String]$Name,
+        [String]$Search,
         [Alias('company_id')]
-        [Int]$CompanyId = '',
-        [Int]$page = '',
-        [Int]$page_size = ''
+        [Int]$CompanyId
     )
 
     if ($id) {
