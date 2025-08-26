@@ -31,11 +31,13 @@ Context "Hudu Password Folders Integration Tests" {
                 $passFolderRequest= @{
                     Security = "all_users"
                 }
+                Write-Host "Password Folder $i of $passwordFoldersToCreate will be set to 'all_users'"
             } else {
                 $passFolderRequest= @{
                     Security = "specific"
                     AllowedGroups = $(if ($allgroups.count -gt 2) {$($allGroups | Get-Random -count $($allgroups.count -1))} else {@(0)})
                 }
+                Write-Host "Password Folder $i of $passwordFoldersToCreate will be set to 'specific' security groups $($passFolderRequest.AllowedGroups)"
             }
             $passFolderRequest.Name = "$(Get-RandomHexString -bytes $(get-random -Minimum 12 -Maximum 16)) $(Get-RandomHexString -bytes $(get-random -Minimum 4 -Maximum 8))"
             $passFolderRequest.Description = "Test Password Folder, $($passFolderRequest.Name). It contains $(Get-RandomHexString -bytes $(get-random -Minimum 12 -Maximum 16))"
@@ -50,6 +52,12 @@ Context "Hudu Password Folders Integration Tests" {
             $newPasswordFolder.security           | Should -Be $passFolderRequest.Security
             $newPasswordFolder.description        | Should -Be $passFolderRequest.Description
 
+            Write-Host "retrieving password folder ($i of $passwordFoldersToCreate) $($newPasswordFolder.name) and comparing properties to ensure as-expected"
+            $retrievedPasswordFolder = Get-HuduPasswordFolders -id $newPasswordFolder.id
+            $newPasswordFolder.name               | Should -Be $retrievedPasswordFolder.name
+            $newPasswordFolder.company_id         | Should -Be $retrievedPasswordFolder.company_id
+            $newPasswordFolder.security           | Should -Be $retrievedPasswordFolder.security
+            $newPasswordFolder.description        | Should -Be $retrievedPasswordFolder.description
 
             $updatedFolderName = "$(Get-RandomHexString -bytes $(get-random -Minimum 3 -Maximum 5)) $(Get-RandomHexString -bytes $(get-random -Minimum 6 -Maximum 9))"
             $updatedFolderDescription = "$(Get-RandomHexString), $(Get-RandomHexString) $(Get-RandomHexString) $(Get-RandomHexString)"
