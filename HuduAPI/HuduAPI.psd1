@@ -12,7 +12,7 @@
     RootModule        = '.\HuduAPI.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.3.0'
+    ModuleVersion     = '3.14.15'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -85,11 +85,13 @@
     'Get-HuduExpirations',
     'Get-HuduFolderMap',
     'Get-HuduFolders',
+    'Get-HuduGroups',
     'Get-HuduIntegrationMatchers',
     'Get-HuduLists',
     'Get-HuduMagicDashes',
     'Get-HuduNetworks',
     'Get-HuduPasswords',
+    'Get-HuduPasswordFolders',
     'Get-HuduProcedures',
     'Get-HuduProcedureTasks',
     'Get-HuduPublicPhotos',
@@ -98,6 +100,7 @@
     'Get-HuduRelations',
     'Get-HuduSubFolders',
     'Get-HuduUploads',
+    'Get-HuduUsers',
     'Get-HuduVLANs',
     'Get-HuduVLANZones',    
     'Get-HuduWebsites',
@@ -114,6 +117,7 @@
     'New-HuduList',
     'New-HuduNetwork',
     'New-HuduPassword',
+    'New-HuduPasswordFolder',
     'New-HuduPublicPhoto',
     'New-HuduProcedure',
     'New-HuduProcedureTask',
@@ -135,6 +139,7 @@
     'Remove-HuduMagicDash',
     'Remove-HuduNetwork',
     'Remove-HuduPassword',
+    'Remove-HuduPasswordFolder',
     'Remove-HuduProcedure',
     'Remove-HuduProcedureTask',
     'Remove-HuduRackStorageItem',
@@ -160,6 +165,7 @@
     'Set-HuduProcedure',
     'Set-HuduProcedureTask',
     'Set-HuduPassword',
+    'Set-HuduPasswordFolder',
     'Set-HuduPasswordArchive',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
