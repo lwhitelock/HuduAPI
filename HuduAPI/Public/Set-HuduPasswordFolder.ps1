@@ -1,6 +1,34 @@
 function Set-HuduPasswordFolder {
-    <##>
-    
+    <#
+    .SYNOPSIS
+    Update an existing password folder.
+
+    .DESCRIPTION
+    Calls the Hudu API to update details of an existing password folder.  
+    You can change the name, description, security mode, or allowed groups.
+
+    .PARAMETER Id
+    The numeric ID of the folder to update (required).
+
+    .PARAMETER Name
+    New folder name. If omitted, the existing name is retained.
+
+    .PARAMETER Description
+    New description. If omitted, the existing description is retained.
+
+    .PARAMETER Security
+    Security mode. Accepts "all_users" or "specific".
+
+    .PARAMETER AllowedGroups
+    Array of group IDs that should have access (if Security is "specific").
+
+    .EXAMPLE
+    Set-HuduPasswordFolder -Id 5 -Name "Updated Folder"
+    Renames folder ID 5 to "Updated Folder".
+
+    .EXAMPLE
+    Set-HuduPasswordFolder -Id 7 -Security specific -AllowedGroups @(3,4)
+    Restricts folder ID 7 access to groups 3 and 4.
     #>
     [CmdletBinding()]
     param (

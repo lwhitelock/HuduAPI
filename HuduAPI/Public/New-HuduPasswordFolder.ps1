@@ -1,6 +1,34 @@
 function New-HuduPasswordFolder {
     <#
+    .SYNOPSIS
+    Create a new password folder.
 
+    .DESCRIPTION
+    Calls the Hudu API to create a password folder for a given company.  
+    Supports configuring name, description, security settings, and allowed groups.
+
+    .PARAMETER Name
+    Name of the new folder (required).
+
+    .PARAMETER CompanyId
+    The company ID that owns the folder (required).
+
+    .PARAMETER Description
+    Description of the folder.
+
+    .PARAMETER Security
+    Security mode. Accepts "all_users" or "specific".
+
+    .PARAMETER AllowedGroups
+    Array of group IDs that should have access (if Security is "specific").
+
+    .EXAMPLE
+    New-HuduPasswordFolder -Name "Infrastructure" -CompanyId 2
+    Creates a folder named "Infrastructure" for company ID 2.
+
+    .EXAMPLE
+    New-HuduPasswordFolder -Name "Finance" -CompanyId 4 -Security specific -AllowedGroups @(10,12)
+    Creates a folder for company 4 restricted to groups 10 and 12.
     #>
     [CmdletBinding()]
     param (
