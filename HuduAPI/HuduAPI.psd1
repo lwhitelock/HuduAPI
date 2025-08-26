@@ -139,6 +139,7 @@
     'Remove-HuduMagicDash',
     'Remove-HuduNetwork',
     'Remove-HuduPassword',
+    'Remove-HuduPasswordFolder',
     'Remove-HuduProcedure',
     'Remove-HuduProcedureTask',
     'Remove-HuduRackStorageItem',

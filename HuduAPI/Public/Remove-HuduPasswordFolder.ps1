@@ -13,14 +13,12 @@ function Remove-HuduPasswordFolder {
     Remove-HuduPasswordFolder -Id 1
 
     #>
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding()]
     Param (
-        [Parameter(ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
+        [Parameter(Mandatory = $true)]
         [Int]$Id
     )
     process {
-        if ($PSCmdlet.ShouldProcess($Id)) {
-            Invoke-HuduRequest -Method delete -Resource "/api/v1/password_folders/$Id"
-        }
+        Invoke-HuduRequest -Method delete -Resource "/api/v1/password_folders/$Id"
     }
 }

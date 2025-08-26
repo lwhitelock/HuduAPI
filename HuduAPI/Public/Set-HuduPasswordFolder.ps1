@@ -15,6 +15,7 @@ function Set-HuduPasswordFolder {
     $updatePasswordFolder=@{
         name        = $(if ($Name) {$Name} else {$passwordFolder.name})
         description = $(if ($Description) {$Description} else {$passwordFolder.description})
+        company_id = $passwordFolder.company_id
     }
 
     if (($AllowedGroups -and $AllowedGroups -ne $passwordFolder.allowed_groups) -or ($security -and $security -eq "specific")){
