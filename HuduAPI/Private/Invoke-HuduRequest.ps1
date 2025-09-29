@@ -1,4 +1,3 @@
-
 function Invoke-HuduRequest {
     <#
     .SYNOPSIS
@@ -41,7 +40,7 @@ function Invoke-HuduRequest {
         [string]$Body,
 
         [Parameter()]
-        [hashtable]$Form
+        [hashtable]$Form  
     )
 
     $HuduAPIKey = Get-HuduApiKey
@@ -101,16 +100,10 @@ function Invoke-HuduRequest {
         $Results = Invoke-RestMethod @RestMethod
     } catch {
         $errorMessage = $_.Exception.Message
-        Write-Error "$(($RestMethod | ConvertTo-Json -Depth 24).ToString()) => $errorMessage"
-
         if ($errorMessage -like '*Retry later*' -or $errorMessage -like '*429*Too Many Requests*') {
             $now = Get-Date
             $windowLength = 5 * 60  # 5 minutes in seconds
-
-            # Current total seconds into the current 5-minute window
             $secondsIntoWindow = (($now.Minute % 5) * 60) + $now.Second
-
-            # How many seconds until the next window (ensures result is 0–300)
             $secondsUntilNextWindow = [math]::Max(0, $windowLength - $secondsIntoWindow)
 
             $jitter = Get-Random -Minimum 1 -Maximum 5
@@ -118,17 +111,26 @@ function Invoke-HuduRequest {
             Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
-            Write-Error "'$_'... Trying again in 5 seconds."
+            Write-APIErrorObject -name "$path-$method" -ErrorObject @{
+                exception = $_
+                request = $RestMethod
+                resolution = "Trying again in 5 seconds."
+            }
             Start-Sleep -Seconds 5
         }
 
         try {
             $Results = Invoke-RestMethod @RestMethod
         } catch {
-            Write-Error "Retry failed as well: $($_.Exception.Message)"
+            Write-APIErrorObject -name "$resource-$method-retry" -ErrorObject @{
+                exception = $_
+                request = $RestMethod
+                resolution = "Retry failed as well. Handle this error here or avoid it prior."
+            }
             return $null
         }
     }
+
 
     $Results
 }
