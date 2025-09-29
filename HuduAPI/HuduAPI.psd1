@@ -158,8 +158,9 @@
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
     'Set-HuduWebsite',
-    'Start-HuduProcedure'
-
+    'Start-HuduProcedure',
+    'Start-HuduExport',
+    'Start-HuduS3Export'
 
 
 
