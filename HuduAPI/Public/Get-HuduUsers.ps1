@@ -35,9 +35,9 @@ function Get-HuduUsers {
         [string]$Email = '',
         [string]$First_name = '',
         [string]$Last_name = '',
-	      [ValidateRange(1, [int]::MaxValue)]
+	    [ValidateRange(1, [int]::MaxValue)]
         [Int]$Portal_member_company_id = '',
-	      [String]$Securitylevel = '',
+	    [String]$Securitylevel = '',
         [string]$Slug = ''
     )
 

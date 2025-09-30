@@ -1,33 +1,40 @@
 function Get-HuduPasswordFolders {
     <#
     .SYNOPSIS
-    Get a list of Password Folders
+    Retrieve password folders.
 
     .DESCRIPTION
-    Calls Hudu API to retrieve folders
+    Calls the Hudu API to return password folders.  
+    You can fetch a single folder by Id, or filter by name/company.
 
     .PARAMETER Id
-    Id of the folder
+    The numeric ID of the folder to retrieve.
 
     .PARAMETER Name
-    Filter by name
+    Filter by folder name.
 
     .PARAMETER CompanyId
-    Filter by company_id
+    Filter by company ID.
 
     .EXAMPLE
-    Get-HuduFolders
+    Get-HuduPasswordFolders
+    Retrieves all password folders.
 
+    .EXAMPLE
+    Get-HuduPasswordFolders -Id 12
+    Retrieves the folder with ID 12.
+
+    .EXAMPLE
+    Get-HuduPasswordFolders -CompanyId 5
+    Retrieves folders belonging to company with ID 5.
     #>
     [CmdletBinding()]
     Param (
-        [Int]$Id = '',
-        [String]$Name = '',
-        [String]$Search = '',
+        [Int]$Id,
+        [String]$Name,
+        [String]$Search,
         [Alias('company_id')]
-        [Int]$CompanyId = '',
-        [Int]$page = '',
-        [Int]$page_size = ''
+        [Int]$CompanyId
     )
 
     if ($id) {

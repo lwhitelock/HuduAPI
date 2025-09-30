@@ -41,7 +41,7 @@ function Set-HuduAssetLayout {
 
     .PARAMETER Fields
     Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
-    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown, Embed, Email (aka CopyableText), Phone, AssetLink
+    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
     Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
     .EXAMPLE
@@ -90,10 +90,10 @@ function Set-HuduAssetLayout {
         [array]$Fields
     )
 
-    foreach ($Field in $Fields) {
-        $Field.show_in_list = [System.Convert]::ToBoolean($Field.show_in_list)
-        $Field.required = [System.Convert]::ToBoolean($Field.required)
-        $Field.expiration = [System.Convert]::ToBoolean($Field.expiration)
+    foreach ($field in $fields) {
+        if ($field.show_in_list) { $field.show_in_list = [System.Convert]::ToBoolean($field.show_in_list) } else { $field.remove('show_in_list') }
+        if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
+        if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
         # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
         switch ($field.'field_type') {
             'text'              { $field.'field_type' = 'Text' }
@@ -102,14 +102,19 @@ function Set-HuduAssetLayout {
             'checkbox'          { $field.'field_type' = 'CheckBox' }
             'number'            { $field.'field_type' = 'Number' }
             'date'              { $field.'field_type' = 'Date' }
-            'dropdown'          { $field.'field_type' = 'Dropdown' }
+            'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }
             'phone'             { $field.'field_type' = 'Phone' }
-            {$_ -in 'email','copyabletext'}     { $field.'field_type' = 'Email' }
-            {$_ -in 'assettag','assetlink'}        { $field.'field_type' = 'AssetTag' }
-            {$_ -in 'website','link'}             { $field.'field_type' = 'Website' }
-            {$_ -in 'password','confidentialtext'} { $field.'field_type' = 'Password' }
-            Default { Write-Error "Invalid field type: $($field.'field_type') found in field $($field.name)"; break }
+            'email'             { $field.'field_type' = 'Email' }
+            'copyabletext'      { $field.'field_type' = 'Email' }
+            'assettag'          { $field.'field_type' = 'AssetTag' }
+            'assetlink'         { $field.'field_type' = 'AssetTag' }
+            'website'           { $field.'field_type' = 'Website' }
+            'link'              { $field.'field_type' = 'Website' }
+            'password'          { $field.'field_type' = 'Password' }
+            'confidentialtext'  { $field.'field_type' = 'Password' }
+            'listselect' { $field.'field_type' = 'ListSelect' }
+            Default { throw "Invalid field type: $($field.'field_type') found in field $($field.name)" }
         }
     }
     $Object = Get-HuduAssetLayouts -id $Id
