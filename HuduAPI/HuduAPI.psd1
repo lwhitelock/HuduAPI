@@ -12,7 +12,7 @@
     RootModule        = '.\HuduAPI.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.3.0'
+    ModuleVersion     = '3.14.15'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -90,6 +90,7 @@
     'Get-HuduLists',
     'Get-HuduNetworks',
     'Get-HuduMagicDashes',
+    'Get-HuduNetworks',
     'Get-HuduPasswords',
     'Get-HuduPasswordFolders',
     'Get-HuduProcedures',
@@ -103,6 +104,9 @@
     'Get-HuduVLANs',
     'Get-HuduVLANZones',
     'Get-HuduUsers',
+    'Get-HuduUsers',
+    'Get-HuduVLANs',
+    'Get-HuduVLANZones',    
     'Get-HuduWebsites',
     'Initialize-HuduFolder',
     'Invoke-HuduRequest',
@@ -119,6 +123,9 @@
     'New-HuduPassword',
     'New-HuduPasswordFolder',
     'New-HuduPublicPhoto',
+    'New-HuduProcedure',
+    'New-HuduProcedureTask',
+    'New-HuduProcedureFromTemplate',
     'New-HuduRackStorageItem',
     'New-HuduRackStorage',    
     'New-HuduProcedure',
@@ -140,6 +147,8 @@
     'Remove-HuduNetwork',
     'Remove-HuduPassword',
     'Remove-HuduPasswordFolder',
+    'Remove-HuduProcedure',
+    'Remove-HuduProcedureTask',
     'Remove-HuduRackStorageItem',
     'Remove-HuduRackStorage',    
     'Remove-HuduProcedure',
@@ -171,10 +180,13 @@
     'Set-HuduVLANZone',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
+    'Set-HuduVLAN',
+    'Set-HuduVLANZone',    
     'Set-HuduWebsite',
     'Start-HuduProcedure',
     'Start-HuduExport',
     'Start-HuduS3Export'
+
 
 
 
