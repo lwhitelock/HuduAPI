@@ -38,7 +38,7 @@ function New-HuduAssetLayout {
 
     .PARAMETER Fields
     Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
-    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown, Embed, Email (aka CopyableText), Phone, AssetLink
+    Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
     Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
     .EXAMPLE
@@ -97,7 +97,7 @@ function New-HuduAssetLayout {
             'checkbox'          { $field.'field_type' = 'CheckBox' }
             'number'            { $field.'field_type' = 'Number' }
             'date'              { $field.'field_type' = 'Date' }
-            'dropdown'          { $field.'field_type' = 'Dropdown' }
+            'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }
             'phone'             { $field.'field_type' = 'Phone' }
             'email'             { $field.'field_type' = 'Email' }
@@ -108,6 +108,7 @@ function New-HuduAssetLayout {
             'link'              { $field.'field_type' = 'Website' }
             'password'          { $field.'field_type' = 'Password' }
             'confidentialtext'  { $field.'field_type' = 'Password' }
+            'listselect' { $field.'field_type' = 'ListSelect' }
             Default { throw "Invalid field type: $($field.'field_type') found in field $($field.name)" }
         }
     }
