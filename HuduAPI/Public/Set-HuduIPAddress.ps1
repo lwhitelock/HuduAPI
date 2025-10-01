@@ -19,43 +19,49 @@ Update a Hudu ip address.
         [int]$CompanyID,
         [bool]$SkipDNSValidation=$true
     )
-    $object = Get-HuduAddresses -id $Id
-    $huduaddress = [ordered]@{ip_address = $object }
+        try {
+            $existing = Get-HuduIPAddresses -Id $Id
+        } catch {
+            Write-Verbose "Unable to fetch existing IP address $Id- $_"
+            return
+        }
 
-    if ($Address) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name address -Force -Value $Address
-    }
-    if ($Status) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name status -Force -Value $Status
-    }  
-    if ($FQDN) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name fqdn -Force -Value $FQDN
-    }       
-    if ($Description) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
-    }       
-    if ($Notes) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name notes -Force -Value $Notes
-    }     
-    if ($AssetId) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name asset_id -Force -Value $AssetId
-    }       
-    if ($NetworkId) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name network_id -Force -Value $NetworkId
-    }                    
-    if ($CompanyId) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name company_id -Force -Value $CompanyId
-    }
-    if ($SkipDNSValidation) {
-        $huduaddress.network | Add-Member -MemberType NoteProperty -Name skip_dns_validation -Force -Value "$($SkipDNSValidation)".ToLower()
-    }
+        $attrs = @{}
 
-    $payload = $huduaddress | ConvertTo-Json -depth 10
-    try {
-        $response = Invoke-HuduRequest -Method PUT -Resource "/api/v1/ip_addresses/$Id" -Body $payload
-        return $response
-    } catch {
-        Write-Warning "Failed to set address '$Id'"
-        return $null
-    }
+        if ($IncludeExisting.IsPresent -and $existing) {
+            foreach ($prop in @('address','status','fqdn','description','notes','asset_id','network_id','company_id','skip_dns_validation')) {
+                if ($existing.PSObject.Properties.Match($prop)) {
+                    $value = $existing.$prop
+                    if ($null -ne $value) { $attrs[$prop] = $value }
+                }
+            }
+        }
+
+        if ($PSBoundParameters.ContainsKey('Address'))        { $attrs.address             = $Address }
+        if ($PSBoundParameters.ContainsKey('Status'))         { $attrs.status              = $Status }
+        if ($PSBoundParameters.ContainsKey('FQDN'))           { $attrs.fqdn                = $FQDN }
+        if ($PSBoundParameters.ContainsKey('Description'))    { $attrs.description         = $Description }
+        if ($PSBoundParameters.ContainsKey('Notes'))          { $attrs.notes               = $Notes }
+        if ($PSBoundParameters.ContainsKey('AssetId'))        { $attrs.asset_id            = $AssetId }
+        if ($PSBoundParameters.ContainsKey('NetworkId'))      { $attrs.network_id          = $NetworkId }
+        if ($PSBoundParameters.ContainsKey('CompanyId'))      { $attrs.company_id          = $CompanyId }
+        if ($PSBoundParameters.ContainsKey('SkipDNSValidation')) {
+            $attrs.skip_dns_validation = "$SkipDNSValidation".ToLower()
+        }
+
+        if ($attrs.Count -eq 0) {
+            Write-Verbose "No properties provided to update for IP $Id. Exiting."
+            return $existing
+        }
+
+        $payload = @{ ip_address = $attrs } | ConvertTo-Json -Depth 10
+
+        try {
+            $response = Invoke-HuduRequest -Method PUT -Resource "/api/v1/ip_addresses/$Id" -Body $payload
+            return $response
+        } catch {
+            Write-Warning "Failed to update IP address $Id- $_"
+            return $null
+        }
+
 }

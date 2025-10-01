@@ -11,8 +11,8 @@ Delete a Hudu network.
 
     try {
         Invoke-HuduRequest -Method DELETE -Resource "/api/v1/ip_addresses/$Id"
-        Write-Host "Successfully deleted network ID $Id" -ForegroundColor Green
+        Write-Host "Successfully deleted address ID $Id" -ForegroundColor Green
     } catch {
-        Write-Warning "Failed to delete network ID $Id"
+        Write-Warning "Failed to delete address ID $Id"
     }
 }

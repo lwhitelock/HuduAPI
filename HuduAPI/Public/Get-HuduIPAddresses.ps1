@@ -24,12 +24,12 @@ function Get-HuduIPAddresses {
     if ($AssetID){$params["asset_id"]=$AssetID}
     if ($CompanyID){$params["company_id"]=$CompanyID}
 
-    $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
+    $createdRange = if ($CreatedAfter -and $CreatedBefore) {Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore}
     if ($createdRange -ne ',' -and -$null -ne $createdRange) {
         $Params.created_at = $createdRange
     }
 
-    $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+    $updatedRange = if ($UpdatedAfter -and $UpdatedBefore) {Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore}
     if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
         $Params.updated_at = $updatedRange
     }
