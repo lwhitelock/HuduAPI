@@ -16,7 +16,7 @@ Create a new Hudu ip address.
         [string]$Description='',
         [string]$Notes='',
         [int]$AssetID,
-        [bool]$SkipDNSValidation=$false
+        [bool]$SkipDNSValidation=$true
     )
     if (@($Address, $CompanyId, $NetworkId) -contains $null) {
         Write-Warning "Missing required item(s)"

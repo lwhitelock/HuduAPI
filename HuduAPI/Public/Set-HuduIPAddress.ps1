@@ -38,13 +38,13 @@ Update a Hudu ip address.
         }
 
         if ($PSBoundParameters.ContainsKey('Address'))        { $attrs.address             = $Address }
-        if ($PSBoundParameters.ContainsKey('Status'))         { $attrs.status              = $Status }
         if ($PSBoundParameters.ContainsKey('FQDN'))           { $attrs.fqdn                = $FQDN }
         if ($PSBoundParameters.ContainsKey('Description'))    { $attrs.description         = $Description }
         if ($PSBoundParameters.ContainsKey('Notes'))          { $attrs.notes               = $Notes }
         if ($PSBoundParameters.ContainsKey('AssetId'))        { $attrs.asset_id            = $AssetId }
         if ($PSBoundParameters.ContainsKey('NetworkId'))      { $attrs.network_id          = $NetworkId }
         if ($PSBoundParameters.ContainsKey('CompanyId'))      { $attrs.company_id          = $CompanyId }
+        if ($PSBoundParameters.ContainsKey('Status'))         { $attrs.status              = "$Status".ToLower() }
         if ($PSBoundParameters.ContainsKey('SkipDNSValidation')) {
             $attrs.skip_dns_validation = "$SkipDNSValidation".ToLower()
         }

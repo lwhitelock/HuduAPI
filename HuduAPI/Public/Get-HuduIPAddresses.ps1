@@ -19,7 +19,7 @@ function Get-HuduIPAddresses {
     $Params = @{}
     if ($NetworkId){$params["network_id"]=$NetworkId}
     if ($Address){$params["address"]=$Address}
-    if ($Status){$params["status"]=$Status}
+    if ($Status){$params["status"]="$Status".ToLower()}
     if ($FQDN){$params["fqdn"]=$FQDN}
     if ($AssetID){$params["asset_id"]=$AssetID}
     if ($CompanyID){$params["company_id"]=$CompanyID}
