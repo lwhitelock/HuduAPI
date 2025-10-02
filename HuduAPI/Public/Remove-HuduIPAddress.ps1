@@ -2,6 +2,13 @@ function Remove-HuduIPAddress {
 <#
 .SYNOPSIS
 Delete a Hudu network.
+
+.DESCRIPTION
+Deletes one Hudu IPAM IP address objects.
+
+.PARAMETER Id
+IP address record ID to retrieve (exact match).
+
 #>    
     [CmdletBinding()]
     param(

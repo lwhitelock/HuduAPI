@@ -1,9 +1,64 @@
 function Set-HuduIPAddress {
 <#
 .SYNOPSIS
-Update a Hudu ip address.
+Update a Hudu IP address.
 
-#>    
+.DESCRIPTION
+Updates fields on an existing Hudu IPAM IP address record.
+Returns the updated object on success, the existing object if nothing changed, or $null on failure.
+
+.PARAMETER Id
+The unique IP record ID to update (required).
+
+.PARAMETER Address
+New IP address string (e.g. '192.168.10.25').
+
+.PARAMETER Status
+New IP status string as used by Hudu (e.g. 'active', 'reserved', 'available').
+Value is lowercased before request.
+
+.PARAMETER FQDN
+New FQDN for this IP.
+
+.PARAMETER Description
+New description text.
+
+.PARAMETER Notes
+New notes text.
+
+.PARAMETER AssetId
+Asset ID to (re)link this IP to.
+
+.PARAMETER NetworkId
+Parent Network ID to (re)associate with.
+
+.PARAMETER CompanyId
+Company ID to (re)associate with.
+
+.PARAMETER SkipDNSValidation
+If specified, controls whether the server should skip DNS validation ('true'/'false' sent).
+If $true, the server should skip DNS validation for FQDN (default: $true). [note- DNS validation only works if your hudu instance can resolve dns to this address, so public or same-private network]
+
+.OUTPUTS
+pscustomobject (updated IP object), the existing object (if no changes), or $null on failure.
+
+.EXAMPLE
+Set-HuduIPAddress -Id 1234 -Status active -Notes 'Now assigned to core switch'
+
+.EXAMPLE
+# Update multiple fields, preserving existing unset ones
+Set-HuduIPAddress -Id 1234 -IncludeExisting -FQDN 'cam01.example.com' -Description 'Parking lot camera'
+
+.EXAMPLE
+# Toggle DNS validation behavior
+Set-HuduIPAddress -Id 1234 -SkipDNSValidation:$false
+
+.NOTES
+If no updatable parameters are provided, the cmdlet returns the existing object and exits.
+'SkipDNSValidation' is serialized as a lowercased string value per API expectations.
+
+#>
+
 
     [CmdletBinding()]
     param(
