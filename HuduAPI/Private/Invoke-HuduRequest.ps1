@@ -9,9 +9,6 @@ function Invoke-HuduRequest {
     .PARAMETER Method
     GET,POST,DELETE,PUT,etc
 
-    .PARAMETER Path
-    Path to API endpoint
-
     .PARAMETER Params
     Hashtable of parameters
 
@@ -111,6 +108,7 @@ function Invoke-HuduRequest {
             Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
+            if ($global:SKIP_HAPI_ERROR_RETRY -and $true -eq $global:SKIP_HAPI_ERROR_RETRY) { return $null }
             Write-APIErrorObject -name "$path-$method" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
