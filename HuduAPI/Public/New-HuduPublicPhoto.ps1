@@ -31,7 +31,8 @@ function New-HuduPublicPhoto {
         [string]$RecordType
     )
 
-    $File = Get-Item $FilePath
+    $File = Get-Item -LiteralPath $FilePath
+    if (-not $File) {throw "File not found!"}
     $form = @{
         photo = $File
     }
