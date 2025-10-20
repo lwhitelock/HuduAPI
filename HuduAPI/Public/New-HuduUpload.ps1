@@ -34,7 +34,8 @@ function New-HuduUpload {
         [string]$uploadable_type
     )
 
-    $File = Get-Item $FilePath
+    $File = Get-Item -LiteralPath $FilePath
+    if (-not $File) { throw "File not found!" }
     
     $form = @{
         file = $File
