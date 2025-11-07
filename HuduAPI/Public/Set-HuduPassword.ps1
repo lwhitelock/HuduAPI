@@ -97,8 +97,7 @@ function Set-HuduPassword {
     $AssetPassword = [ordered]@{asset_password = $Object }
 
     if ($Name) {
-        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name
-        
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name   
     }
     
     if ($CompanyId) {
@@ -113,40 +112,33 @@ function Set-HuduPassword {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name in_portal -Force -Value $InPortal
     }
     
-
-    if ($PasswordableType) {
-        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_type -Force -Value $PasswordableType
-    }
-    if ($PasswordableId) {
-        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_id -Force -Value $PasswordableId
-    }
-
     if ($OTPSecret) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name otp_secret -Force -Value $OTPSecret
     }
-
     if ($URL) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name url -Force -Value $URL
     }
-
     if ($Username) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name username -Force -Value $Username
     }
-
     if ($Description) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
     }
-
     if ($PasswordType) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_type -Force -Value $PasswordType
     }
-
-    if ($PasswordFolderId) {
-        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_folder_id -Force -Value $PasswordFolderId
-    }
-
     if ($Slug) {
         $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name slug -Force -Value $Slug
+    }
+    # Can remove these by setting null
+    if ($PSBoundParameters.ContainsKey('PasswordFolderId')) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name password_folder_id -Force -Value $PasswordFolderId
+    }
+    if ($PSBoundParameters.ContainsKey('PasswordableType')) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_type -Force -Value $PasswordableType
+    }
+    if ($PSBoundParameters.ContainsKey('PasswordableId')) {
+        $AssetPassword.asset_password | Add-Member -MemberType NoteProperty -Name passwordable_id -Force -Value $PasswordableId
     }
 
     $JSON = $AssetPassword | ConvertTo-Json -Depth 10

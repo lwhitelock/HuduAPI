@@ -33,14 +33,19 @@ function New-HuduPasswordFolder {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)] [string]$Name,
-        [Parameter(Mandatory)][int]$CompanyId,
+        [int]$CompanyId,
         [string]$Description,
         [ValidateSet("all_users","specific")][String]$Security,
         [array]$AllowedGroups)
 
     $password_folder=@{
-        name             = $Name
-        company_id       = $CompanyId
+        name = $Name
+    }
+    if ($PSBoundParameters.ContainsKey('CompanyId')) {
+        $password_folder.company_id = $CompanyId
+    } else {
+        # Assumed to be global password folder if not provided
+        $password_folder.company_id = $null
     }
     if ($Description){
         $password_folder["description"] = $Description
