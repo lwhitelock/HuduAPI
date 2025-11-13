@@ -166,7 +166,7 @@
     'Set-HuduAsset',
     'Set-HuduAssetArchive',
     'Set-HuduAssetLayout',
-    'Set-HuduAssetLayout',
+    'Set-HuduAssetLayoutField',
     'Set-HuduCompany',
     'Set-HuduCompanyArchive',
     'Set-HuduFolder',
