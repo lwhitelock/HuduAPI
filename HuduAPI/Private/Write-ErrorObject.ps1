@@ -43,28 +43,19 @@ $stringOutput
 ==== PROPERTY DUMP ====
 $propertyDump
 "@
-    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {
-        Set-HapiErrorsDirectory -Path (Join-Path -Path $($env:LOCALAPPDATA) -ChildPath "$($("$(Get-HuduBaseURL)" -replace "https://",'') -replace "/",'')-errors")
-    }
+    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {Set-HapiErrorsDirectory}
 
     $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
     if ($SafeName.Length -gt 60) {
         $SafeName = $SafeName.Substring(0, 60)
     }
-    $filename = "${SafeName}_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
-    $fullPath = Join-Path $script:HAPI_ERRORS_DIRECTORY $filename
+    $fullPath = Join-Path $script:HAPI_ERRORS_DIRECTORY "${SafeName}_error_$(Get-Date -Format 'yyyyMMdd_HHmmss').log"
     Set-Content -Path $fullPath -Value $logContent -Encoding UTF8
-    if ($Color) {
-        Write-Host "Error written to $fullPath" -ForegroundColor $Color
-    } else {
-        Write-Host "Error written to $fullPath"
-    }
-
 
     if ($script:HAPI_ERROR_COLOR -and @("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White") -contains $script:HAPI_ERROR_COLOR) {
-        Write-Host "$logContent" -ForegroundColor $script:HAPI_ERROR_COLOR
+        Write-Host "$logContent`nError written to $fullPath" -ForegroundColor $script:HAPI_ERROR_COLOR
     } elseif ($Color) {
-        Write-Host "$logContent" -ForegroundColor $Color
+        Write-Host "$logContent`nError written to $fullPath" -ForegroundColor $Color
     } else {
         Write-Host "$logContent"
     }
