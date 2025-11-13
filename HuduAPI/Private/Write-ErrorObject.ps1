@@ -44,7 +44,7 @@ $stringOutput
 $propertyDump
 "@
     if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {
-        Set-HapiErrorsDirectory -Path (Join-Path -Path $PSScriptRoot -ChildPath "$(Get-HuduBaseURL)-errors")
+        Set-HapiErrorsDirectory -Path (Join-Path -Path $($env:LOCALAPPDATA) -ChildPath "$($("$(Get-HuduBaseURL)" -replace "https://",'') -replace "/",'')-errors")
     }
 
     $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
