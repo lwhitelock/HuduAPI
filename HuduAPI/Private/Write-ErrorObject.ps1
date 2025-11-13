@@ -43,9 +43,7 @@ $stringOutput
 ==== PROPERTY DUMP ====
 $propertyDump
 "@
-    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {
-        Set-HapiErrorsDirectory -Path (Join-Path -Path $($env:LOCALAPPDATA) -ChildPath "$($("$(Get-HuduBaseURL)" -replace "https://",'') -replace "/",'')-errors")
-    }
+    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {Set-HapiErrorsDirectory}
 
     $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
     if ($SafeName.Length -gt 60) {

@@ -1,9 +1,12 @@
 function Set-HapiErrorsDirectory {
     param(
-        [Parameter(Mandatory)][string]$Path,
+        [Parameter()][string]$Path=$null,
         [Parameter()][bool]$skipRetry=$false,
         [Parameter()][ValidateSet("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White")]
         [string]$Color="DarkCyan")
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        $Path = $script:HAPI_ERRORS_DIRECTORY ?? (Join-Path -Path $($env:LOCALAPPDATA) -ChildPath "$($("$(Get-HuduBaseURL)" -replace "https://",'') -replace "/",'')-errors")
+    }
     if (!(Test-Path -Path $Path)) {
         New-Item -ItemType Directory -Path $Path | Out-Null
     }
