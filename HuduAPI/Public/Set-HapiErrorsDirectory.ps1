@@ -1,7 +1,7 @@
 function Set-HapiErrorsDirectory {
     param(
         [Parameter()][string]$Path=$null,
-        [Parameter()][bool]$skipRetry=$null,
+        [Parameter()][bool]$skipRetry=$false,
         [Parameter()][ValidateSet("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White",$null)]
         [string]$Color=$null)
     if ([string]::IsNullOrWhiteSpace($Path)) {
@@ -10,7 +10,13 @@ function Set-HapiErrorsDirectory {
     if (!(Test-Path -Path $Path)) {
         New-Item -ItemType Directory -Path $Path | Out-Null
     }
+    try {
+        $Path = (Resolve-Path -LiteralPath $Path -ErrorAction Stop).ProviderPath
+    } catch {
+        $Path = $path
+    }    
     $script:HAPI_ERRORS_DIRECTORY = $Path
+
     if ($null -ne $skipRetry) {
         $script:SKIP_HAPI_ERROR_RETRY = $skipRetry
     } else {
