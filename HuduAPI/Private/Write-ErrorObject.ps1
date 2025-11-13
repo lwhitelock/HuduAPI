@@ -1,3 +1,7 @@
+function Set-HapiErrorsDirectory {
+    param([string]$Path)
+    $script:HAPI_ERRORS_DIRECTORY = $Path
+}
 function Write-APIErrorObject {
     param (
         [Parameter(Mandatory)]
@@ -43,7 +47,7 @@ $stringOutput
 $propertyDump
 "@
 
-    if ($global:HAPI_ERRORS_DIRECTORY -and (Test-Path $global:HAPI_ERRORS_DIRECTORY)) {
+    if ($script:HAPI_ERRORS_DIRECTORY -and (Test-Path $script:HAPI_ERRORS_DIRECTORY)) {
         $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
         if ($SafeName.Length -gt 60) {
             $SafeName = $SafeName.Substring(0, 60)
