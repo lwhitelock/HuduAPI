@@ -1,0 +1,21 @@
+function Set-HapiErrorsDirectory {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter()][bool]$skipRetry=$false,
+        [Parameter()][ValidateSet("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White")]
+        [string]$Color="DarkCyan")
+    if (!(Test-Path -Path $Path)) {
+        New-Item -ItemType Directory -Path $Path | Out-Null
+    }
+    $script:HAPI_ERRORS_DIRECTORY = $Path
+    if ($skipRetry) {
+        $script:SKIP_HAPI_ERROR_RETRY = $true
+    } else {
+        $script:SKIP_HAPI_ERROR_RETRY = $false
+    }
+    if ($Color -and @("Black","DarkBlue","DarkGreen","DarkCyan","DarkRed","DarkMagenta","DarkYellow","Gray","DarkGray","Blue","Green","Cyan","Red","Magenta","Yellow","White") -contains $Color) {
+        $script:HAPI_ERROR_COLOR = $Color
+    } else {
+        $script:HAPI_ERROR_COLOR = $null
+    }
+}

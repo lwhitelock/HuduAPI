@@ -189,7 +189,8 @@
     'Set-HuduWebsite',
     'Start-HuduProcedure',
     'Start-HuduExport',
-    'Start-HuduS3Export'
+    'Start-HuduS3Export',
+    'Set-HapiErrorsDirectory'
 
 
 
