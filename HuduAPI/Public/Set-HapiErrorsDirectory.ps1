@@ -8,8 +8,8 @@ function Set-HapiErrorsDirectory {
         New-Item -ItemType Directory -Path $Path | Out-Null
     }
     $script:HAPI_ERRORS_DIRECTORY = $Path
-    if ($skipRetry) {
-        $script:SKIP_HAPI_ERROR_RETRY = $true
+    if ($null -ne $skipRetry) {
+        $script:SKIP_HAPI_ERROR_RETRY = $skipRetry
     } else {
         $script:SKIP_HAPI_ERROR_RETRY = $false
     }
