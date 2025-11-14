@@ -12,7 +12,7 @@
     RootModule        = '.\HuduAPI.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2.3.0'
+    ModuleVersion     = '3.14.15'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -86,10 +86,12 @@
     'Get-HuduFolderMap',
     'Get-HuduFolders',
     'Get-HuduGroups',
+    'Get-HuduIPAddresses',
     'Get-HuduIntegrationMatchers',
     'Get-HuduLists',
     'Get-HuduNetworks',
     'Get-HuduMagicDashes',
+    'Get-HuduNetworks',
     'Get-HuduPasswords',
     'Get-HuduPasswordFolders',
     'Get-HuduProcedures',
@@ -103,6 +105,9 @@
     'Get-HuduVLANs',
     'Get-HuduVLANZones',
     'Get-HuduUsers',
+    'Get-HuduUsers',
+    'Get-HuduVLANs',
+    'Get-HuduVLANZones',    
     'Get-HuduWebsites',
     'Initialize-HuduFolder',
     'Invoke-HuduRequest',
@@ -114,11 +119,15 @@
     'New-HuduCompany',
     'New-HuduCustomHeaders',
     'New-HuduFolder',
+    'New-HuduIPAddress',
     'New-HuduList',
     'New-HuduNetwork',
     'New-HuduPassword',
     'New-HuduPasswordFolder',
     'New-HuduPublicPhoto',
+    'New-HuduProcedure',
+    'New-HuduProcedureTask',
+    'New-HuduProcedureFromTemplate',
     'New-HuduRackStorageItem',
     'New-HuduRackStorage',    
     'New-HuduProcedure',
@@ -135,11 +144,14 @@
     'Remove-HuduBaseURL',
     'Remove-HuduCompany',
     'Remove-HuduCustomHeaders',
+    'Remove-HuduIPAddress',
     'Remove-HuduList',
     'Remove-HuduMagicDash',
     'Remove-HuduNetwork',
     'Remove-HuduPassword',
     'Remove-HuduPasswordFolder',
+    'Remove-HuduProcedure',
+    'Remove-HuduProcedureTask',
     'Remove-HuduRackStorageItem',
     'Remove-HuduRackStorage',    
     'Remove-HuduProcedure',
@@ -159,6 +171,7 @@
     'Set-HuduCompanyArchive',
     'Set-HuduFolder',
     'Set-HuduIntegrationMatcher',
+    'Set-HuduIPAddress',
     'Set-HuduList',
     'Set-HuduMagicDash',
     'Set-HuduNetwork',
@@ -171,10 +184,14 @@
     'Set-HuduVLANZone',
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
+    'Set-HuduVLAN',
+    'Set-HuduVLANZone',    
     'Set-HuduWebsite',
     'Start-HuduProcedure',
     'Start-HuduExport',
-    'Start-HuduS3Export'
+    'Start-HuduS3Export',
+    'Set-HapiErrorsDirectory'
+
 
 
 

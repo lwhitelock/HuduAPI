@@ -9,9 +9,6 @@ function Invoke-HuduRequest {
     .PARAMETER Method
     GET,POST,DELETE,PUT,etc
 
-    .PARAMETER Path
-    Path to API endpoint
-
     .PARAMETER Params
     Hashtable of parameters
 
@@ -111,7 +108,8 @@ function Invoke-HuduRequest {
             Write-Host "Hudu API Rate limited; Sleeping for $totalSleep seconds to wait for next rate limit window..."
             Start-Sleep -Seconds $totalSleep
         } else {
-            Write-APIErrorObject -name "$path-$method" -ErrorObject @{
+            if ($script:SKIP_HAPI_ERROR_RETRY -and $true -eq $script:SKIP_HAPI_ERROR_RETRY) { return $null }
+            Write-APIErrorObject -name "$($resource ?? 'general')-$($method ?? 'unknown')" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
                 resolution = "Trying again in 5 seconds."
@@ -122,7 +120,7 @@ function Invoke-HuduRequest {
         try {
             $Results = Invoke-RestMethod @RestMethod
         } catch {
-            Write-APIErrorObject -name "$resource-$method-retry" -ErrorObject @{
+            Write-APIErrorObject -name "$($resource ?? 'general')-$($method ?? 'unknown')-retry" -ErrorObject @{
                 exception = $_
                 request = $RestMethod
                 resolution = "Retry failed as well. Handle this error here or avoid it prior."
