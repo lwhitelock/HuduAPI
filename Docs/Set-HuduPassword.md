@@ -13,10 +13,11 @@ Update a Password
 ## SYNTAX
 
 ```
-Set-HuduPassword [-Id] <Int32> [-Name] <String> [-CompanyId] <Int32> [[-PasswordableType] <String>]
- [[-PasswordableId] <Int32>] [[-InPortal] <Boolean>] [-Password] <String> [[-OTPSecret] <String>]
+Set-HuduPassword [-Id] <Int32> [[-Name] <String>] [[-CompanyId] <Int32>] [[-PasswordableType] <String>]
+ [[-PasswordableId] <Int32>] [[-InPortal] <Boolean>] [[-Password] <String>] [[-OTPSecret] <String>]
  [[-URL] <String>] [[-Username] <String>] [[-Description] <String>] [[-PasswordType] <String>]
- [[-PasswordFolderId] <Int32>] [[-Slug] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-PasswordFolderId] <Int32>] [[-Slug] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +55,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -69,7 +70,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: company_id
 
-Required: True
+Required: False
 Position: 3
 Default value: 0
 Accept pipeline input: False
@@ -129,7 +130,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 7
 Default value: None
 Accept pipeline input: False
@@ -264,6 +265,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

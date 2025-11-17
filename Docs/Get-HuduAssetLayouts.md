@@ -13,7 +13,8 @@ Get a list of Asset Layouts
 ## SYNTAX
 
 ```
-Get-HuduAssetLayouts [[-Name] <String>] [[-LayoutId] <Int32>] [[-Slug] <String>] [<CommonParameters>]
+Get-HuduAssetLayouts [[-Name] <String>] [[-LayoutId] <Int32>] [[-Slug] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,6 +69,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

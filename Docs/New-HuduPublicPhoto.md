@@ -13,8 +13,8 @@ Create a Public Photo
 ## SYNTAX
 
 ```
-New-HuduPublicPhoto [-FilePath] <String> [[-RecordId] <Int32>] [[-RecordType] <String>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+New-HuduPublicPhoto [-FilePath] <String> [[-RecordId] <Int32>] [[-RecordType] <String>]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -97,6 +97,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

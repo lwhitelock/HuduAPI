@@ -15,7 +15,7 @@ Get a list of companies
 ```
 Get-HuduCompanies [[-Name] <String>] [[-PhoneNumber] <String>] [[-Website] <String>] [[-City] <String>]
  [[-State] <String>] [[-IdInIntegration] <Int32>] [[-Id] <Int32>] [[-Search] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -160,6 +160,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

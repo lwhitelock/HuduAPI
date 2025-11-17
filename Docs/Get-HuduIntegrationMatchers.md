@@ -14,7 +14,7 @@ List matchers for an integration
 
 ```
 Get-HuduIntegrationMatchers [-IntegrationId] <Int32> [-Matched] [[-SyncId] <Int32>] [[-Identifier] <String>]
- [[-CompanyId] <Int32>] [<CommonParameters>]
+ [[-CompanyId] <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -103,6 +103,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

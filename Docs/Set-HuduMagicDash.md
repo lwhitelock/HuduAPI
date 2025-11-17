@@ -14,8 +14,8 @@ Create or Update a Magic Dash Item
 
 ```
 Set-HuduMagicDash [-Title] <String> [-CompanyName] <String> [-Message] <String> [[-Icon] <String>]
- [[-ImageURL] <String>] [[-ContentLink] <String>] [[-Content] <String>] [[-Shade] <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-ImageURL] <String>] [[-ContentLink] <String>] [[-Content] <String>] [[-Shade] <String>]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -183,6 +183,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named
