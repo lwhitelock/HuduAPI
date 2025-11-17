@@ -13,7 +13,8 @@ Get a list of Folders
 ## SYNTAX
 
 ```
-Get-HuduFolders [[-Id] <Int32>] [[-Name] <String>] [[-CompanyId] <Int32>] [<CommonParameters>]
+Get-HuduFolders [[-Id] <Int32>] [[-Name] <String>] [[-CompanyId] <Int32>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -68,6 +69,21 @@ Aliases: company_id
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

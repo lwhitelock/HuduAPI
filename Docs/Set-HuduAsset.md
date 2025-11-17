@@ -13,9 +13,10 @@ Update an Asset
 ## SYNTAX
 
 ```
-Set-HuduAsset [-Name] <String> [-CompanyId] <Int32> [-AssetLayoutId] <Int32> [[-Fields] <Array>]
- [-AssetId] <Int32> [[-PrimarySerial] <String>] [[-PrimaryMail] <String>] [[-PrimaryModel] <String>]
- [[-PrimaryManufacturer] <String>] [[-Slug] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-HuduAsset [[-Name] <String>] [[-CompanyId] <Int32>] [[-AssetLayoutId] <Int32>] [[-Fields] <Array>]
+ [-Id] <Int32> [[-PrimarySerial] <String>] [[-PrimaryMail] <String>] [[-PrimaryModel] <String>]
+ [[-PrimaryManufacturer] <String>] [[-Slug] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,7 +39,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -53,7 +54,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: company_id
 
-Required: True
+Required: False
 Position: 2
 Default value: 0
 Accept pipeline input: False
@@ -68,7 +69,7 @@ Type: Int32
 Parameter Sets: (All)
 Aliases: asset_layout_id
 
-Required: True
+Required: False
 Position: 3
 Default value: 0
 Accept pipeline input: False
@@ -90,13 +91,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssetId
-Id of the requested Asset
+### -Id
+{{ Fill Id Description }}
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases: asset_id
+Aliases: asset_id, assetid
 
 Required: True
 Position: 5
@@ -203,6 +204,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

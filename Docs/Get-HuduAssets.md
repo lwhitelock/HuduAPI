@@ -14,7 +14,8 @@ Get a list of Assets
 
 ```
 Get-HuduAssets [[-Id] <Int32>] [[-AssetLayoutId] <Int32>] [[-AssetLayout] <String>] [[-CompanyId] <Int32>]
- [[-Name] <String>] [-Archived] [[-PrimarySerial] <String>] [[-Slug] <String>] [<CommonParameters>]
+ [[-Name] <String>] [-Archived] [[-PrimarySerial] <String>] [[-Slug] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -144,6 +145,21 @@ Aliases:
 
 Required: False
 Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
