@@ -43,7 +43,7 @@ function Get-HuduLists {
         if ($match) {
             return $match
         }
-        Write-Warning "No list found with name '$Name'"
+        # Write-Warning "No list found with name '$Name'"
         return $null
     }
 
