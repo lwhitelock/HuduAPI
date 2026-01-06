@@ -5,85 +5,91 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduAssets
+# New-HuduIPAddress
 
 ## SYNOPSIS
-Get a list of Assets
+Create a new Hudu IP address.
 
 ## SYNTAX
 
 ```
-Get-HuduAssets [[-Id] <Int32>] [[-AssetLayoutId] <Int32>] [[-AssetLayout] <String>] [[-CompanyId] <Int32>]
- [[-Name] <String>] [-Archived] [[-PrimarySerial] <String>] [[-Slug] <String>] [[-UpdatedAfter] <DateTime>]
- [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+New-HuduIPAddress [-Address] <String> [-NetworkId] <Int32> [-CompanyID] <Int32> [[-Status] <String>]
+ [[-FQDN] <String>] [[-Description] <String>] [[-Notes] <String>] [[-AssetID] <Int32>]
+ [[-SkipDNSValidation] <Boolean>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Call Hudu API to retrieve Assets
+Creates a Hudu IPAM IP address record within a specific Company and Network.
+Returns the created IP address object on success, or $null on failure.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-HuduAssets -AssetLayout 'Contacts'
-Get-Huduassets -UpdatedAfter $(Get-date).AddDays(-4) -UpdatedBefore $(get-date).AddHours(-1)
-Get-Huduassets -assetlayoutId 4 -UpdatedAfter $(Get-date).AddYears(-2) -UpdatedBefore $(get-date).AddYears(-1)
+New-HuduIPAddress -Address '10.20.30.15' -CompanyId 42 -NetworkId 7 -Status reserved
+```
+
+### EXAMPLE 2
+```
+New-HuduIPAddress -Address '172.16.0.10' -CompanyId 42 -NetworkId 7 -FQDN 'printer01.example.com' -Description 'Front office printer'
 ```
 
 ## PARAMETERS
 
-### -Id
-Id of requested asset
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AssetLayoutId
-Id of the requested asset layout
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: asset_layout_id
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AssetLayout
-Name of the requested asset layout
+### -Address
+The IP address to create (required).
+Example: '192.168.10.15'.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 3
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyId
-Id of the requested company
+### -NetworkId
+Parent Network ID to associate with (required).
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases: company_id
+Aliases:
+
+Required: True
+Position: 2
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CompanyID
+Company ID to associate with (required).
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Status
+IP status string as used by Hudu (e.g.
+'active', 'reserved', 'available').
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: 4
@@ -92,8 +98,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Filter by name
+### -FQDN
+Optional FQDN for this IP.
 
 ```yaml
 Type: String
@@ -107,28 +113,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Archived
-Show archived results
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PrimarySerial
-Filter by primary serial
+### -Description
+Free-form description for the IP record.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: primary_serial
+Aliases:
 
 Required: False
 Position: 6
@@ -137,8 +128,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Slug
-Filter by slug
+### -Notes
+Free-form notes for the IP record.
 
 ```yaml
 Type: String
@@ -152,32 +143,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UpdatedAfter
-Get Assets Updated After X datetime
+### -AssetID
+Related Asset ID to link this IP to.
 
 ```yaml
-Type: DateTime
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 8
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UpdatedBefore
-Get Assets Updated Before Y datetime
+### -SkipDNSValidation
+If $true, the server should skip DNS validation for FQDN (default: $true).
+\[note- DNS validation only works if your hudu instance can resolve dns to this address, so public or same-private network\]
 
 ```yaml
-Type: DateTime
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 9
-Default value: None
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -204,6 +196,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### pscustomobject (the created IP address object) or $null on failure.
 ## NOTES
+Status is passed through as provided; the module lowercases certain fields as needed by the API.
+SkipDNSValidation is sent as a lowercased string value ('true'/'false') per API expectations.
 
 ## RELATED LINKS

@@ -14,7 +14,8 @@ Get a list of all websites
 
 ```
 Get-HuduWebsites [[-Name] <String>] [[-WebsiteId] <Int32>] [[-Slug] <String>] [[-Search] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +26,8 @@ Calls Hudu API to get websites
 ### EXAMPLE 1
 ```
 Get-HuduWebsites -Search 'domain.com'
+   Get-HuduWebsites -UpdatedAfter $(get-date).AddMinutes(-12)
+   Get-HuduWebsites -UpdatedBefore $(get-date).AddDays(-7)
 ```
 
 ## PARAMETERS
@@ -84,6 +87,36 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedAfter
+Get Websites Refreshed or Monitored After X datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedBefore
+Get Websites Refreshed or Monitored Before Y datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
