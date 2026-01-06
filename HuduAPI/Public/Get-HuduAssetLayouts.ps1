@@ -15,8 +15,15 @@ function Get-HuduAssetLayouts {
     .PARAMETER Slug
     Filter by url slug
 
+    .PARAMETER UpdatedAfter
+    Get asset layouts Updated After X datetime
+    
+    .PARAMETER UpdatedBefore
+    Get asset layouts Updated Before Y datetime
+
     .EXAMPLE
     Get-HuduAssetLayouts -Name 'Contacts'
+    Get-HuduAssetLayouts -UpdatedBefore $(get-date).AddDays(-3)
 
     #>
     [CmdletBinding()]
@@ -24,7 +31,9 @@ function Get-HuduAssetLayouts {
         [String]$Name,
         [Alias('id', 'layout_id')]
         [int]$LayoutId,
-        [String]$Slug
+        [String]$Slug,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore        
     )
 
     $HuduRequest = @{
@@ -40,6 +49,11 @@ function Get-HuduAssetLayouts {
         $Params = @{}
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }
+        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+        if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+            $Params.updated_at = $updatedRange
+        }
+
         $HuduRequest.Params = $Params
 
         $AssetLayouts = Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property 'asset_layouts' -PageSize 25

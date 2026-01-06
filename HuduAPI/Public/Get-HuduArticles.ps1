@@ -26,6 +26,7 @@ function Get-HuduArticles {
 
     .EXAMPLE
     Get-HuduArticles -Name 'Article name'
+    get-huduarticles -UpdatedAfter $(get-date).AddDays(-3)
 
     #>
     [CmdletBinding()]
@@ -36,7 +37,7 @@ function Get-HuduArticles {
         [String]$Name = '',
         [String]$Slug,
         [datetime]$UpdatedAfter,
-        [datetime]$UpdatedBefore        
+        [datetime]$UpdatedBefore
     )
 
     if ($Id) {
