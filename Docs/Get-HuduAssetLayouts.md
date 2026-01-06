@@ -13,8 +13,8 @@ Get a list of Asset Layouts
 ## SYNTAX
 
 ```
-Get-HuduAssetLayouts [[-Name] <String>] [[-LayoutId] <Int32>] [[-Slug] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-HuduAssetLayouts [[-Name] <String>] [[-LayoutId] <Int32>] [[-Slug] <String>] [[-UpdatedAfter] <DateTime>]
+ [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +25,7 @@ Call Hudu API to retrieve asset layouts for server
 ### EXAMPLE 1
 ```
 Get-HuduAssetLayouts -Name 'Contacts'
+Get-HuduAssetLayouts -UpdatedBefore $(get-date).AddDays(-3)
 ```
 
 ## PARAMETERS
@@ -69,6 +70,36 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedAfter
+Get asset layouts Updated After X datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedBefore
+Get asset layouts Updated Before Y datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

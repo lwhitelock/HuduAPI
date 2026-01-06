@@ -5,35 +5,49 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduAssets
+# Get-HuduIPAddresses
 
 ## SYNOPSIS
-Get a list of Assets
+Retrieve Hudu IP address records.
 
 ## SYNTAX
 
 ```
-Get-HuduAssets [[-Id] <Int32>] [[-AssetLayoutId] <Int32>] [[-AssetLayout] <String>] [[-CompanyId] <Int32>]
- [[-Name] <String>] [-Archived] [[-PrimarySerial] <String>] [[-Slug] <String>] [[-UpdatedAfter] <DateTime>]
- [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-HuduIPAddresses [[-Id] <Int32>] [[-Address] <String>] [[-Status] <String>] [[-FQDN] <String>]
+ [[-AssetID] <Int32>] [[-CompanyID] <Int32>] [[-CreatedAfter] <DateTime>] [[-CreatedBefore] <DateTime>]
+ [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Call Hudu API to retrieve Assets
+Gets one or more Hudu IPAM IP address objects.
+ 
+If -Id is supplied, returns a single record (or $null if not found).
+ 
+Without -Id, applies any provided filters and returns a collection.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-HuduAssets -AssetLayout 'Contacts'
-Get-Huduassets -UpdatedAfter $(Get-date).AddDays(-4) -UpdatedBefore $(get-date).AddHours(-1)
-Get-Huduassets -assetlayoutId 4 -UpdatedAfter $(Get-date).AddYears(-2) -UpdatedBefore $(get-date).AddYears(-1)
+Get-HuduIPAddresses -Id 1234
+```
+
+### EXAMPLE 2
+```
+Get-HuduIPAddresses -CompanyId 42 -NetworkId 7 -Status reserved
+```
+
+### EXAMPLE 3
+```
+# Filter by date range (created)
+Get-HuduIPAddresses -CreatedAfter (Get-Date).AddDays(-7) -CreatedBefore (Get-Date)
 ```
 
 ## PARAMETERS
 
 ### -Id
-Id of requested asset
+IP address record ID to retrieve (exact match).
 
 ```yaml
 Type: Int32
@@ -42,18 +56,19 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssetLayoutId
-Id of the requested asset layout
+### -Address
+IP address (exact string match, e.g.
+'192.168.10.15').
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
-Aliases: asset_layout_id
+Aliases:
 
 Required: False
 Position: 2
@@ -62,8 +77,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssetLayout
-Name of the requested asset layout
+### -Status
+IP status string as used by Hudu (e.g.
+'active', 'reserved', 'available').
+Value is lowercased before request.
 
 ```yaml
 Type: String
@@ -77,13 +94,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyId
-Id of the requested company
+### -FQDN
+Fully Qualified Domain Name to filter on (exact match).
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
-Aliases: company_id
+Aliases:
 
 Required: False
 Position: 4
@@ -92,56 +109,41 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Filter by name
+### -AssetID
+Filter by related Asset ID.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 5
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Archived
-Show archived results
+### -CompanyID
+Filter by Company ID.
 
 ```yaml
-Type: SwitchParameter
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PrimarySerial
-Filter by primary serial
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: primary_serial
-
-Required: False
 Position: 6
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Slug
-Filter by slug
+### -CreatedAfter
+Only include IPs created on/after this UTC datetime.
 
 ```yaml
-Type: String
+Type: DateTime
 Parameter Sets: (All)
 Aliases:
 
@@ -152,8 +154,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UpdatedAfter
-Get Assets Updated After X datetime
+### -CreatedBefore
+Only include IPs created on/before this UTC datetime.
 
 ```yaml
 Type: DateTime
@@ -167,8 +169,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UpdatedBefore
-Get Assets Updated Before Y datetime
+### -UpdatedAfter
+Only include IPs updated on/after this UTC datetime.
 
 ```yaml
 Type: DateTime
@@ -177,6 +179,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedBefore
+Only include IPs updated on/before this UTC datetime.
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -204,6 +221,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### pscustomobject (single object when -Id is used) or an array of pscustomobject.
 ## NOTES
+Created*/Updated* pairs are converted to the API's 'start,end' format via Convert-ToHuduDateRange.
+If no filters are passed (and no -Id), all IPs are requested (server-side limits may apply).
 
 ## RELATED LINKS

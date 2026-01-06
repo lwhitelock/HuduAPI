@@ -18,8 +18,15 @@ function Get-HuduArticles {
     .PARAMETER Slug
     Filter by slug of article
 
+    .PARAMETER UpdatedAfter
+    Get articles Updated After X datetime
+    
+    .PARAMETER UpdatedBefore
+    Get articles Updated Before Y datetime
+
     .EXAMPLE
     Get-HuduArticles -Name 'Article name'
+    get-huduarticles -UpdatedAfter $(get-date).AddDays(-3)
 
     #>
     [CmdletBinding()]
@@ -28,7 +35,9 @@ function Get-HuduArticles {
         [Alias('company_id')]
         [Int]$CompanyId = '',
         [String]$Name = '',
-        [String]$Slug
+        [String]$Slug,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore
     )
 
     if ($Id) {
@@ -39,7 +48,11 @@ function Get-HuduArticles {
         if ($CompanyId) { $Params.company_id = $CompanyId }
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }
-
+        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+        if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+            $Params.updated_at = $updatedRange
+        }
+        
         $HuduRequest = @{
             Method   = 'GET'
             Resource = '/api/v1/articles'

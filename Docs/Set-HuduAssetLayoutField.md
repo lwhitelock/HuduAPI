@@ -5,41 +5,34 @@ online version:
 schema: 2.0.0
 ---
 
-# New-HuduPasswordFolder
+# Set-HuduAssetLayoutField
 
 ## SYNOPSIS
-Create a new password folder.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-New-HuduPasswordFolder [-Name] <String> [[-CompanyId] <Int32>] [[-Description] <String>] [[-Security] <String>]
- [[-AllowedGroups] <Array>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Set-HuduAssetLayoutField [-LayoutId] <Int32> [-FieldLabel] <String> [-PropertyName] <String>
+ [-PropertyValue] <Object> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Calls the Hudu API to create a password folder for a given company.
- 
-Supports configuring name, description, security settings, and allowed groups.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
-### EXAMPLE 1
-```
-New-HuduPasswordFolder -Name "Infrastructure" -CompanyId 2
-Creates a folder named "Infrastructure" for company ID 2.
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-### EXAMPLE 2
-```
-New-HuduPasswordFolder -Name "Finance" -CompanyId 4 -Security specific -AllowedGroups @(10,12)
-Creates a folder for company 4 restricted to groups 10 and 12.
-```
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -Name
-Name of the new folder (required).
+### -FieldLabel
+{{ Fill FieldLabel Description }}
 
 ```yaml
 Type: String
@@ -53,62 +46,46 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyId
-The company ID that owns the folder (required).
+### -LayoutId
+{{ Fill LayoutId Description }}
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PropertyName
+{{ Fill PropertyName Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
 Position: 2
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Description of the folder.
+### -PropertyValue
+{{ Fill PropertyValue Description }}
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Security
-Security mode.
-Accepts "all_users" or "specific".
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -AllowedGroups
-Array of group IDs that should have access (if Security is "specific").
-
-```yaml
-Type: Array
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -134,8 +111,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
+
 ## OUTPUTS
 
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

@@ -5,54 +5,40 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduArticles
+# Set-HapiErrorsDirectory
 
 ## SYNOPSIS
-Get Knowledge Base Articles
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Get-HuduArticles [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Set-HapiErrorsDirectory [[-Path] <String>] [[-skipRetry] <Boolean>] [[-Color] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Calls Hudu API to retrieve KB articles by Id or a list
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-Get-HuduArticles -Name 'Article name'
-get-huduarticles -UpdatedAfter $(get-date).AddDays(-3)
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -Id
-Id of the Article
+### -Color
+{{ Fill Color Description }}
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Filter by company id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
+Accepted values: Black, DarkBlue, DarkGreen, DarkCyan, DarkRed, DarkMagenta, DarkYellow, Gray, DarkGray, Blue, Green, Cyan, Red, Magenta, Yellow, White, 
 
 Required: False
 Position: 2
@@ -61,8 +47,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Filter by name of article
+### -Path
+{{ Fill Path Description }}
 
 ```yaml
 Type: String
@@ -70,52 +56,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Slug
-Filter by slug of article
+### -skipRetry
+{{ Fill skipRetry Description }}
 
 ```yaml
-Type: String
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UpdatedAfter
-Get articles Updated After X datetime
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UpdatedBefore
-Get articles Updated Before Y datetime
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -141,8 +97,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
+
 ## OUTPUTS
 
+### System.Object
 ## NOTES
 
 ## RELATED LINKS

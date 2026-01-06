@@ -5,64 +5,32 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduPasswords
+# Invoke-HuduRequest
 
 ## SYNOPSIS
-Get a list of Passwords
+Main Hudu API function
 
 ## SYNTAX
 
 ```
-Get-HuduPasswords [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [[-Search] <String>] [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Invoke-HuduRequest [[-Method] <String>] [[-Resource] <String>] [[-Params] <Hashtable>] [[-Body] <String>]
+ [[-Form] <Hashtable>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Calls Hudu API to list password assets
+Calls Hudu API with token
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-HuduPasswords -CompanyId 1
-Get-HuduPasswords -UpdatedAfter $(get-date).AddDays(-3)
+Invoke-HuduRequest -Resource '/api/v1/articles' -Method GET
 ```
 
 ## PARAMETERS
 
-### -Id
-Id of the password
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Filter by company id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
-
-Required: False
-Position: 2
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-Filter by password name
+### -Method
+GET,POST,DELETE,PUT,etc
 
 ```yaml
 Type: String
@@ -70,14 +38,44 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 1
+Default value: GET
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Resource
+{{ Fill Resource Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Slug
-Filter by url slug
+### -Params
+Hashtable of parameters
+
+```yaml
+Type: Hashtable
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: @{}
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Body
+JSON encoded body string
 
 ```yaml
 Type: String
@@ -91,46 +89,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Search
-Filter by search query
+### -Form
+Multipart form data
 
 ```yaml
-Type: String
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UpdatedAfter
-Get passwords Updated After X datetime
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UpdatedBefore
-Get passwords Updated Before Y datetime
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
