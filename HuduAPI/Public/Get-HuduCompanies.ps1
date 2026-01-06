@@ -33,8 +33,15 @@ function Get-HuduCompanies {
     .PARAMETER IdInIntegration
     Filter companies by id/identifier in PSA/RMM/outside integration
 
+    .PARAMETER UpdatedAfter
+    Get Companies Updated After X datetime
+    
+    .PARAMETER UpdatedBefore
+    Get Companies Updated Before Y datetime
+
     .EXAMPLE
     Get-HuduCompanies -Search 'Vendor'
+    Get-HuduCompanies -Updatedafter $(get-date).Addyears(-1)
 
     #>
     [CmdletBinding()]
@@ -49,7 +56,9 @@ function Get-HuduCompanies {
         [Int]$IdInIntegration = '',
         [Int]$Id = '',
         [string]$Search,
-        [String]$Slug
+        [String]$Slug,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore
     )
 
     if ($Id) {
@@ -65,6 +74,10 @@ function Get-HuduCompanies {
         if ($IdInIntegration) { $Params.id_in_integration = $IdInIntegration }
         if ($Search) { $Params.search = $Search }
         if ($Slug) { $Params.slug = $Slug }
+        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+        if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+            $Params.updated_at = $updatedRange
+        }
 
         $HuduRequest = @{
             Method   = 'GET'

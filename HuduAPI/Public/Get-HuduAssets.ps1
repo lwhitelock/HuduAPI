@@ -38,6 +38,8 @@ function Get-HuduAssets {
 
     .EXAMPLE
     Get-HuduAssets -AssetLayout 'Contacts'
+    Get-Huduassets -UpdatedAfter $(Get-date).AddDays(-4) -UpdatedBefore $(get-date).AddHours(-1)
+    Get-Huduassets -assetlayoutId 4 -UpdatedAfter $(Get-date).AddYears(-2) -UpdatedBefore $(get-date).AddYears(-1)
 
     #>
     [CmdletBinding()]
@@ -81,11 +83,11 @@ function Get-HuduAssets {
         if ($Id) { $Params.id = $Id }
         if ($Slug) { $Params.slug = $Slug }
         if ($UpdatedAfter -and $UpdatedBefore) {
-        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+            $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
             if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
                 $Params.updated_at = $updatedRange
             }
-        } elseif ($UpdatedAfter -or $UpdatedBefore) {Write-Warning "Both UpdatedAfter and UpdatedBefore must be provided to filter Assets by updated date."}
+        } elseif ($UpdatedAfter -or $UpdatedBefore) {Write-Warning "Both UpdatedAfter and UpdatedBefore must be provided to filter Assets by updated date. The singular date param you provided will be ignored this time."}
 
         $HuduRequest = @{
             Resource = '/api/v1/assets'
