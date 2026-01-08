@@ -9,6 +9,11 @@ param (
 $testsPath = Join-Path $PSScriptRoot "HuduAPI" "tests"
 $modulePath = Join-Path $PSScriptRoot "HuduAPI" 'Huduapi.psd1'
 $envFile = Join-Path $testsPath $EnvironFile
+if (-not $envFile -or -not (Test-Path $envFile)) {
+    $baseName = [System.IO.Path]::GetFileNameWithoutExtension($EnvironFile)
+    $envFile = Get-ChildItem -Recurse -Path $(resolve-path .) -Filter "*$baseName*.ps1" | Select-Object -First 1 | ForEach-Object { $_.FullName }
+}
+
 
 Write-Host "Starting tests in: $testsPath"
 Write-Host "Using module: $modulePath"
@@ -30,21 +35,26 @@ Import-Module $modulePath -Force
 # Load env
 if (Test-Path $envFile) {
     Write-Host "Sourcing environment from $envFile" -ForegroundColor Cyan
-    . $envFile
+    . "$envFile"
 }
 
 # Validate env vars
 $requiredVars = @(
-"HUDU_API_KEY",
-"HUDU_BASE_URL",
 "HUDU_TEST_RACK_ROLE_ID",
+"HUDU_TEST_RACK_STORAGE_ID",
 "HUDU_TEST_COMPANY_ID",
+"HUDU_TEST_PROCEDURE_ID",
 "HUDU_TEST_ASSET_ID",
+"HUDU_TEST_ARTICLE_ID",
 "HUDU_TEST_USER_ID",
 "HUDU_TEST_VLAN_ID",
+"HUDU_TEST_IPAM_STATUS_ROLE_ID",
 "HUDU_TEST_IPAM_LIST_ITEM_ID",
-"HUDU_TEST_IPAM_LIST_ITEM_ID",
-"HUDU_TEST_NETWORK_ID"
+"HUDU_TEST_NETWORK_ID",
+"HUDU_TEST_VLAN_ZONE_ID",
+"HUDU_TEST_IP_ADDRESS_ID",
+"HUDU_TEST_WEBSITE_ID",
+"HUDU_TEST_PASSWORD_ID"
 )
 foreach ($var in $requiredVars) {
     if (-not (Get-Item "env:$var" -ErrorAction SilentlyContinue)) {
