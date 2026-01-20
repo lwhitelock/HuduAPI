@@ -66,7 +66,8 @@ API Endpoints:
             $params.color      = $(Set-ColorFromCanonical -inputData $Color) 
         }
         if ($PSBoundParameters.ContainsKey('Slug'))      { $params.slug       = $Slug }
-
+        $params.page = 1
+        $params.page_size = 1000
         $req = @{
             Method   = 'GET'
             Resource = "/api/v1/flag_types"
