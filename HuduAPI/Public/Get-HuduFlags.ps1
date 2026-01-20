@@ -80,6 +80,8 @@ API Endpoints:
         }
         if ($PSBoundParameters.ContainsKey('flagable_id'))   { $params.flagable_id   = $flagable_id }
         if ($PSBoundParameters.ContainsKey('Description'))  { $params.description   = $Description }
+        $params.page = 1
+        $params.page_size = 1000
         $req = @{
             Method   = 'GET'
             Resource = "/api/v1/flags"
@@ -87,6 +89,6 @@ API Endpoints:
         }
 
         $resp = Invoke-HuduRequestPaginated -HuduRequest $req -Property 'flags'
-        return ($resp.flags ?? $resp ?? $null)
+        return $resp
     }
 }
