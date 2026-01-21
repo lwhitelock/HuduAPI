@@ -36,7 +36,10 @@ function Set-HuduPasswordFolder {
         [string]$Name,
         [string]$Description,
         [ValidateSet("all_users","specific")][String]$Security,
-        [array]$AllowedGroups)
+        [array]$AllowedGroups,
+        [Alias('company_id')]
+        [int]$CompanyID
+        )
     
     $passwordFolder = Get-HuduPasswordFolders -Id $Id 
     
@@ -47,6 +50,9 @@ function Set-HuduPasswordFolder {
     if ($passwordFolder.company_id){
         $updatePasswordFolder.company_id = $passwordFolder.company_id
     }
+
+    if ($PSBoundParameters.ContainsKey('CompanyID'))   { $passwordFolder.company_id   = $CompanyID }
+    
     if (($AllowedGroups -and $AllowedGroups -ne $passwordFolder.allowed_groups) -or ($security -and $security -eq "specific")){
         $updatePasswordFolder["security"] = $security
         $allGroups = $(Get-HuduGroups).id
@@ -67,12 +73,10 @@ function Set-HuduPasswordFolder {
 
 
     try {
-        $res = Invoke-HuduRequest -Method POST -Resource "/api/v1/password_folders" -Body $(@{password_folder = $updatePasswordFolder} | ConvertTo-Json -Depth 10)
+        $res = Invoke-HuduRequest -Method PUT -Resource "/api/v1/password_folders/$ID" -Body $(@{password_folder = $passwordFolder} | ConvertTo-Json -Depth 10)
         return $res
     } catch {
         Write-Warning "Failed to create new password folder '$Name'"
         return $null
     }
 }
-
-
