@@ -14,7 +14,7 @@ Get expirations for account
 
 ```
 Get-HuduExpirations [[-CompanyId] <Int32>] [[-ExpirationType] <String>] [[-ResourceId] <Int32>]
- [[-ResourceType] <String>] [<CommonParameters>]
+ [[-ResourceType] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,6 +86,21 @@ Aliases: resource_type
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

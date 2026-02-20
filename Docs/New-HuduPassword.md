@@ -16,7 +16,8 @@ Create a Password
 New-HuduPassword [-Name] <String> [-CompanyId] <Int32> [[-PasswordableType] <String>]
  [[-PasswordableId] <Int32>] [[-InPortal] <Boolean>] [-Password] <String> [[-OTPSecret] <String>]
  [[-URL] <String>] [[-Username] <String>] [[-Description] <String>] [[-PasswordType] <String>]
- [[-PasswordFolderId] <Int32>] [[-Slug] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-PasswordFolderId] <Int32>] [[-Slug] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -249,6 +250,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

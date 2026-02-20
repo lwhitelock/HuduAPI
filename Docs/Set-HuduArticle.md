@@ -13,8 +13,9 @@ Update a Knowledge Base Article
 ## SYNTAX
 
 ```
-Set-HuduArticle [-Name] <String> [-Content] <String> [-EnableSharing] [[-FolderId] <Int32>]
- [[-CompanyId] <Int32>] [-ArticleId] <Int32> [[-Slug] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-HuduArticle [[-Name] <String>] [[-Content] <String>] [-EnableSharing] [[-FolderId] <Int32>]
+ [[-CompanyId] <Int32>] [-ArticleId] <Int32> [[-Slug] <String>] [-ProgressAction <ActionPreference>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +38,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
@@ -52,7 +53,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -157,6 +158,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

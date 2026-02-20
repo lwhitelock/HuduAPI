@@ -30,7 +30,7 @@ function New-HuduUpload {
 
         [Parameter(Mandatory)]
         [Alias('record_type','recordtype')]
-        [ValidateSet('Asset', 'Website', 'Procedure', 'AssetPassword', 'Company', 'Article')]
+        [ValidateSet("Article", "AssetPassword", "Asset", "IpAddress", "Network", "RackStorage", "VlanZone", "Vlan", "Website",IgnoreCase = $true)]
         [string]$uploadable_type
     )
 

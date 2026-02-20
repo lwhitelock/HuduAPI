@@ -18,8 +18,16 @@ function Get-HuduWebsites {
     .PARAMETER Search
     Fitler by search query
 
+    .PARAMETER UpdatedAfter
+    Get Websites Refreshed or Monitored After X datetime
+    
+    .PARAMETER UpdatedBefore
+    Get Websites Refreshed or Monitored Before Y datetime
+
 	.EXAMPLE
 	Get-HuduWebsites -Search 'domain.com'
+    Get-HuduWebsites -UpdatedAfter $(get-date).AddMinutes(-12)
+    Get-HuduWebsites -UpdatedBefore $(get-date).AddDays(-7)
 
 	#>
     [CmdletBinding()]
@@ -28,7 +36,9 @@ function Get-HuduWebsites {
         [Alias('website_id','Id')]
         [Int]$WebsiteId,
         [String]$Slug,
-        [string]$Search
+        [string]$Search,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore
     )
 
     if ($WebsiteId) {
@@ -38,7 +48,10 @@ function Get-HuduWebsites {
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }
         if ($Search) { $Params.search = $Search }
-
+        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+        if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+            $Params.updated_at = $updatedRange
+        }
         $HuduRequest = @{
             Method   = 'GET'
             Resource = '/api/v1/websites'

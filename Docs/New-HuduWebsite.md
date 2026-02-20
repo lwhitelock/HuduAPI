@@ -14,8 +14,9 @@ Create a Website
 
 ```
 New-HuduWebsite [-Name] <String> [[-Notes] <String>] [[-Paused] <String>] [-CompanyId] <Int32>
- [[-DisableDNS] <String>] [[-DisableSSL] <String>] [[-DisableWhois] <String>] [[-Slug] <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-DisableDNS] <String>] [[-DisableSSL] <String>] [[-DisableWhois] <String>] [[-EnableDMARC] <String>]
+ [[-EnableDKIM] <String>] [[-EnableSPF] <String>] [[-Slug] <String>] [-ProgressAction <ActionPreference>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -136,6 +137,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EnableDMARC
+When true, DMARC monitoring is enabled.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: enable_dmarc
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableDKIM
+When true, DKIM monitoring is enabled.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: enable_dkim
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableSPF
+When true, SPF monitoring is enabled.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: enable_spf
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Slug
 Url identifier
 
@@ -145,7 +191,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -174,6 +220,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

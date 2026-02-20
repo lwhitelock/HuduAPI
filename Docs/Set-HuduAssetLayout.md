@@ -13,10 +13,11 @@ Update an Asset Layout
 ## SYNTAX
 
 ```
-Set-HuduAssetLayout [-Id] <Int32> [-Name] <String> [-Icon] <String> [-Color] <String> [-IconColor] <String>
- [[-IncludePasswords] <Boolean>] [[-IncludePhotos] <Boolean>] [[-IncludeComments] <Boolean>]
- [[-IncludeFiles] <Boolean>] [[-PasswordTypes] <String>] [[-Slug] <String>] [-Fields] <Array> [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Set-HuduAssetLayout [-Id] <Int32> [[-Name] <String>] [[-Icon] <String>] [[-Color] <String>]
+ [[-IconColor] <String>] [[-IncludePasswords] <Boolean>] [[-IncludePhotos] <Boolean>]
+ [[-IncludeComments] <Boolean>] [[-IncludeFiles] <Boolean>] [[-PasswordTypes] <String>] [[-Active] <Boolean>]
+ [[-Slug] <String>] [[-Fields] <Array>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,7 +27,14 @@ Uses Hudu API to update an Asset Layout
 
 ### EXAMPLE 1
 ```
+Set-HuduAssetLayout -Id 12 -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
+```
 
+### EXAMPLE 2
+```
+Set-HuduAssetLayout -Id 12 -Fields @(
+    @{label = 'Test field'; 'field_type' = 'Text'}
+)
 ```
 
 ## PARAMETERS
@@ -54,7 +62,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -69,7 +77,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
@@ -84,7 +92,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: None
 Accept pipeline input: False
@@ -99,7 +107,7 @@ Type: String
 Parameter Sets: (All)
 Aliases: icon_color
 
-Required: True
+Required: False
 Position: 5
 Default value: None
 Accept pipeline input: False
@@ -116,7 +124,7 @@ Aliases: include_passwords
 
 Required: False
 Position: 6
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -131,7 +139,7 @@ Aliases: include_photos
 
 Required: False
 Position: 7
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -146,7 +154,7 @@ Aliases: include_comments
 
 Required: False
 Position: 8
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -161,7 +169,7 @@ Aliases: include_files
 
 Required: False
 Position: 9
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -181,6 +189,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Active
+{{ Fill Active Description }}
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Slug
 Url identifier
 
@@ -190,22 +213,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Fields
-Array of nested fields
+Array of hashtable or custom objects representing layout fields.
+Most field types only require a label and type.
+Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
+Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
 ```yaml
 Type: Array
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 12
+Required: False
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -234,6 +260,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

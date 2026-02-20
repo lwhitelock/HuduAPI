@@ -15,7 +15,7 @@ Get activity logs for account
 ```
 Get-HuduActivityLogs [[-UserId] <Int32>] [[-UserEmail] <String>] [[-ResourceId] <Int32>]
  [[-ResourceType] <String>] [[-ActionMessage] <String>] [[-StartDate] <DateTime>] [[-EndDate] <DateTime>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -133,6 +133,21 @@ Aliases: end_date
 
 Required: False
 Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
