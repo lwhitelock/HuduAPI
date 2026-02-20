@@ -14,7 +14,8 @@ Get a list of Passwords
 
 ```
 Get-HuduPasswords [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [[-Search] <String>] [<CommonParameters>]
+ [[-Search] <String>] [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +26,7 @@ Calls Hudu API to list password assets
 ### EXAMPLE 1
 ```
 Get-HuduPasswords -CompanyId 1
+Get-HuduPasswords -UpdatedAfter $(get-date).AddDays(-3)
 ```
 
 ## PARAMETERS
@@ -99,6 +101,51 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedAfter
+Get passwords Updated After X datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedBefore
+Get passwords Updated Before Y datetime
+
+```yaml
+Type: DateTime
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

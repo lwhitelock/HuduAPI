@@ -16,8 +16,8 @@ Create an Asset Layout
 New-HuduAssetLayout [-Name] <String> [-Icon] <String> [-Color] <String> [-IconColor] <String>
  [[-IncludePasswords] <Boolean>] [[-IncludePhotos] <Boolean>] [[-IncludeComments] <Boolean>]
  [[-IncludeFiles] <Boolean>] [[-PasswordTypes] <String>]
- [-Fields] <System.Collections.Generic.List`1[System.Collections.Hashtable]> [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-Fields] <System.Collections.Generic.List`1[System.Collections.Hashtable]>
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,6 +28,13 @@ Uses Hudu API to create new custom asset layout
 ### EXAMPLE 1
 ```
 New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
+```
+
+### EXAMPLE 2
+```
+New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true -Fields @(
+    @{label = 'Test field'; 'field_type' = 'Text'}
+)
 ```
 
 ## PARAMETERS
@@ -168,7 +175,10 @@ Accept wildcard characters: False
 ```
 
 ### -Fields
-Array of nested fields
+Array of hashtable or custom objects representing layout fields.
+Most field types only require a label and type.
+Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
+Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
 ```yaml
 Type: System.Collections.Generic.List`1[System.Collections.Hashtable]
@@ -205,6 +215,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

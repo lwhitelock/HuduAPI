@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduProcedures
+# Get-HuduProcesses
 
 ## SYNOPSIS
 Get a list of Procedures (Processes)
@@ -13,8 +13,8 @@ Get a list of Procedures (Processes)
 ## SYNTAX
 
 ```
-Get-HuduProcedures [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
- [<CommonParameters>]
+Get-HuduProcesses [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-Name] <String>] [[-Slug] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,6 +84,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

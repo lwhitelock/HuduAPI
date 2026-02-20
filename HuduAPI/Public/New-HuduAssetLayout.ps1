@@ -102,6 +102,8 @@ function New-HuduAssetLayout {
             'phone'             { $field.'field_type' = 'Phone' }
             'email'             { $field.'field_type' = 'Email' }
             'copyabletext'      { $field.'field_type' = 'Email' }
+            'address'           { $field.'field_type' = 'AddressData' }
+            'addressdata'       { $field.'field_type' = 'AddressData' }
             'assettag'          { $field.'field_type' = 'AssetTag' }
             'assetlink'         { $field.'field_type' = 'AssetTag' }
             'website'           { $field.'field_type' = 'Website' }

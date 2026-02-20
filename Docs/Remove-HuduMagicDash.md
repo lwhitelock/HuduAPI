@@ -14,12 +14,13 @@ Delete a Magic Dash Item
 
 ### Id (Default)
 ```
-Remove-HuduMagicDash -Id <Int32> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-HuduMagicDash -Id <Int32> [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### TitleCompany
 ```
-Remove-HuduMagicDash -Title <String> -CompanyName <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-HuduMagicDash -Title <String> -CompanyName <String> [-ProgressAction <ActionPreference>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -107,6 +108,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

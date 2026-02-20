@@ -21,8 +21,16 @@ function Get-HuduPasswords {
     .PARAMETER Search
     Filter by search query
 
+    .PARAMETER UpdatedAfter
+    Get passwords Updated After X datetime
+    
+    .PARAMETER UpdatedBefore
+    Get passwords Updated Before Y datetime    
+
     .EXAMPLE
     Get-HuduPasswords -CompanyId 1
+    Get-HuduPasswords -UpdatedAfter $(get-date).AddDays(-3)
+
 
     #>
     [CmdletBinding()]
@@ -36,7 +44,9 @@ function Get-HuduPasswords {
 
         [String]$Slug,
 
-        [string]$Search
+        [string]$Search,
+        [datetime]$UpdatedAfter,
+        [datetime]$UpdatedBefore
     )
 
     if ($Id) {
@@ -48,6 +58,10 @@ function Get-HuduPasswords {
         if ($Name) { $Params.name = $Name }
         if ($Slug) { $Params.slug = $Slug }
         if ($Search) { $Params.search = $Search }
+        $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
+        if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+            $Params.updated_at = $updatedRange
+        }        
     }
 
     $HuduRequest = @{
