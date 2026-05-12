@@ -27,6 +27,10 @@ function Set-HuduFolder {
     .EXAMPLE
     Set-HuduFolder -Id 1 -Name 'New folder name'
 
+    .EXAMPLE
+    Set-HuduFolder -Id 1 -Name 'New folder name' -ParentFolderId null
+    Set the Parent folder to 'No Folder'
+
     #>
     [CmdletBinding(SupportsShouldProcess)]
     Param (
@@ -41,7 +45,7 @@ function Set-HuduFolder {
         [String]$Description = '',
 
         [Alias('parent_folder_id')]
-        [Int]$ParentFolderId = '',
+        $ParentFolderId = '',
 
         [Alias('company_id')]
         [Int]$CompanyId = ''
