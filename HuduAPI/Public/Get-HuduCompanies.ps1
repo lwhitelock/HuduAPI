@@ -69,7 +69,7 @@ function Get-HuduCompanies {
         if ($IdInIntegration) { $Params.id_in_integration = $IdInIntegration }
         if ($Search) { $Params.search = $Search }
         if ($Slug) { $Params.slug = $Slug }
-        if ($Archived) { $Params.archived = 'true'
+        if ($Archived) { $Params.archived = 'true' }
 
         $HuduRequest = @{
             Method   = 'GET'
