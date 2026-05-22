@@ -23,6 +23,9 @@ function Get-HuduCompanies {
 
     .PARAMETER State
     Filter companies by state
+    
+    .PARAMETER Archived
+    Filter companies by state
 
     .PARAMETER Search
     Filter by search query
@@ -45,6 +48,7 @@ function Get-HuduCompanies {
         [String]$Website = '',
         [String]$City = '',
         [String]$State = '',
+        [Switch]$Archived,
         [Alias('id_in_integration')]
         [Int]$IdInIntegration = '',
         [Int]$Id = '',
@@ -65,6 +69,7 @@ function Get-HuduCompanies {
         if ($IdInIntegration) { $Params.id_in_integration = $IdInIntegration }
         if ($Search) { $Params.search = $Search }
         if ($Slug) { $Params.slug = $Slug }
+        if ($Archived) { $Params.archived = 'true'
 
         $HuduRequest = @{
             Method   = 'GET'
