@@ -49,7 +49,7 @@ API Endpoints:
     [CmdletBinding(DefaultParameterSetName = 'List')]
     param(
         [Parameter(ParameterSetName = 'ById')]
-        [Alias('LabelTypeId','label_type_id')]
+        [Alias('LabelTypeId','label_type_id','labeltype_id','label_typeid','type_id','typeid')]
         [int]$Id,
 
         [Parameter(ParameterSetName = 'List')]
@@ -63,9 +63,11 @@ API Endpoints:
         [string]$Slug,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('created_at')]
         [string]$CreatedAt,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('updated_at')]
         [string]$UpdatedAt,
 
         [Parameter(ParameterSetName = 'List')]
@@ -73,6 +75,7 @@ API Endpoints:
         [int]$Page,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('page_size')]
         [ValidateRange(1, 1000)]
         [int]$PageSize = 1000
     )
@@ -85,7 +88,7 @@ API Endpoints:
 
         $params = @{}
         if ($PSBoundParameters.ContainsKey('Name'))      { $params.name       = $Name }
-        if ($PSBoundParameters.ContainsKey('Color'))     { $params.color      = $Color }
+        if ($PSBoundParameters.ContainsKey('Color'))     { $params.color      = ConvertTo-HuduLabelColor -Color $Color }
         if ($PSBoundParameters.ContainsKey('Slug'))      { $params.slug       = $Slug }
         if ($PSBoundParameters.ContainsKey('CreatedAt')) { $params.created_at = $CreatedAt }
         if ($PSBoundParameters.ContainsKey('UpdatedAt')) { $params.updated_at = $UpdatedAt }

@@ -34,14 +34,16 @@ API Endpoint: PUT /api/v1/labels/{id}
         [Alias('LabelId','label_id')]
         [int]$Id,
 
-        [Alias('label_type_id')]
+        [Alias('label_type_id','labeltype_id','label_typeid','label_type','type_id','typeid')]
         [int]$LabelTypeId,
 
         [ValidateScript({ Assert-AllowedObjectType -InputType $_ -AllowedCanonicals @(
             'Article', 'Asset', 'AssetPassword', 'Website', 'IpAddress', 'Vlan', 'VlanZone', 'Procedure', 'Network', 'RackStorage'
         ) })]
+        [Alias('object_type','objectType','target_type','targetType')]
         [string]$Labelable_Type,
 
+        [Alias('object_id','objectID','target_id','targetId')]
         [int]$Labelable_Id
     )
 

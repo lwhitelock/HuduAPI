@@ -12,8 +12,8 @@ AccessLevel is specific_companies, AllowedCompanyIds must contain at least one I
 Display name for the Label Type.
 
 .PARAMETER Color
-Hex color value for the Label Type, such as #ff0000, or a human-readable color name (can be english, spanish, italian)
-name supported by Set-ColorFromCanonical. Alpha values are not supported and are trimmed off.
+Hex color value for the Label Type, such as #ff0000, or a human-readable color
+name supported by Set-ColorFromCanonical. Alpha values are trimmed off.
 
 .PARAMETER AccessLevel
 Access scope for the Label Type. Defaults to all_companies.
@@ -48,7 +48,8 @@ API Endpoint: POST /api/v1/label_types
         [string]$Color,
 
         [Parameter()]
-        [ValidateSet('all_companies', 'specific_companies')]
+        [ValidateSet('all_companies', 'all', 'allcompanies', 'allcompany', 'specific_companies', 'specific', 'specificcompanies', 'specificcompany', IgnoreCase = $true)]
+        [Alias('access_level')]
         [string]$AccessLevel = 'all_companies',
 
         [Parameter(Mandatory)]
@@ -61,26 +62,38 @@ API Endpoint: POST /api/v1/label_types
             }
             $true
         })]
-        [Alias('applicable_record_types')]
+        [Alias('applicable_record_types','record_types','types','applicableTypes','applicable_type','applicableType')]
         [string[]]$ApplicableRecordTypes,
 
         [Parameter()]
-        [Alias('allowed_company_ids')]
+        [Alias('allowed_company_ids','companyids','company_ids','companyId','company_id','companies')]
         [int[]]$AllowedCompanyIds
     )
+    $AccessLevelMap = @{
+        'all_companies'             = 'all_companies'
+        'all'                       = 'all_companies'
+        'allcompanies'              = 'all_companies'
+        'allcompany'                = 'all_companies'
+        'specific_companies'        = 'specific_companies'
+        'specific'                  = 'specific_companies'
+        'specificcompanies'         = 'specific_companies'
+        'specificcompany'           = 'specific_companies'
+    }
+    $accesslevelNormalized = $AccessLevelMap[$AccessLevel.ToLower()]
 
-    if ($AccessLevel -eq 'specific_companies' -and -not $AllowedCompanyIds) {
+
+    if ($accesslevelNormalized -eq 'specific_companies' -and -not $AllowedCompanyIds) {
         throw "AllowedCompanyIds must contain at least one company ID when AccessLevel is specific_companies."
     }
 
     $labelType = @{
         name                    = $Name
         color                   = ConvertTo-HuduLabelColor -Color $Color
-        access_level            = $AccessLevel
+        access_level            = $accesslevelNormalized
         applicable_record_types = @($ApplicableRecordTypes | ForEach-Object { Get-ObjectTypeFromCononical -inputData $_ })
     }
 
-    if ($AccessLevel -eq 'specific_companies') {
+    if ($accesslevelNormalized -eq 'specific_companies') {
         $labelType.allowed_company_ids = @($AllowedCompanyIds)
     }
 

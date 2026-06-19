@@ -59,16 +59,18 @@ API Endpoints:
         [int]$Id,
 
         [Parameter(ParameterSetName = 'List')]
-        [Alias('label_type_id')]
+        [Alias('label_type_id','labeltype_id','label_typeid','label_type','type_id','typeid')]
         [int]$LabelTypeId,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('object_type','objectType','target_type','targetType')]
         [ValidateScript({ Assert-AllowedObjectType -InputType $_ -AllowedCanonicals @(
             'Article', 'Asset', 'AssetPassword', 'Website', 'IpAddress', 'Vlan', 'VlanZone', 'Procedure', 'Network', 'RackStorage'
         ) })]
         [string]$Labelable_Type,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('object_id','objectID','target_id','targetId')]
         [int]$Labelable_Id,
 
         [Parameter(ParameterSetName = 'List')]
@@ -76,9 +78,11 @@ API Endpoints:
         [int]$UserId,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('created_at')]
         [string]$CreatedAt,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('updated_at')]
         [string]$UpdatedAt,
 
         [Parameter(ParameterSetName = 'List')]
@@ -86,6 +90,7 @@ API Endpoints:
         [int]$Page,
 
         [Parameter(ParameterSetName = 'List')]
+        [Alias('page_size')]
         [ValidateRange(1, 1000)]
         [int]$PageSize = 1000
     )

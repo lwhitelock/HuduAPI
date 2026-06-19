@@ -15,8 +15,9 @@ ID of the Label Type to update.
 Updated name.
 
 .PARAMETER Color
-Updated Hex color value for the Label Type, such as #1c12a3, or Updated human-readable color name (can be english, spanish, italian)
-name supported by Set-ColorFromCanonical. Alpha values are not supported and are trimmed off.
+Updated hex color value for the Label Type, such as #1c12a3, or a
+human-readable color name supported by Set-ColorFromCanonical. Alpha values are
+trimmed off.
 
 .PARAMETER AccessLevel
 Updated access scope.
@@ -43,7 +44,7 @@ API Endpoint: PUT /api/v1/label_types/{id}
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory)]
-        [Alias('LabelTypeId','label_type_id')]
+        [Alias('LabelTypeId','label_type_id','labeltype_id','label_typeid','type_id','typeid')]
         [int]$Id,
 
         [ValidateNotNullOrEmpty()]
@@ -52,7 +53,8 @@ API Endpoint: PUT /api/v1/label_types/{id}
         [ValidateNotNullOrEmpty()]
         [string]$Color,
 
-        [ValidateSet('all_companies', 'specific_companies')]
+        [ValidateSet('all_companies', 'all', 'allcompanies', 'allcompany', 'specific_companies', 'specific', 'specificcompanies', 'specificcompany', IgnoreCase = $true)]
+        [Alias('access_level')]
         [string]$AccessLevel,
 
         [ValidateNotNullOrEmpty()]
@@ -64,12 +66,22 @@ API Endpoint: PUT /api/v1/label_types/{id}
             }
             $true
         })]
-        [Alias('applicable_record_types')]
+        [Alias('applicable_record_types','record_types','types','applicableTypes','applicable_type','applicableType')]
         [string[]]$ApplicableRecordTypes,
 
-        [Alias('allowed_company_ids')]
+        [Alias('allowed_company_ids','companyids','company_ids','companyId','company_id','companies')]
         [int[]]$AllowedCompanyIds
     )
+    $AccessLevelMap = @{
+        'all_companies'             = 'all_companies'
+        'all'                       = 'all_companies'
+        'allcompanies'              = 'all_companies'
+        'allcompany'                = 'all_companies'
+        'specific_companies'        = 'specific_companies'
+        'specific'                  = 'specific_companies'
+        'specificcompanies'         = 'specific_companies'
+        'specificcompany'           = 'specific_companies'
+    }
 
     $object = Get-HuduLabelTypes -Id $Id
     if (-not $object) { return $null }
@@ -81,7 +93,11 @@ API Endpoint: PUT /api/v1/label_types/{id}
         $object | Add-Member -MemberType NoteProperty -Name color -Force -Value (ConvertTo-HuduLabelColor -Color $Color)
     }
     if ($PSBoundParameters.ContainsKey('AccessLevel')) {
-        $object | Add-Member -MemberType NoteProperty -Name access_level -Force -Value $AccessLevel
+        $normalizedAccessLevel = $AccessLevelMap[$AccessLevel.ToLower()]
+        if (-not $normalizedAccessLevel) {
+            throw "Invalid AccessLevel value '$AccessLevel'. Valid values are: $($AccessLevelMap.Keys -join ', ')."
+        }
+        $object | Add-Member -MemberType NoteProperty -Name access_level -Force -Value $normalizedAccessLevel
     }
     if ($PSBoundParameters.ContainsKey('ApplicableRecordTypes')) {
         $recordTypes = @($ApplicableRecordTypes | ForEach-Object { Get-ObjectTypeFromCononical -inputData $_ })
