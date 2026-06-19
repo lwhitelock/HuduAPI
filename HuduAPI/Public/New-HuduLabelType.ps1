@@ -24,7 +24,7 @@ Record types this Label Type can be applied to.
 Company IDs allowed to use this Label Type when AccessLevel is specific_companies.
 
 .EXAMPLE
-New-HuduLabelType -Name "Critical" -Color "#ff0000" -ApplicableRecordTypes Asset,Website
+New-HuduLabelType -Name "Critical" -Color "#ffff00" -ApplicableRecordTypes Asset,Website
 
 .EXAMPLE
 New-HuduLabelType -Name "Private" -Color "#0000ff" -AccessLevel specific_companies -ApplicableRecordTypes Asset -AllowedCompanyIds 1,2
