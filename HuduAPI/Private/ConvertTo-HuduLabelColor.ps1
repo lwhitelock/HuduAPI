@@ -26,7 +26,7 @@ function ConvertTo-HuduLabelColor {
         LightPurple = '#cbc3e3'
         LightOrange = '#ffcc99'
         LightYellow = '#ffffe0'
-        White       = '#ffffff' 
+        White       = '#ffffff'
         Grey        = '#808080'
     }
 
