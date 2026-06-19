@@ -34,7 +34,8 @@ function New-HuduFolder {
         [Alias('parent_folder_id')]
         [Int]$ParentFolderId = '',
         [Alias('company_id')]
-        [Int]$CompanyId = ''
+        [Int]$CompanyId = '',
+        [string]$folderType='article'
     )
 
     $Folder = [ordered]@{folder = [ordered]@{} }
@@ -55,6 +56,10 @@ function New-HuduFolder {
 
     if ($CompanyId) {
         $Folder.folder.add('company_id', $CompanyId)
+    }
+
+    if ($FolderType) {
+        $Folder.folder.add('folder_type', $FolderType)
     }
 
     $JSON = $Folder | ConvertTo-Json
