@@ -15,7 +15,8 @@ ID of the Label Type to update.
 Updated name.
 
 .PARAMETER Color
-Updated exact color value, such as #ff0000.
+Updated Hex color value for the Label Type, such as #1c12a3, or Updated human-readable color name (can be english, spanish, italian)
+name supported by Set-ColorFromCanonical. Alpha values are not supported and are trimmed off.
 
 .PARAMETER AccessLevel
 Updated access scope.
@@ -27,10 +28,13 @@ Updated list of record types this Label Type can be applied to.
 Updated list of company IDs allowed to use this Label Type when AccessLevel is specific_companies.
 
 .EXAMPLE
+Set-HuduLabelType -Id 1 -Name "AnotherLabel" -Color "scharlachrot"
+
+.EXAMPLE
 Set-HuduLabelType -Id 1 -Name "Critical" -Color "#ff0000"
 
 .EXAMPLE
-Set-HuduLabelType -Id 1 -AccessLevel specific_companies -AllowedCompanyIds 1,2
+Set-HuduLabelType -Id 1 -Name "Colorful" -Color "naranja" -ApplicableRecordTypes @("asset","motdepasse","internetseite","procédure","netzwerk")
 
 .NOTES
 API Endpoint: PUT /api/v1/label_types/{id}
@@ -74,7 +78,7 @@ API Endpoint: PUT /api/v1/label_types/{id}
         $object | Add-Member -MemberType NoteProperty -Name name -Force -Value $Name
     }
     if ($PSBoundParameters.ContainsKey('Color')) {
-        $object | Add-Member -MemberType NoteProperty -Name color -Force -Value $Color
+        $object | Add-Member -MemberType NoteProperty -Name color -Force -Value (ConvertTo-HuduLabelColor -Color $Color)
     }
     if ($PSBoundParameters.ContainsKey('AccessLevel')) {
         $object | Add-Member -MemberType NoteProperty -Name access_level -Force -Value $AccessLevel

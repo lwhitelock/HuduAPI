@@ -12,13 +12,14 @@ AccessLevel is specific_companies, AllowedCompanyIds must contain at least one I
 Display name for the Label Type.
 
 .PARAMETER Color
-Exact color value for the Label Type, such as #ff0000.
+Hex color value for the Label Type, such as #ff0000, or a human-readable color name (can be english, spanish, italian)
+name supported by Set-ColorFromCanonical. Alpha values are not supported and are trimmed off.
 
 .PARAMETER AccessLevel
 Access scope for the Label Type. Defaults to all_companies.
 
 .PARAMETER ApplicableRecordTypes
-Record types this Label Type can be applied to.
+Record types this Label Type can be applied to. (can be english, spanish, italian)
 
 .PARAMETER AllowedCompanyIds
 Company IDs allowed to use this Label Type when AccessLevel is specific_companies.
@@ -27,7 +28,10 @@ Company IDs allowed to use this Label Type when AccessLevel is specific_companie
 New-HuduLabelType -Name "Critical" -Color "#ffff00" -ApplicableRecordTypes Asset,Website
 
 .EXAMPLE
-New-HuduLabelType -Name "Private" -Color "#0000ff" -AccessLevel specific_companies -ApplicableRecordTypes Asset -AllowedCompanyIds 1,2
+New-HuduLabelType -Name "Private" -Color "green" -AccessLevel specific_companies -ApplicableRecordTypes Asset -AllowedCompanyIds 1,2
+
+.EXAMPLE
+New-HuduLabelType -Name "Orange" -Color "naranja" -ApplicableRecordTypes @("asset","motdepasse","internetseite","procédure","netzwerk")
 
 .NOTES
 API Endpoint: POST /api/v1/label_types
@@ -71,7 +75,7 @@ API Endpoint: POST /api/v1/label_types
 
     $labelType = @{
         name                    = $Name
-        color                   = $Color
+        color                   = ConvertTo-HuduLabelColor -Color $Color
         access_level            = $AccessLevel
         applicable_record_types = @($ApplicableRecordTypes | ForEach-Object { Get-ObjectTypeFromCononical -inputData $_ })
     }
