@@ -12,7 +12,7 @@ function Get-ObjectTypeFromCononical {
                 Network       = @('network', 'networks', 'netzwerk', 'réseau', 'rete', 'red')
                 Photo         = @('photo', 'photos', 'foto', 'fotos', 'photograph', 'photographie', 'fotografía')
                 PublicPhoto   = @('publicphoto', 'public_photo', 'publicfoto', 'publicphotograph', 'publicphotographie', 'publicfotografía')
-                Procedure     = @('procedure','process', 'verfahren', 'procédure', 'procedura', 'procedimiento')
+                Procedure     = @('procedure', 'procedures', 'process', 'verfahren', 'procédure', 'procedura', 'procedimiento')
                 RackStorage   = @('rackstorage','rack_storage','rack','rackstorages', 'rack', 'armoire')
                 Vlan          = @('vlan','vlans', 'vlan')
                 VlanZone      = @('vlanzone','vlan_zone','zone', 'zonevlan', 'zonen', 'zonevlan','zone_vlan','zone','zones', 'zonalan','zona_vlan','zona','zonas')
