@@ -33,7 +33,6 @@ function Set-HuduFolder {
         [Parameter(Mandatory = $true)]
         [Int]$Id,
 
-        [Parameter(Mandatory = $true)]
         [String]$Name,
 
         [String]$Icon,
@@ -47,24 +46,38 @@ function Set-HuduFolder {
         [Nullable[int]]$CompanyId
     )
 
+    $folderObject = get-hudufolders -id $id; $folderobject = $folderobject.folder ?? $folderobject
+
     $Folder = [ordered]@{folder = [ordered]@{} }
 
-    $Folder.folder.add('name', $Name)
+    if ($PSBoundParameters.ContainsKey('Name')) {
+        $Folder.folder.add('name', $Name)
+    } else {
+        $Folder.folder.add('name', $folderObject.name)
+    }
 
     if ($PSBoundParameters.ContainsKey('Icon')) {
         $Folder.folder.add('icon', $Icon)
+    } else {
+        $Folder.folder.add('icon', $folderObject.icon)
     }
 
     if ($PSBoundParameters.ContainsKey('Description')) {
         $Folder.folder.add('description', $Description)
-    } 
+    } else {
+        $Folder.folder.add('description', $folderObject.description)
+    }
 
     if ($PSBoundParameters.ContainsKey('ParentFolderId')) {
         $Folder.folder.add('parent_folder_id', $ParentFolderId)
+    } else {
+        $Folder.folder.add('parent_folder_id', $folderObject.parent_folder_id)
     }
 
     if ($PSBoundParameters.ContainsKey('CompanyId')) {
         $Folder.folder.add('company_id', $CompanyId)
+    } else {
+        $Folder.folder.add('company_id', $folderObject.company_id)
     }
 
     $JSON = $Folder | ConvertTo-Json
