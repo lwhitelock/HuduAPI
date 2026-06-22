@@ -21,6 +21,9 @@ function New-HuduFolder {
     .PARAMETER CompanyId
     Company id
 
+    .PARAMETER folderType
+    Folder type. Accepts "article" or "photo". Default is "article".
+
     .EXAMPLE
     New-HuduFolder -Name 'Test folder' -CompanyId 1
 
@@ -35,6 +38,8 @@ function New-HuduFolder {
         [Nullable[int]]$ParentFolderId,
         [Alias('company_id')]
         [Nullable[int]]$CompanyId,
+        [ValidateSet("article","photo", ignoreCase = $true)]
+        [Alias('folder_type')]
         [string]$folderType='article'
     )
 
@@ -58,7 +63,7 @@ function New-HuduFolder {
         $Folder.folder.add('company_id', $CompanyId)
     }
 
-    $Folder.folder.add('folder_type', $FolderType)
+    $Folder.folder.add('folder_type', "$FolderType".ToLower())
 
     $JSON = $Folder | ConvertTo-Json
 

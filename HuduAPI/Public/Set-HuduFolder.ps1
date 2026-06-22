@@ -46,7 +46,7 @@ function Set-HuduFolder {
         [Nullable[int]]$CompanyId
     )
 
-    $folderObject = get-hudufolders -id $id; $folderobject = $folderobject.folder ?? $folderobject
+    $folderObject = get-hudufolders -id $id; $folderobject = $folderobject.folder ?? $folderobject;
 
     $Folder = [ordered]@{folder = [ordered]@{} }
 
