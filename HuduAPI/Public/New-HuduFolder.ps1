@@ -29,12 +29,12 @@ function New-HuduFolder {
     Param (
         [Parameter(Mandatory = $true)]
         [String]$Name,
-        [String]$Icon = '',
-        [String]$Description = '',
+        [String]$Icon,
+        [String]$Description,
         [Alias('parent_folder_id')]
-        [Int]$ParentFolderId = '',
+        [Nullable[int]]$ParentFolderId,
         [Alias('company_id')]
-        [Int]$CompanyId = '',
+        [Nullable[int]]$CompanyId,
         [string]$folderType='article'
     )
 
@@ -42,25 +42,23 @@ function New-HuduFolder {
 
     $Folder.folder.add('name', $Name)
 
-    if ($Icon) {
+    if ($PSBoundParameters.ContainsKey('Icon')) {
         $Folder.folder.add('icon', $Icon)
     }
 
-    if ($Description) {
+    if ($PSBoundParameters.ContainsKey('Description')) {
         $Folder.folder.add('description', $Description)
     }
 
-    if ($ParentFolderId) {
+    if ($PSBoundParameters.ContainsKey('ParentFolderId')) {
         $Folder.folder.add('parent_folder_id', $ParentFolderId)
     }
 
-    if ($CompanyId) {
+    if ($PSBoundParameters.ContainsKey('CompanyId')) {
         $Folder.folder.add('company_id', $CompanyId)
     }
 
-    if ($FolderType) {
-        $Folder.folder.add('folder_type', $FolderType)
-    }
+    $Folder.folder.add('folder_type', $FolderType)
 
     $JSON = $Folder | ConvertTo-Json
 

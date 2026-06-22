@@ -36,34 +36,34 @@ function Set-HuduFolder {
         [Parameter(Mandatory = $true)]
         [String]$Name,
 
-        [String]$Icon = '',
+        [String]$Icon,
 
-        [String]$Description = '',
+        [String]$Description,
 
         [Alias('parent_folder_id')]
-        [Int]$ParentFolderId = '',
+        [Nullable[int]]$ParentFolderId,
 
         [Alias('company_id')]
-        [Int]$CompanyId = ''
+        [Nullable[int]]$CompanyId
     )
 
     $Folder = [ordered]@{folder = [ordered]@{} }
 
     $Folder.folder.add('name', $Name)
 
-    if ($icon) {
+    if ($PSBoundParameters.ContainsKey('Icon')) {
         $Folder.folder.add('icon', $Icon)
     }
 
-    if ($Description) {
+    if ($PSBoundParameters.ContainsKey('Description')) {
         $Folder.folder.add('description', $Description)
-    }
+    } 
 
-    if ($ParentFolderId) {
+    if ($PSBoundParameters.ContainsKey('ParentFolderId')) {
         $Folder.folder.add('parent_folder_id', $ParentFolderId)
     }
 
-    if ($CompanyId) {
+    if ($PSBoundParameters.ContainsKey('CompanyId')) {
         $Folder.folder.add('company_id', $CompanyId)
     }
 
