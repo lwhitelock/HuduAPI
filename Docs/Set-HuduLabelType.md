@@ -5,48 +5,61 @@ online version:
 schema: 2.0.0
 ---
 
-# New-HuduFolder
+# Set-HuduLabelType
 
 ## SYNOPSIS
-Create a Folder
+Updates a Label Type.
 
 ## SYNTAX
 
 ```
-New-HuduFolder [-Name] <String> [[-Icon] <String>] [[-Description] <String>] [[-ParentFolderId] <Int32>]
- [[-CompanyId] <Int32>] [[-folderType] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Set-HuduLabelType [-Id] <Int32> [[-Name] <String>] [[-Color] <String>] [[-AccessLevel] <String>]
+ [[-ApplicableRecordTypes] <String[]>] [[-AllowedCompanyIds] <Int32[]>] [-ProgressAction <ActionPreference>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Uses Hudu API to create a new folder
+Updates a Label Type by ID.
+When setting AccessLevel to specific_companies,
+AllowedCompanyIds must contain at least one company ID, either from the existing
+Label Type or from the provided parameter.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-HuduFolder -Name 'Test folder' -CompanyId 1
+Set-HuduLabelType -Id 1 -Name "AnotherLabel" -Color "scharlachrot"
+```
+
+### EXAMPLE 2
+```
+Set-HuduLabelType -Id 1 -Name "Critical" -Color "#ff0000"
+```
+
+### EXAMPLE 3
+```
+Set-HuduLabelType -Id 1 -Name "Colorful" -Color "naranja" -ApplicableRecordTypes @("asset","motdepasse","internetseite","procédure","netzwerk")
 ```
 
 ## PARAMETERS
 
-### -Name
-Name of the folder
+### -Id
+ID of the Label Type to update.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: LabelTypeId, label_type_id, labeltype_id, label_typeid, type_id, typeid
 
 Required: True
 Position: 1
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Icon
-Folder Icon
+### -Name
+Updated name.
 
 ```yaml
 Type: String
@@ -60,8 +73,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Folder description
+### -Color
+Updated hex color value for the Label Type, such as #1c12a3, or a
+human-readable color name supported by Set-ColorFromCanonical.
+Alpha values are
+trimmed off.
 
 ```yaml
 Type: String
@@ -75,13 +91,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ParentFolderId
-Parent folder ID
+### -AccessLevel
+Updated access scope.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
-Aliases: parent_folder_id
+Aliases: access_level
 
 Required: False
 Position: 4
@@ -90,13 +106,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CompanyId
-Company id
+### -ApplicableRecordTypes
+Updated list of record types this Label Type can be applied to.
 
 ```yaml
-Type: Int32
+Type: String[]
 Parameter Sets: (All)
-Aliases: company_id
+Aliases: applicable_record_types, record_types, types, applicableTypes, applicable_type, applicableType
 
 Required: False
 Position: 5
@@ -105,17 +121,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -folderType
-{{ Fill folderType Description }}
+### -AllowedCompanyIds
+Updated list of company IDs allowed to use this Label Type when AccessLevel is specific_companies.
 
 ```yaml
-Type: String
+Type: Int32[]
 Parameter Sets: (All)
-Aliases:
+Aliases: allowed_company_ids, companyids, company_ids, companyId, company_id, companies
 
 Required: False
 Position: 6
-Default value: Article
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -174,5 +190,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+API Endpoint: PUT /api/v1/label_types/{id}
 
 ## RELATED LINKS

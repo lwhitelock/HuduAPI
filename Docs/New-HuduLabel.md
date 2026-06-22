@@ -5,117 +5,74 @@ online version:
 schema: 2.0.0
 ---
 
-# New-HuduFolder
+# New-HuduLabel
 
 ## SYNOPSIS
-Create a Folder
+Creates a Label on a Hudu record.
 
 ## SYNTAX
 
 ```
-New-HuduFolder [-Name] <String> [[-Icon] <String>] [[-Description] <String>] [[-ParentFolderId] <Int32>]
- [[-CompanyId] <Int32>] [[-folderType] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+New-HuduLabel [-LabelTypeId] <Int32> [-Labelable_Type] <String> [-Labelable_Id] <Int32>
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Uses Hudu API to create a new folder
+Creates a new Label record in Hudu by associating a Label Type with a specific
+record.
+The Label Type must be applicable to the target record type.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-HuduFolder -Name 'Test folder' -CompanyId 1
+New-HuduLabel -LabelTypeId 5 -Labelable_Type Asset -Labelable_Id 123
 ```
 
 ## PARAMETERS
 
-### -Name
-Name of the folder
+### -LabelTypeId
+The ID of the Label Type to apply.
+Use Get-HuduLabelTypes to discover IDs.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: label_type_id, labeltype_id, label_typeid, label_type, type_id, typeid
 
 Required: True
 Position: 1
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Icon
-Folder Icon
+### -Labelable_Type
+The type of object to attach the label to.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: object_type, objectType, target_type, targetType
 
-Required: False
+Required: True
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Folder description
+### -Labelable_Id
+The ID of the target object matching Labelable_Type.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: object_id, objectID, target_id, targetId
 
-Required: False
+Required: True
 Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ParentFolderId
-Parent folder ID
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: parent_folder_id
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Company id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -folderType
-{{ Fill folderType Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: Article
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -174,5 +131,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+API Endpoint: POST /api/v1/labels
 
 ## RELATED LINKS
