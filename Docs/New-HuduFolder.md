@@ -106,12 +106,14 @@ Accept wildcard characters: False
 ```
 
 ### -folderType
-{{ Fill folderType Description }}
+Folder type.
+Accepts "article" or "photo".
+Default is "article".
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: folder_type
 
 Required: False
 Position: 6

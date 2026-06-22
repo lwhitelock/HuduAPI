@@ -13,7 +13,7 @@ Update a Folder
 ## SYNTAX
 
 ```
-Set-HuduFolder [-Id] <Int32> [-Name] <String> [[-Icon] <String>] [[-Description] <String>]
+Set-HuduFolder [-Id] <Int32> [[-Name] <String>] [[-Icon] <String>] [[-Description] <String>]
  [[-ParentFolderId] <Int32>] [[-CompanyId] <Int32>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -53,7 +53,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False

@@ -13,8 +13,8 @@ Get a list of Folders
 ## SYNTAX
 
 ```
-Get-HuduFolders [[-Id] <Int32>] [[-Name] <String>] [[-CompanyId] <Int32>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-HuduFolders [[-Id] <Int32>] [[-Name] <String>] [[-CompanyId] <Int32>] [[-folderType] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -70,6 +70,22 @@ Aliases: company_id
 Required: False
 Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -folderType
+Filter by folder_type.
+Accepts "article" or "photo", default is "article"
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: folder_type
+
+Required: False
+Position: 4
+Default value: Article
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
