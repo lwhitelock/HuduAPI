@@ -41,7 +41,7 @@ function Get-HuduFolders {
 
         if ($PSBoundParameters.ContainsKey('CompanyId')) { $Params.company_id = $CompanyId }
         if ($PSBoundParameters.ContainsKey('Name')) { $Params.name = $Name }
-        if ($PSBoundParameters.ContainsKey('folderType')) { $Params.folder_type = "$folderType".ToLower() }
+        $Params.folder_type = "$folderType".ToLower()
 
         $HuduRequest = @{
             Method   = 'GET'
