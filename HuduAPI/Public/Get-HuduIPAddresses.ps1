@@ -62,6 +62,7 @@ If no filters are passed (and no -Id), all IPs are requested (server-side limits
     [CmdletBinding()]
     param(
         [int]$Id,
+        [string]$NetworkId,
         [string]$Address,
         [string]$Status,
         [string]$FQDN,
