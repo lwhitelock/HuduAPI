@@ -5,131 +5,71 @@ online version:
 schema: 2.0.0
 ---
 
-# New-HuduFolder
+# Get-HuduLabelTypes
 
 ## SYNOPSIS
-Create a Folder
+Gets Label Types from Hudu.
 
 ## SYNTAX
 
+### List (Default)
 ```
-New-HuduFolder [-Name] <String> [[-Icon] <String>] [[-Description] <String>] [[-ParentFolderId] <Int32>]
- [[-CompanyId] <Int32>] [[-folderType] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+Get-HuduLabelTypes [-Name <String>] [-Color <String>] [-Slug <String>] [-CreatedAt <String>]
+ [-UpdatedAt <String>] [-Page <Int32>] [-PageSize <Int32>] [-ProgressAction <ActionPreference>]
  [<CommonParameters>]
 ```
 
+### ById
+```
+Get-HuduLabelTypes [-Id <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-Uses Hudu API to create a new folder
+Retrieves Label Types by ID or lists Label Types with optional filtering.
+When
+listing, filters match exact values for name/color/slug when provided.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-HuduFolder -Name 'Test folder' -CompanyId 1
+Get-HuduLabelTypes
+```
+
+### EXAMPLE 2
+```
+Get-HuduLabelTypes -Name "Critical"
+```
+
+### EXAMPLE 3
+```
+Get-HuduLabelTypes -Id 12
 ```
 
 ## PARAMETERS
 
+### -Id
+Return a single Label Type by ID.
+
+```yaml
+Type: Int32
+Parameter Sets: ById
+Aliases: LabelTypeId, label_type_id, labeltype_id, label_typeid, type_id, typeid
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
-Name of the folder
+Filter by exact Label Type name.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: List
 Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Icon
-Folder Icon
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Description
-Folder description
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ParentFolderId
-Parent folder ID
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: parent_folder_id
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Company id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -folderType
-Folder type.
-Accepts "article" or "photo".
-Default is "article".
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: folder_type
-
-Required: False
-Position: 6
-Default value: Article
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
 
 Required: False
 Position: Named
@@ -138,17 +78,93 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -Color
+Filter by exact color value, such as #0000ff.
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
+Type: String
+Parameter Sets: List
+Aliases:
 
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Slug
+Filter by exact slug value.
+
+```yaml
+Type: String
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CreatedAt
+Filter by creation date (YYYY-MM-DD or ISO datetime).
+
+```yaml
+Type: String
+Parameter Sets: List
+Aliases: created_at
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UpdatedAt
+Filter by update date (YYYY-MM-DD or ISO datetime).
+
+```yaml
+Type: String
+Parameter Sets: List
+Aliases: updated_at
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Page
+Return a specific page instead of auto-paginating all results.
+
+```yaml
+Type: Int32
+Parameter Sets: List
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PageSize
+Number of results per page.
+Defaults to 1000 when auto-paginating.
+
+```yaml
+Type: Int32
+Parameter Sets: List
+Aliases: page_size
+
+Required: False
+Position: Named
+Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -176,5 +192,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+API Endpoints:
+- GET /api/v1/label_types
+- GET /api/v1/label_types/{id}
 
 ## RELATED LINKS

@@ -21,6 +21,9 @@ function New-HuduFolder {
     .PARAMETER CompanyId
     Company id
 
+    .PARAMETER folderType
+    Folder type. Accepts "article" or "photo". Default is "article".
+
     .EXAMPLE
     New-HuduFolder -Name 'Test folder' -CompanyId 1
 
@@ -29,33 +32,38 @@ function New-HuduFolder {
     Param (
         [Parameter(Mandatory = $true)]
         [String]$Name,
-        [String]$Icon = '',
-        [String]$Description = '',
+        [String]$Icon,
+        [String]$Description,
         [Alias('parent_folder_id')]
-        [Int]$ParentFolderId = '',
+        [Nullable[int]]$ParentFolderId,
         [Alias('company_id')]
-        [Int]$CompanyId = ''
+        [Nullable[int]]$CompanyId,
+        [ValidateSet("article","photo", ignoreCase = $true)]
+        [Alias('folder_type')]
+        [string]$folderType='article'
     )
 
     $Folder = [ordered]@{folder = [ordered]@{} }
 
     $Folder.folder.add('name', $Name)
 
-    if ($Icon) {
+    if ($PSBoundParameters.ContainsKey('Icon')) {
         $Folder.folder.add('icon', $Icon)
     }
 
-    if ($Description) {
+    if ($PSBoundParameters.ContainsKey('Description')) {
         $Folder.folder.add('description', $Description)
     }
 
-    if ($ParentFolderId) {
+    if ($PSBoundParameters.ContainsKey('ParentFolderId')) {
         $Folder.folder.add('parent_folder_id', $ParentFolderId)
     }
 
-    if ($CompanyId) {
+    if ($PSBoundParameters.ContainsKey('CompanyId')) {
         $Folder.folder.add('company_id', $CompanyId)
     }
+
+    $Folder.folder.add('folder_type', "$FolderType".ToLower())
 
     $JSON = $Folder | ConvertTo-Json
 

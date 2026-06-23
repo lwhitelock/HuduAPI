@@ -15,26 +15,33 @@ function Get-HuduFolders {
     .PARAMETER CompanyId
     Filter by company_id
 
+    .PARAMETER folderType
+    Filter by folder_type. Accepts "article" or "photo", default is "article"
+
     .EXAMPLE
     Get-HuduFolders
 
     #>
     [CmdletBinding()]
     Param (
-        [Int]$Id = '',
-        [String]$Name = '',
+        [Nullable[int]]$Id,
+        [String]$Name,
         [Alias('company_id')]
-        [Int]$CompanyId = ''
+        [Nullable[int]]$CompanyId,
+        [ValidateSet("article","photo", ignoreCase = $true)]
+        [Alias('folder_type')]
+        [string]$folderType="article"
     )
 
-    if ($id) {
+    if ($PSBoundParameters.ContainsKey('id')) {
         $Folder = Invoke-HuduRequest -Method get -Resource "/api/v1/folders/$id"
         return $Folder.Folder
     } else {
         $Params = @{}
 
-        if ($CompanyId) { $Params.company_id = $CompanyId }
-        if ($Name) { $Params.name = $Name }
+        if ($PSBoundParameters.ContainsKey('CompanyId')) { $Params.company_id = $CompanyId }
+        if ($PSBoundParameters.ContainsKey('Name')) { $Params.name = $Name }
+        $Params.folder_type = "$folderType".ToLower()
 
         $HuduRequest = @{
             Method   = 'GET'

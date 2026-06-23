@@ -5,68 +5,73 @@ online version:
 schema: 2.0.0
 ---
 
-# New-HuduFolder
+# Set-HuduLabel
 
 ## SYNOPSIS
-Create a Folder
+Updates a Label.
 
 ## SYNTAX
 
 ```
-New-HuduFolder [-Name] <String> [[-Icon] <String>] [[-Description] <String>] [[-ParentFolderId] <Int32>]
- [[-CompanyId] <Int32>] [[-folderType] <String>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+Set-HuduLabel [-Id] <Int32> [[-LabelTypeId] <Int32>] [[-Labelable_Type] <String>] [[-Labelable_Id] <Int32>]
+ [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Uses Hudu API to create a new folder
+Updates a Label by ID.
+The same applicability and uniqueness rules as creation apply.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-New-HuduFolder -Name 'Test folder' -CompanyId 1
+Set-HuduLabel -Id 10 -Labelable_Type Asset -Labelable_Id 456
+```
+
+### EXAMPLE 2
+```
+Set-HuduLabel -Id 10 -LabelTypeId 2
 ```
 
 ## PARAMETERS
 
-### -Name
-Name of the folder
+### -Id
+ID of the Label to update.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: LabelId, label_id
 
 Required: True
 Position: 1
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Icon
-Folder Icon
+### -LabelTypeId
+Updated Label Type ID.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: label_type_id, labeltype_id, label_typeid, label_type, type_id, typeid
 
 Required: False
 Position: 2
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Folder description
+### -Labelable_Type
+Updated target record type.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: object_type, objectType, target_type, targetType
 
 Required: False
 Position: 3
@@ -75,49 +80,17 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ParentFolderId
-Parent folder ID
+### -Labelable_Id
+Updated target record ID.
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases: parent_folder_id
+Aliases: object_id, objectID, target_id, targetId
 
 Required: False
 Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Company id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -folderType
-Folder type.
-Accepts "article" or "photo".
-Default is "article".
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: folder_type
-
-Required: False
-Position: 6
-Default value: Article
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -176,5 +149,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+API Endpoint: PUT /api/v1/labels/{id}
 
 ## RELATED LINKS

@@ -5,87 +5,79 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-HuduFolders
+# Remove-HuduLabelType
 
 ## SYNOPSIS
-Get a list of Folders
+Deletes a Label Type.
 
 ## SYNTAX
 
 ```
-Get-HuduFolders [[-Id] <Int32>] [[-Name] <String>] [[-CompanyId] <Int32>] [[-folderType] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Remove-HuduLabelType [-Id] <Int32> [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Calls Hudu API to retrieve folders
+Deletes a Label Type by ID.
+This may fail if the Label Type is in use by existing Labels.
+Supports ShouldProcess for -WhatIf / -Confirm.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-HuduFolders
+Remove-HuduLabelType -Id 12
+```
+
+### EXAMPLE 2
+```
+Remove-HuduLabelType -Id 12 -WhatIf
 ```
 
 ## PARAMETERS
 
 ### -Id
-Id of the folder
+The Label Type ID to delete.
 
 ```yaml
 Type: Int32
 Parameter Sets: (All)
-Aliases:
+Aliases: LabelTypeId, label_type_id
 
-Required: False
+Required: True
 Position: 1
+Default value: 0
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Filter by name
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: cf
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompanyId
-Filter by company_id
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases: company_id
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -folderType
-Filter by folder_type.
-Accepts "article" or "photo", default is "article"
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: folder_type
-
-Required: False
-Position: 4
-Default value: Article
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -113,5 +105,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+API Endpoint: DELETE /api/v1/label_types/{id}
 
 ## RELATED LINKS
