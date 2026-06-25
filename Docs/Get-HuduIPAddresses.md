@@ -13,10 +13,10 @@ Retrieve Hudu IP address records.
 ## SYNTAX
 
 ```
-Get-HuduIPAddresses [[-Id] <Int32>] [[-Address] <String>] [[-Status] <String>] [[-FQDN] <String>]
- [[-AssetID] <Int32>] [[-CompanyID] <Int32>] [[-CreatedAfter] <DateTime>] [[-CreatedBefore] <DateTime>]
- [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-HuduIPAddresses [[-Id] <Int32>] [[-NetworkId] <String>] [[-Address] <String>] [[-Status] <String>]
+ [[-FQDN] <String>] [[-AssetID] <Int32>] [[-CompanyID] <Int32>] [[-CreatedAfter] <DateTime>]
+ [[-CreatedBefore] <DateTime>] [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,6 +61,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -NetworkId
+Filter by parent Network ID.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Address
 IP address (exact string match, e.g.
 '192.168.10.15').
@@ -71,7 +86,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -88,7 +103,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -103,7 +118,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -118,7 +133,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -133,7 +148,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -148,7 +163,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -163,7 +178,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -178,7 +193,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -193,7 +208,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

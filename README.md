@@ -148,6 +148,7 @@ https://github.com/lwhitelock/HuduAPI/releases
     Set-HuduVLAN
     Set-HuduVLANZone
     Set-HuduWebsite
+    Set-HuduWebsiteArchive
     Start-HuduProcedure
     Start-HuduExport
     Start-HuduS3Export
