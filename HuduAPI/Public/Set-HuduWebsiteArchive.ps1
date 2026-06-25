@@ -3,6 +3,9 @@ function Set-HuduWebsiteArchive {
     .SYNOPSIS
     Update a Website to be archived or unarchived
 
+    .DESCRIPTION
+    Uses Hudu API to archive or unarchive a website
+
     .PARAMETER Archive
     Boolean of archive status
 
