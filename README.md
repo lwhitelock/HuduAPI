@@ -55,6 +55,8 @@ https://github.com/lwhitelock/HuduAPI/releases
     Get-HuduWebsites
     Initialize-HuduFolder
     Invoke-HuduRequest
+    Move-HuduArticleCompany
+    Move-HuduAssetCompany
     New-HuduAPIKey
     New-HuduArticle
     New-HuduAsset
