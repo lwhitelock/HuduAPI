@@ -93,6 +93,7 @@ False
     Get-HuduNetworks
     Get-HuduPasswords
     Get-HuduPasswordFolders
+    Get-HuduPasswordShares
     Get-HuduProcedures
     Get-HuduProcedureTasks
     Get-HuduPhotos
@@ -130,6 +131,7 @@ False
     New-HuduNetwork
     New-HuduPassword
     New-HuduPasswordFolder
+    New-HuduPasswordShare
     New-HuduPublicPhoto
     New-HuduPhoto
     New-HuduProcedure
@@ -161,6 +163,7 @@ False
     Remove-HuduNetwork
     Remove-HuduPassword
     Remove-HuduPasswordFolder
+    Remove-HuduPasswordShare
     Remove-HuduPhoto
     Remove-HuduProcedure
     Remove-HuduProcedureTask
@@ -275,6 +278,27 @@ You can either user id or you can use title and company_name together
     
     New-HuduArticle -name "Test" -content "<p>Html content of article</p>" -folder_id 100 -company_id 20
 Name and Content are mandatory, folder_id and company_id are optional. Setting no company ID adds to the global KB
+
+## Password sharing links
+
+Use [New-HuduPasswordShare](Docs/New-HuduPasswordShare.md) to create a public sharing link with a required expiry in seconds. The returned object includes the full public URL.
+
+```powershell
+$Share = New-HuduPasswordShare -AssetPasswordId 42 -ExpireIn 3600 -OneTimeExpire $true -IncludeUsername $true -IncludeOTP $false
+$Share.url
+
+# Retrieve all links, a single link, or a specific page.
+Get-HuduPasswordShares -AssetPasswordId 42
+Get-HuduPasswordShares -AssetPasswordId 42 -Id $Share.id
+Get-HuduPasswordShares -AssetPasswordId 42 -Page 2 -PageSize 25
+
+# Revoke access immediately (prompts for confirmation).
+Remove-HuduPasswordShare -AssetPasswordId 42 -Id $Share.id
+```
+
+[Get-HuduPasswordShares](Docs/Get-HuduPasswordShares.md) retrieves every page by default. [Remove-HuduPasswordShare](Docs/Remove-HuduPasswordShare.md) also accepts sharing link objects through the pipeline when `-AssetPasswordId` is supplied. Creation and removal support `-WhatIf` and `-Confirm`.
+
+These endpoints require an API key with password access. Creation requires external sharing to be enabled for the account; deletion requires destructive actions to be enabled for the API key. Optional creation fields are omitted unless supplied, and boolean fields accept both `$true` and `$false`.
 
 ## Community & Socials
 
