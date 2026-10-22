@@ -55,7 +55,7 @@ function Get-HuduPasswordShares {
         [Parameter(Mandatory = $true, ParameterSetName = 'ById')]
         [Alias('ShareId', 'share_id')]
         [ValidateRange(1, [long]::MaxValue)]
-        [long]$Id,
+        [long]$Id
 
 
     )
