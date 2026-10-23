@@ -42,6 +42,10 @@ function New-HuduAssetLayout {
     Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
     Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
     Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
+    Number fields accept number_type number, currency, or percentage (alias: percent).
+    A currency_code without a number_type implies currency. An explicit number_type takes precedence.
+    Currency fields use a valid supplied ISO 4217 code, otherwise the session culture's currency, otherwise USD.
+    Omit both options to retain Hudu's ordinary number default. Unknown number types are rejected.
 
     .EXAMPLE
     New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
@@ -107,7 +111,10 @@ function New-HuduAssetLayout {
             'richtext'          { $field.'field_type' = 'RichText' }
             'heading'           { $field.'field_type' = 'Heading' }
             'checkbox'          { $field.'field_type' = 'CheckBox' }
-            'number'            { $field.'field_type' = 'Number' }
+            'number'            {
+                $field.'field_type' = 'Number'
+                Set-HuduAssetLayoutNumberField -Field $field
+            }
             'date'              { $field.'field_type' = 'Date' }
             'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }

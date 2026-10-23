@@ -239,6 +239,15 @@ Most field types only require a label and type.
 Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
 Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
+For Number fields, `number_type` accepts `number`, `currency`, or `percentage` (`percent` is an alias). Values are trimmed and normalized to lowercase; unknown types are rejected before sending a request.
+
+- Omit both `number_type` and `currency_code` to retain Hudu's ordinary number default.
+- Supply only `currency_code` to infer `number_type = 'currency'`.
+- An explicit `number` or `percentage` takes precedence and removes any stale `currency_code`.
+- Currency fields use the supplied, normalized ISO 4217 code. Missing or invalid codes fall back to the executing PowerShell session's culture, then `USD` if no regional currency is available.
+
+Culture is read from `Get-Culture`, not from Hudu or the company being documented. For predictable automation across regions, supply an explicit currency code. Current ISO 4217 codes and retained legacy codes are accepted; the allowlist is local and requires no runtime network request. Updating layout metadata without supplying `Fields` preserves existing field settings.
+
 ```yaml
 Type: Array
 Parameter Sets: (All)
