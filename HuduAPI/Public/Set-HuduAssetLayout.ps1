@@ -108,7 +108,7 @@ function Set-HuduAssetLayout {
         if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
         if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
         # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
-        switch ($field.'field_type') {
+        switch ("$($field.'field_type')" -replace " ",'') {
             'text'              { $field.'field_type' = 'Text' }
             'richtext'          { $field.'field_type' = 'RichText' }
             'heading'           { $field.'field_type' = 'Heading' }
@@ -116,6 +116,11 @@ function Set-HuduAssetLayout {
             'number'            {
                 $field.'field_type' = 'Number'
                 Set-HuduAssetLayoutNumberField -Field $field
+            }
+            'instructionblock'{
+                $field.'field_type' = 'InstructionBlock'
+                $field.show_in_list = $false
+                if ([string]::isnullorwhitespace($field.'instruction_block')) { $field.instruction_block = '<b>Please Add Instructions</b>' }
             }
             'date'              { $field.'field_type' = 'Date' }
             'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
