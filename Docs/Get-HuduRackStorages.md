@@ -20,7 +20,7 @@ Get-HuduRackStorages [[-Id] <Int32>] [[-CompanyId] <Int32>] [[-LocationId] <Int3
 ```
 
 ## DESCRIPTION
-Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
+Retrieves rack storages by ID or filters such as company, location, dimensions, and date ranges.
 
 ## EXAMPLES
 
@@ -207,7 +207,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 API Endpoint: GET /api/v1/rack_storages
-
-\>
 
 ## RELATED LINKS

@@ -56,6 +56,7 @@ Context "Hudu RackStorage Integration Tests" {
         $rack.id | Should -Not -BeNullOrEmpty
         $rack.width | Should -Be $rack_width
         $rack.height | Should -Be $rack_height
+        $rack.starting_unit | Should -Be 1
         $rack.max_wattage | Should -Be $rack_watts
         $rack.power_draw_utilization | Should -Be 0
         $rack.description | Should -Be $rack_description        
@@ -68,6 +69,7 @@ Context "Hudu RackStorage Integration Tests" {
         $retrieved.name | Should -Be $rack_name
         $retrieved.width | Should -Be $rack_width
         $retrieved.height | Should -Be $rack_height
+        $retrieved.starting_unit | Should -Be 1
         $retrieved.max_wattage | Should -Be $rack_watts
         $retrieved.power_draw_utilization | Should -Be 0
         $retrieved.description | Should -Be $rack_description
@@ -107,10 +109,11 @@ Context "Hudu RackStorage Integration Tests" {
                                     -Height $rack_height `
                                     -Width $rack_width `
                                     -MaxWattage $rack_watts `
+                                    -StartingUnit 0 `
                                     -Description $rack_description
 
         Write-Host "Test rack created. $rack"
-        $side = (Get-Random -Minimum 0 -Maximum 1)
+        $side = (Get-Random -Minimum 0 -Maximum 2)
         $StartUnit = 0
         $MaxAllowedWidth = [math]::Min(5, $rack_width - 1)
         $EndUnit = $StartUnit + (Get-Random -Minimum 1 -Maximum ($MaxAllowedWidth + 1))

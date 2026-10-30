@@ -4,7 +4,7 @@ function Get-HuduRackStorages {
     Get a list of Rack Storages or provide ID to get a single rack storage
 
     .DESCRIPTION
-    Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
+    Retrieves rack storages by ID or filters such as company, location, dimensions, and date ranges.
     
     .PARAMETER Id
     ID of the Rack Storage to get
@@ -43,8 +43,7 @@ function Get-HuduRackStorages {
 
     .NOTES
     API Endpoint: GET /api/v1/rack_storages
-    #>    
-    #>    
+    #>
     [CmdletBinding()]
     param (
         [int]$Id,
@@ -71,19 +70,26 @@ function Get-HuduRackStorages {
     $BaseResource = "/api/v1/rack_storages"
 
     $Params = @{}
-    if ($CompanyId)   { $Params.company_id = $CompanyId }
-    if ($LocationId)  { $Params.location_id = $LocationId }
-    if ($Height)      { $Params.height = $Height }
-    if ($MinWidth)    { $Params.min_width = $MinWidth }
-    if ($MaxWidth)    { $Params.max_width = $MaxWidth }
+    $Filters = @{
+        CompanyId  = 'company_id'
+        LocationId = 'location_id'
+        Height     = 'height'
+        MinWidth   = 'min_width'
+        MaxWidth   = 'max_width'
+    }
+    foreach ($ParameterName in $Filters.Keys) {
+        if ($PSBoundParameters.ContainsKey($ParameterName)) {
+            $Params[$Filters[$ParameterName]] = $PSBoundParameters[$ParameterName]
+        }
+    }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
+    if ($null -ne $createdRange -and $createdRange -ne ',') {
         $Params.created_at = $createdRange
     }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+    if ($null -ne $updatedRange -and $updatedRange -ne ',') {
         $Params.updated_at = $updatedRange
     }
 
