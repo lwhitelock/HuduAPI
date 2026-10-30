@@ -8,6 +8,9 @@ function Get-HuduRackStorageItems {
     .DESCRIPTION
     Calls Hudu API to retrieve rack storage items with filters like asset ID, role, side, etc.
 
+    .PARAMETER Id
+    ID of a single rack storage item to retrieve.
+
     .PARAMETER RoleId
     Filter by Rack Storage Role ID
 
@@ -24,7 +27,7 @@ function Get-HuduRackStorageItems {
     Filter by Status
 
     .PARAMETER Side
-    Filter by Side (0='Front' or 1='Rear')
+    Filter by Front (0) or Rear (1). Accepts names or numbers. Omit to return either side.
 
     .PARAMETER CreatedAfter
     Start datetime for created_at range
@@ -60,8 +63,8 @@ function Get-HuduRackStorageItems {
         
         [int]$Status,
         
-        [ValidateSet(0, 1)]
-        [int]$Side,
+        [ValidateSet('Front', 'Rear', '0', '1')]
+        [string]$Side,
         
         [datetime]$CreatedAfter,
         
@@ -75,20 +78,29 @@ function Get-HuduRackStorageItems {
     $BaseResource = "/api/v1/rack_storage_items"
 
     $Params = @{}
-    if ($RoleId) { $Params["rack_storage_role_id"] = $RoleId }
-    if ($AssetId) { $Params["asset_id"] = $AssetId }
-    if ($StartUnit) { $Params["starting_unit"] = $StartUnit }
-    if ($EndUnit) { $Params["end_unit"] = $EndUnit }
-    if ($Status) { $Params["status"] = $Status }
-    if ($Side) { $Params["side"] = $Side }
+    $Filters = @{
+        RoleId    = 'rack_storage_role_id'
+        AssetId   = 'asset_id'
+        StartUnit = 'start_unit'
+        EndUnit   = 'end_unit'
+        Status    = 'status'
+    }
+    foreach ($ParameterName in $Filters.Keys) {
+        if ($PSBoundParameters.ContainsKey($ParameterName)) {
+            $Params[$Filters[$ParameterName]] = $PSBoundParameters[$ParameterName]
+        }
+    }
+    if ($PSBoundParameters.ContainsKey('Side')) {
+        $Params.side = if ($Side -in @('Front', '0')) { 'Front' } else { 'Rear' }
+    }
 
     $createdRange = Convert-ToHuduDateRange -Start $CreatedAfter -End $CreatedBefore
-    if ($createdRange -ne ',' -and -$null -ne $createdRange) {
+    if ($null -ne $createdRange -and $createdRange -ne ',') {
         $Params.created_at = $createdRange
     }
 
     $updatedRange = Convert-ToHuduDateRange -Start $UpdatedAfter -End $UpdatedBefore
-    if ($updatedRange -ne ',' -and -$null -ne $updatedRange) {
+    if ($null -ne $updatedRange -and $updatedRange -ne ',') {
         $Params.updated_at = $updatedRange
     }
     
@@ -101,7 +113,7 @@ function Get-HuduRackStorageItems {
         @{
             Method   = 'GET'
             Resource = "$BaseResource"
-            Params   = if ($Params.Count -gt 0) { $Params } else { $null }
+            Params   = $Params
         }
     }
 

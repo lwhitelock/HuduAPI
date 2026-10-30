@@ -21,6 +21,8 @@ Set-HuduRackStorage [-Id] <Int32> [[-Name] <String>] [[-CompanyId] <Int32>] [[-H
 ## DESCRIPTION
 Calls the Hudu API to update a Rack Storage by ID.
 You can update any subset of properties including name, dimensions, company, or location.
+Only explicitly supplied properties are sent.
+Omitted properties retain their existing values.
 
 ## EXAMPLES
 
@@ -125,6 +127,7 @@ Accept wildcard characters: False
 
 ### -Description
 Optional updated description for the Rack Storage.
+Use an empty string to clear it.
 
 ```yaml
 Type: String

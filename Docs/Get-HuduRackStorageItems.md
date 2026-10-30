@@ -14,7 +14,7 @@ Provide a rack storage item id to Get a single rack storage item, otherwise Get 
 
 ```
 Get-HuduRackStorageItems [[-Id] <Int32>] [[-RoleId] <Int32>] [[-AssetId] <Int32>] [[-StartUnit] <Int32>]
- [[-EndUnit] <Int32>] [[-Status] <Int32>] [[-Side] <Int32>] [[-CreatedAfter] <DateTime>]
+ [[-EndUnit] <Int32>] [[-Status] <Int32>] [[-Side] <String>] [[-CreatedAfter] <DateTime>]
  [[-CreatedBefore] <DateTime>] [[-UpdatedAfter] <DateTime>] [[-UpdatedBefore] <DateTime>]
  [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
@@ -34,7 +34,7 @@ Returns all front-facing rack items associated with role ID 12.
 ## PARAMETERS
 
 ### -Id
-{{ Fill Id Description }}
+ID of a single rack storage item to retrieve.
 
 ```yaml
 Type: Int32
@@ -124,16 +124,18 @@ Accept wildcard characters: False
 ```
 
 ### -Side
-Filter by Side (0='Front' or 1='Rear')
+Filter by Front (0) or Rear (1).
+Accepts names or numbers.
+Omit to return either side.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 7
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
