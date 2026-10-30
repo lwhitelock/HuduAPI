@@ -39,10 +39,10 @@ function Set-HuduArticle {
         [switch]$EnableSharing,
 
         [Alias('folder_id')]
-        [Int]$FolderId = '',
+        [Nullable[int]]$FolderId,
 
         [Alias('company_id')]
-        [Int]$CompanyId = '',
+        [Nullable[int]]$CompanyId,
 
         [Alias('article_id', 'id')]
         [Parameter(Mandatory = $true)]
@@ -62,11 +62,11 @@ function Set-HuduArticle {
         $Article.article.content = $Content
     }
     
-    if ($FolderId) {
+    if ($PSBoundParameters.ContainsKey('FolderId')) {
         $Article.article.folder_id = $FolderId
     }
 
-    if ($CompanyId) {
+    if ($PSBoundParameters.ContainsKey('CompanyId')) {
         $Article.article.company_id = $CompanyId
     }
 

@@ -25,17 +25,10 @@ Sends a request to the Hudu API to create a new Rack Storage, including properti
 
 ### EXAMPLE 1
 ```
-New-HuduRackStorage -Name "Rack A-01" -LocationId 12 -CompanyId 34 -Height 42 -StartingUnit 1
+New-HuduRackStorage -Name "Rack A-01" -LocationId 12 -CompanyId 34 -Height 42 -Width 19
 ```
 
 Creates a new rack called "Rack A-01" at location ID 12, linked to company ID 34, with 42U height starting from unit 1.
-
-### EXAMPLE 2
-```
-Get-HuduRackStorage -Id 101
-```
-
-Returns the Rack Storage with ID 101.
 
 ## PARAMETERS
 
@@ -57,7 +50,7 @@ Accept wildcard characters: False
 
 ### -CompanyId
 The ID of the company associated with the rack.
-Optional, but useful for filtering.
+Required.
 
 ```yaml
 Type: Int32
@@ -73,7 +66,7 @@ Accept wildcard characters: False
 
 ### -Height
 Total number of rack units (U) in height (e.g., 42 for a standard rack).
-Optional.
+Required.
 
 ```yaml
 Type: Int32
@@ -88,8 +81,8 @@ Accept wildcard characters: False
 ```
 
 ### -Width
-The width of the rack in millimeters or another defined unit (depending on Hudu's expected units).
-Optional.
+The rack width in the units expected by your Hudu instance.
+Required.
 
 ```yaml
 Type: Int32
@@ -152,8 +145,9 @@ Accept wildcard characters: False
 ```
 
 ### -StartingUnit
-The starting rack unit number (e.g., 1 if it's a full rack).
-Optional.
+The starting rack unit number.
+Defaults to 1.
+Use 0 for zero-based rack numbering.
 
 ```yaml
 Type: Int32
@@ -162,7 +156,7 @@ Aliases:
 
 Required: False
 Position: 8
-Default value: 0
+Default value: 1
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -190,6 +184,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-API Endpoint: GET /api/v1/rack_storages/{id}
+API Endpoint: POST /api/v1/rack_storages
 
 ## RELATED LINKS

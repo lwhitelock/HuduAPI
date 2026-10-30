@@ -45,10 +45,10 @@ Set-HuduNetwork -Id 123 -Address "10.20.30.0/24" -VlanId 30 -LocationId 456
         [string]$Name,
         [string]$Address,
         [int]$CompanyId,
-        [int]$LocationId,
+        [nullable[int]]$LocationId,
         [string]$Description,
         [int]$NetworkType,
-        [int]$VlanId
+        [nullable[int]]$VlanId
     )
     $object = Get-HuduNetworks -id $Id
     $hudunetwork = [ordered]@{network = $object }
@@ -62,16 +62,16 @@ Set-HuduNetwork -Id 123 -Address "10.20.30.0/24" -VlanId 30 -LocationId 456
     if ($CompanyId) {
         $hudunetwork.network | Add-Member -MemberType NoteProperty -Name company_id -Force -Value $CompanyId
     }
-    if ($LocationId) {
-        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name location_id -Force -Value $LocationId
-    }
     if ($Description) {
         $hudunetwork.network | Add-Member -MemberType NoteProperty -Name description -Force -Value $Description
     }
     if ($NetworkType) {
         $hudunetwork.network | Add-Member -MemberType NoteProperty -Name network_type -Force -Value $NetworkType
     }
-    if ($VlanId) {
+    if ($PSBoundParameters.ContainsKey('LocationId')) {
+        $hudunetwork.network | Add-Member -MemberType NoteProperty -Name location_id -Force -Value $LocationId
+    }
+    if ($PSBoundParameters.ContainsKey('VlanId')) {
         $hudunetwork.network | Add-Member -MemberType NoteProperty -Name vlan_id -Force -Value $VlanId
     }
  

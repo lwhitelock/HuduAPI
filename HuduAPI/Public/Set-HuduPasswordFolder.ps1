@@ -38,8 +38,8 @@ function Set-HuduPasswordFolder {
         [ValidateSet("all_users","specific")][String]$Security,
         [array]$AllowedGroups,
         [Alias('company_id')]
-        [int]$CompanyID
-        )
+        [nullable[int]]$CompanyID
+    )
     
     $passwordFolder = Get-HuduPasswordFolders -Id $Id 
     

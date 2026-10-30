@@ -12,7 +12,7 @@
     RootModule        = '.\HuduAPI.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '3.20.98'
+    ModuleVersion     = '3.20.99'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport =	
+    FunctionsToExport =
     'Copy-HuduProcedure',
     'Get-HuduActivityLogs',
     'Get-HuduAPIKey',
@@ -84,6 +84,7 @@
     'Get-HuduCompanyFolders',
     'Get-HuduFolderCleanName',
     'Get-HuduExpirations',
+    'Get-HuduFeatureAvailability',
     'Get-HuduFlags',
     'Get-HuduFlagTypes',
     'Get-HuduExports',
@@ -100,6 +101,7 @@
     'Get-HuduNetworks',
     'Get-HuduPasswords',
     'Get-HuduPasswordFolders',
+    'Get-HuduPasswordShares',
     'Get-HuduProcedures',
     'Get-HuduProcedureTasks',
     'Get-HuduPhotos',
@@ -114,10 +116,12 @@
     'Get-HuduUsers',
     'Get-HuduUsers',
     'Get-HuduVLANs',
-    'Get-HuduVLANZones',    
+    'Get-HuduVLANZones',
     'Get-HuduWebsites',
     'Initialize-HuduFolder',
     'Invoke-HuduRequest',
+    'Move-HuduArticleCompany',
+    'Move-HuduAssetCompany',
     'New-HuduAPIKey',
     'New-HuduArticle',
     'New-HuduAsset',
@@ -126,7 +130,7 @@
     'New-HuduCompany',
     'New-HuduCustomHeaders',
     'New-HuduFlag',
-    'New-HuduFlagType',    
+    'New-HuduFlagType',
     'New-HuduFolder',
     'New-HuduIPAddress',
     'New-HuduList',
@@ -135,13 +139,14 @@
     'New-HuduNetwork',
     'New-HuduPassword',
     'New-HuduPasswordFolder',
+    'New-HuduPasswordShare',
     'New-HuduPublicPhoto',
     'New-HuduPhoto',
     'New-HuduProcedure',
     'New-HuduProcedureTask',
     'New-HuduProcedureFromTemplate',
     'New-HuduRackStorageItem',
-    'New-HuduRackStorage',    
+    'New-HuduRackStorage',
     'New-HuduProcedure',
     'New-HuduProcedureTask',
     'New-HuduProcedureFromTemplate',
@@ -166,13 +171,14 @@
     'Remove-HuduNetwork',
     'Remove-HuduPassword',
     'Remove-HuduPasswordFolder',
+    'Remove-HuduPasswordShare',
     'Remove-HuduPhoto',
     'Remove-HuduProcedure',
     'Remove-HuduProcedureTask',
     'Remove-HuduRackStorageItem',
-    'Remove-HuduRackStorage',    
+    'Remove-HuduRackStorage',
     'Remove-HuduProcedure',
-    'Remove-HuduProcedureTask', 
+    'Remove-HuduProcedureTask',
     'Remove-HuduRelation',
     'Remove-HuduUpload',
     'Remove-HuduVLAN',
@@ -181,6 +187,8 @@
     'Save-HuduExports',
     'Set-HuduArticle',
     'Set-HuduArticleArchive',
+    'Set-HuduArticlePinned',
+    'Set-HuduArticleUnPinned',
     'Set-HuduAsset',
     'Set-HuduAssetArchive',
     'Set-HuduAssetLayout',
@@ -188,7 +196,7 @@
     'Set-HuduCompany',
     'Set-HuduCompanyArchive',
     'Set-HuduFlag',
-    'Set-HuduFlagType',    
+    'Set-HuduFlagType',
     'Set-HuduLabel',
     'Set-HuduLabelType',
     'Set-HuduFolder',
@@ -209,8 +217,9 @@
     'Set-HuduRackStorageItem',
     'Set-HuduRackStorage',
     'Set-HuduVLAN',
-    'Set-HuduVLANZone',    
+    'Set-HuduVLANZone',
     'Set-HuduWebsite',
+    'Set-HuduWebsiteArchive',
     'Start-HuduProcedure',
     'Start-HuduExport',
     'Start-HuduS3Export',
@@ -257,15 +266,12 @@
 
             # ReleaseNotes of this module
             # ReleaseNotes = ''
-
-        } # End of PSData hashtable
-
-    } # End of PrivateData hashtable
-
+        }
+         # End of PSData hashtable
+    } 
+    # End of PrivateData hashtable
     # HelpInfo URI of this module
     # HelpInfoURI = ''
-
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''
-
 }

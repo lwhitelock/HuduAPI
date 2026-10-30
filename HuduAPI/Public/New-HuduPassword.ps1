@@ -13,7 +13,7 @@ function New-HuduPassword {
     Company id
 
     .PARAMETER PasswordableType
-    associated Object type, most commonly asset, for the password ["Asset", "VlanZone", "Vlan"]
+    associated Object type, most commonly asset, for the password ["Asset"]
 
     .PARAMETER PasswordableId
     Associated object id for the password
@@ -63,7 +63,7 @@ function New-HuduPassword {
 
         [Alias('passwordable_type')]
         [ValidateScript({Assert-AllowedObjectType -InputType $_ -AllowedCanonicals @(
-                "Asset", "VlanZone", "Vlan"
+                "Asset"
         )})]        
         [String]$PasswordableType,
 
@@ -86,7 +86,7 @@ function New-HuduPassword {
         [String]$Description,
 
         [Alias('password_type')]
-        [String]$PasswordTypeq,
+        [String]$PasswordType,
 
         [Alias('password_folder_id')]
         [int]$PasswordFolderId,

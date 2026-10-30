@@ -18,7 +18,13 @@ Set-HuduAssetLayoutField [-LayoutId] <Int32> [-FieldLabel] <String> [-PropertyNa
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Updates a property on a field identified by its label and saves the layout through `Set-HuduAssetLayout`.
+
+Setting `currency_code` on a Number field also sets `number_type = 'currency'`. Codes are trimmed and uppercased. A missing, empty, or invalid code uses the executing PowerShell session's culture, then `USD` if no regional currency is available. Currency codes cannot be set on other field types.
+
+Setting `number_type` to `number` or `percentage` removes a stale currency code; `percent` is accepted as an alias for `percentage`. Unknown number types are rejected. Changing another property preserves an existing valid currency code.
+
+The fallback culture comes from `Get-Culture`, not from Hudu or the company being documented. Supply an explicit code for predictable automation across regions.
 
 ## EXAMPLES
 

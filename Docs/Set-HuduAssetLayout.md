@@ -16,8 +16,8 @@ Update an Asset Layout
 Set-HuduAssetLayout [-Id] <Int32> [[-Name] <String>] [[-Icon] <String>] [[-Color] <String>]
  [[-IconColor] <String>] [[-IncludePasswords] <Boolean>] [[-IncludePhotos] <Boolean>]
  [[-IncludeComments] <Boolean>] [[-IncludeFiles] <Boolean>] [[-PasswordTypes] <String>] [[-Active] <Boolean>]
- [[-Slug] <String>] [[-Fields] <Array>] [-ProgressAction <ActionPreference>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-Slug] <String>] [[-Fields] <Array>] [[-isLocation] <Boolean>] [-ProgressAction <ActionPreference>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,6 +31,16 @@ Set-HuduAssetLayout -Id 12 -Name 'Test asset layout' -Icon 'fas fa-home' -Includ
 ```
 
 ### EXAMPLE 2
+```
+Set-HuduAssetLayout -Id 12 -Color 'naranja' -IconColor '#ffffff'
+```
+
+### EXAMPLE 3
+```
+Set-HuduAssetLayout -Id 12 -SidebarFolderID 3
+```
+
+### EXAMPLE 4
 ```
 Set-HuduAssetLayout -Id 12 -Fields @(
     @{label = 'Test field'; 'field_type' = 'Text'}
@@ -85,7 +95,9 @@ Accept wildcard characters: False
 ```
 
 ### -Color
-Hex code for background color, example: #000000
+Background color as a hex value, such as #000000, or a human-readable color
+name in a supported language.
+Alpha values are trimmed off.
 
 ```yaml
 Type: String
@@ -100,7 +112,9 @@ Accept wildcard characters: False
 ```
 
 ### -IconColor
-Hex code for background color, example: #000000
+Icon color as a hex value, such as #000000, or a human-readable color
+name in a supported language.
+Alpha values are trimmed off.
 
 ```yaml
 Type: String
@@ -225,6 +239,15 @@ Most field types only require a label and type.
 Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
 Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
 
+For Number fields, `number_type` accepts `number`, `currency`, or `percentage` (`percent` is an alias). Values are trimmed and normalized to lowercase; unknown types are rejected before sending a request.
+
+- Omit both `number_type` and `currency_code` to retain Hudu's ordinary number default.
+- Supply only `currency_code` to infer `number_type = 'currency'`.
+- An explicit `number` or `percentage` takes precedence and removes any stale `currency_code`.
+- Currency fields use the supplied, normalized ISO 4217 code. Missing or invalid codes fall back to the executing PowerShell session's culture, then `USD` if no regional currency is available.
+
+Culture is read from `Get-Culture`, not from Hudu or the company being documented. For predictable automation across regions, supply an explicit currency code. Current ISO 4217 codes and retained legacy codes are accepted; the allowlist is local and requires no runtime network request. Updating layout metadata without supplying `Fields` preserves existing field settings.
+
 ```yaml
 Type: Array
 Parameter Sets: (All)
@@ -233,6 +256,21 @@ Aliases:
 Required: False
 Position: 13
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -isLocation
+{{ Fill isLocation Description }}
+
+```yaml
+Type: Boolean
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 14
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

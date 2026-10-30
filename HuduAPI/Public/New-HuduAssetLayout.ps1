@@ -13,10 +13,12 @@ function New-HuduAssetLayout {
     FontAwesome Icon class name, example: "fas fa-home"
 
     .PARAMETER Color
-    Background color hex code
+    Background color as a hex value, such as #ff0000, or a human-readable color
+    name in a supported language. Alpha values are trimmed off.
 
     .PARAMETER IconColor
-    Icon color hex code
+    Icon color as a hex value, such as #ff0000, or a human-readable color
+    name in a supported language. Alpha values are trimmed off.
 
     .PARAMETER IncludePasswords
     Boolean for including passwords
@@ -40,9 +42,23 @@ function New-HuduAssetLayout {
     Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
     Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
     Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
+    Number fields accept number_type number, currency, or percentage (alias: percent).
+    A currency_code without a number_type implies currency. An explicit number_type takes precedence.
+    Currency fields use a valid supplied ISO 4217 code, otherwise the session culture's currency, otherwise USD.
+    Omit both options to retain Hudu's ordinary number default. Unknown number types are rejected.
 
     .EXAMPLE
     New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
+
+    .EXAMPLE
+    New-HuduAssetLayout -Name 'Routers' -Icon 'fas fa-network-wired' -Color 'azul' -IconColor '#ffffff' -Fields @(
+        @{label = 'Hostname'; 'field_type' = 'Text'}
+    )
+
+    .EXAMPLE
+    New-HuduAssetLayout -Name 'Routers' -Icon 'fas fa-network-wired' -Color 'azul' -IconColor '#ffffff' -SidebarFolderID 3 -Fields @(
+        @{label = 'Hostname'; 'field_type' = 'Text'}
+    )
 
     .EXAMPLE
     New-HuduAssetLayout -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true -Fields @(
@@ -67,16 +83,16 @@ function New-HuduAssetLayout {
         [String]$IconColor,
 
         [Alias('include_passwords')]
-        [bool]$IncludePasswords = '',
+        [bool]$IncludePasswords = $false,
 
         [Alias('include_photos')]
-        [bool]$IncludePhotos = '',
+        [bool]$IncludePhotos = $false,
 
         [Alias('include_comments')]
-        [bool]$IncludeComments = '',
+        [bool]$IncludeComments = $false,
 
         [Alias('include_files')]
-        [bool]$IncludeFiles = '',
+        [bool]$IncludeFiles = $false,
 
         [Alias('password_types')]
         [String]$PasswordTypes = '',
@@ -90,12 +106,20 @@ function New-HuduAssetLayout {
         if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
         if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
         # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
-        switch ($field.'field_type') {
+        switch ("$($field.'field_type')" -replace " ",'') {
             'text'              { $field.'field_type' = 'Text' }
             'richtext'          { $field.'field_type' = 'RichText' }
             'heading'           { $field.'field_type' = 'Heading' }
             'checkbox'          { $field.'field_type' = 'CheckBox' }
-            'number'            { $field.'field_type' = 'Number' }
+            'number'            {
+                $field.'field_type' = 'Number'
+                Set-HuduAssetLayoutNumberField -Field $field
+            }
+            'instructionblock'{
+                $field.'field_type' = 'InstructionBlock'
+                $field.show_in_list = $false
+                if ([string]::isnullorwhitespace($field.'instruction_block')) { $field.instruction_block = '<b>Please Add Instructions</b>' }
+            }            
             'date'              { $field.'field_type' = 'Date' }
             'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }
@@ -106,6 +130,8 @@ function New-HuduAssetLayout {
             'addressdata'       { $field.'field_type' = 'AddressData' }
             'assettag'          { $field.'field_type' = 'AssetTag' }
             'assetlink'         { $field.'field_type' = 'AssetTag' }
+            'divider'           { $field.'field_type' = 'Divider' }
+            'seperator'          { $field.'field_type' = 'Divider' }
             'website'           { $field.'field_type' = 'Website' }
             'link'              { $field.'field_type' = 'Website' }
             'password'          { $field.'field_type' = 'Password' }
@@ -119,8 +145,8 @@ function New-HuduAssetLayout {
 
     $AssetLayout.asset_layout.add('name', $Name)
     $AssetLayout.asset_layout.add('icon', $Icon)
-    $AssetLayout.asset_layout.add('color', $Color)
-    $AssetLayout.asset_layout.add('icon_color', $IconColor)
+    $AssetLayout.asset_layout.add('color', (ConvertTo-HuduLabelColor -Color $Color))
+    $AssetLayout.asset_layout.add('icon_color', (ConvertTo-HuduLabelColor -Color $IconColor))
     $AssetLayout.asset_layout.add('fields', $Fields)
     #$AssetLayout.asset_layout.add('active', $Active)
 
@@ -142,6 +168,10 @@ function New-HuduAssetLayout {
 
     if ($PasswordTypes) {
         $AssetLayout.asset_layout.add('password_types', $PasswordTypes)
+    }
+
+    if ($PSBoundParameters.ContainsKey('SidebarFolderID')) {
+        $AssetLayout.asset_layout.add('sidebar_folder_id', $SidebarFolderID)
     }
 
     if ($Slug) {

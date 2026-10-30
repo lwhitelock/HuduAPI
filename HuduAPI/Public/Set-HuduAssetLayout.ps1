@@ -16,10 +16,12 @@ function Set-HuduAssetLayout {
     Icon class name, example: "fas fa-home"
 
     .PARAMETER Color
-    Hex code for background color, example: #000000
+    Background color as a hex value, such as #000000, or a human-readable color
+    name in a supported language. Alpha values are trimmed off.
 
     .PARAMETER IconColor
-    Hex code for background color, example: #000000
+    Icon color as a hex value, such as #000000, or a human-readable color
+    name in a supported language. Alpha values are trimmed off.
 
     .PARAMETER IncludePasswords
     Boolean to include passwords
@@ -43,9 +45,19 @@ function Set-HuduAssetLayout {
     Array of hashtable or custom objects representing layout fields. Most field types only require a label and type.
     Valid field types are: Text, RichText, Heading, CheckBox, Website (aka Link), Password (aka ConfidentialText), Number, Date, DropDown (deprecated), ListSelect (replacement for Dropdown), Embed, Email (aka CopyableText), Phone, AssetLink
     Field types are Case Sensitive as of Hudu V2.27 due to a known issue with asset type validation.
+    Number fields accept number_type number, currency, or percentage (alias: percent).
+    A currency_code without a number_type implies currency. An explicit number_type takes precedence.
+    Currency fields use a valid supplied ISO 4217 code, otherwise the session culture's currency, otherwise USD.
+    Omit both options to retain Hudu's ordinary number default. Unknown number types are rejected.
 
     .EXAMPLE
     Set-HuduAssetLayout -Id 12 -Name 'Test asset layout' -Icon 'fas fa-home' -IncludePassword $true
+
+    .EXAMPLE
+    Set-HuduAssetLayout -Id 12 -Color 'naranja' -IconColor '#ffffff'
+
+    .EXAMPLE
+    Set-HuduAssetLayout -Id 12 -SidebarFolderID 3
 
     .EXAMPLE
     Set-HuduAssetLayout -Id 12 -Fields @(
@@ -82,12 +94,13 @@ function Set-HuduAssetLayout {
 
         [Alias('password_types')]
         [String]$PasswordTypes = '',
-
+        
         [bool]$Active,
 
         [string]$Slug,
 
-        [array]$Fields
+        [array]$Fields,
+        [bool]$isLocation = $false
     )
 
     foreach ($field in $fields) {
@@ -95,12 +108,20 @@ function Set-HuduAssetLayout {
         if ($field.required) { $field.required = [System.Convert]::ToBoolean($field.required) } else { $field.remove('required') }
         if ($field.expiration) { $field.expiration = [System.Convert]::ToBoolean($field.expiration) } else { $field.remove('expiration') }
         # A bug in versions of Hudu 2.27 and earlier can cause asset layouts to become corrupted if the field type value is not properly cased.
-        switch ($field.'field_type') {
+        switch ("$($field.'field_type')" -replace " ",'') {
             'text'              { $field.'field_type' = 'Text' }
             'richtext'          { $field.'field_type' = 'RichText' }
             'heading'           { $field.'field_type' = 'Heading' }
             'checkbox'          { $field.'field_type' = 'CheckBox' }
-            'number'            { $field.'field_type' = 'Number' }
+            'number'            {
+                $field.'field_type' = 'Number'
+                Set-HuduAssetLayoutNumberField -Field $field
+            }
+            'instructionblock'{
+                $field.'field_type' = 'InstructionBlock'
+                $field.show_in_list = $false
+                if ([string]::isnullorwhitespace($field.'instruction_block')) { $field.instruction_block = '<b>Please Add Instructions</b>' }
+            }
             'date'              { $field.'field_type' = 'Date' }
             'dropdown'          { Write-Warning "Dropdown Field Types have been deprecated but still available via the API. Please use ListSelect types moving forward if possible. This is not a failure."; $field.'field_type' = 'Dropdown' }
             'embed'             { $field.'field_type' = 'Embed' }
@@ -114,6 +135,8 @@ function Set-HuduAssetLayout {
             'website'           { $field.'field_type' = 'Website' }
             'link'              { $field.'field_type' = 'Website' }
             'password'          { $field.'field_type' = 'Password' }
+            'divider'           { $field.'field_type' = 'Divider' }
+            'seperator'          { $field.'field_type' = 'Divider' }
             'confidentialtext'  { $field.'field_type' = 'Password' }
             'listselect' { $field.'field_type' = 'ListSelect' }
             Default { throw "Invalid field type: $($field.'field_type') found in field $($field.name)" }
@@ -133,11 +156,11 @@ function Set-HuduAssetLayout {
     }
 
     if ($Color) {
-        $AssetLayout.asset_layout.color = $Color
+        $AssetLayout.asset_layout.color = ConvertTo-HuduLabelColor -Color $Color
     }
 
     if ($IconColor) {
-        $AssetLayout.asset_layout.icon_color = $IconColor
+        $AssetLayout.asset_layout.icon_color = ConvertTo-HuduLabelColor -Color $IconColor
     }
 
     if ($Fields) {
@@ -164,15 +187,18 @@ function Set-HuduAssetLayout {
         $AssetLayout.asset_layout.password_types = $PasswordTypes
     }
 
-    if ($SidebarFolderID) {
-        $AssetLayout.asset_layout.sidebar_folder_id = $SidebarFolderID
+    if ($PSBoundParameters.ContainsKey('SidebarFolderID')) {
+        $AssetLayout.asset_layout | Add-Member -MemberType NoteProperty -Name sidebar_folder_id -Force -Value $SidebarFolderID
     }
 
     if ($Slug) {
         $AssetLayout.asset_layout.slug = $Slug
     }
+    if ($PSBoundParameters.ContainsKey('isLocation')){
+        $AssetLayout.asset_layout.location = [System.Convert]::ToBoolean($isLocation)
+    }
 
-    if ($Active) {
+    if ($PSBoundParameters.ContainsKey('Active')){
         $AssetLayout.asset_layout.active = [System.Convert]::ToBoolean($Active)
     }
 

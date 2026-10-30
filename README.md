@@ -6,7 +6,63 @@ https://github.com/lwhitelock/HuduAPI/releases
 
     install-module HuduAPI
 
+## Languages
+
+Colors and Object types can be referred to using common terms in the following languages
+    - English
+    - German
+    - French
+    - Italian
+    - Spanish
+    - Portuguese
+    - Dutch
+    - Polish
+
+## Checking if Core Feature is On/Off with Get-HuduFeatureAvailability
+
+Get-HuduFeatureAvailability returns a boolean for every object type except articles. (for articles, it returns a PSCustomObject Like Below).
+```
+Get-HuduFeatureAvailability -Core_Feature articles
+CompanyKB CentralKB
+--------- ---------
+     True     False
+Get-HuduFeatureAvailability -Core_Feature wissensartikel
+CompanyKB CentralKB
+--------- ---------
+    False      True
+Get-HuduFeatureAvailability -Core_Feature articoli
+CompanyKB CentralKB
+--------- ---------
+    False     False
+Get-HuduFeatureAvailability -Core_Feature artículo
+CompanyKB CentralKB
+--------- ---------
+     True      True
+```
+
+All other core object types return True/False
+
+```
+Get-HuduFeatureAvailability -Core_Feature photo
+False
+Get-HuduFeatureAvailability -Core_Feature photograph
+True
+Get-HuduFeatureAvailability -Core_Feature processes
+False
+Get-HuduFeatureAvailability -Core_Feature prozedur
+True
+Get-HuduFeatureAvailability -Core_Feature assets
+False
+Get-HuduFeatureAvailability -Core_Feature ausruestung
+True
+Get-HuduFeatureAvailability -Core_Feature passwords
+True
+Get-HuduFeatureAvailability -Core_Feature credenziali
+False
+```
+
 ## Implemented Commands
+	Get-HuduFeatureAvailability
     Copy-HuduProcedure
     Get-HuduActivityLogs
     Get-HuduAPIKey
@@ -37,6 +93,7 @@ https://github.com/lwhitelock/HuduAPI/releases
     Get-HuduNetworks
     Get-HuduPasswords
     Get-HuduPasswordFolders
+    Get-HuduPasswordShares
     Get-HuduProcedures
     Get-HuduProcedureTasks
     Get-HuduPhotos
@@ -55,6 +112,8 @@ https://github.com/lwhitelock/HuduAPI/releases
     Get-HuduWebsites
     Initialize-HuduFolder
     Invoke-HuduRequest
+    Move-HuduArticleCompany
+    Move-HuduAssetCompany
     New-HuduAPIKey
     New-HuduArticle
     New-HuduAsset
@@ -72,6 +131,7 @@ https://github.com/lwhitelock/HuduAPI/releases
     New-HuduNetwork
     New-HuduPassword
     New-HuduPasswordFolder
+    New-HuduPasswordShare
     New-HuduPublicPhoto
     New-HuduPhoto
     New-HuduProcedure
@@ -103,6 +163,7 @@ https://github.com/lwhitelock/HuduAPI/releases
     Remove-HuduNetwork
     Remove-HuduPassword
     Remove-HuduPasswordFolder
+    Remove-HuduPasswordShare
     Remove-HuduPhoto
     Remove-HuduProcedure
     Remove-HuduProcedureTask
@@ -118,6 +179,8 @@ https://github.com/lwhitelock/HuduAPI/releases
     Save-HuduExports
     Set-HuduArticle
     Set-HuduArticleArchive
+    Set-HuduArticlePinned
+    Set-HuduArticleUnPinned
     Set-HuduAsset
     Set-HuduAssetArchive
     Set-HuduAssetLayout
@@ -148,6 +211,7 @@ https://github.com/lwhitelock/HuduAPI/releases
     Set-HuduVLAN
     Set-HuduVLANZone
     Set-HuduWebsite
+    Set-HuduWebsiteArchive
     Start-HuduProcedure
     Start-HuduExport
     Start-HuduS3Export
@@ -214,6 +278,27 @@ You can either user id or you can use title and company_name together
     
     New-HuduArticle -name "Test" -content "<p>Html content of article</p>" -folder_id 100 -company_id 20
 Name and Content are mandatory, folder_id and company_id are optional. Setting no company ID adds to the global KB
+
+## Password sharing links
+
+Use [New-HuduPasswordShare](Docs/New-HuduPasswordShare.md) to create a public sharing link with a required expiry in seconds. The returned object includes the full public URL.
+
+```powershell
+$Share = New-HuduPasswordShare -AssetPasswordId 42 -ExpireIn 3600 -OneTimeExpire $true -IncludeUsername $true -IncludeOTP $false
+$Share.url
+
+# Retrieve all links, a single link, or a specific page.
+Get-HuduPasswordShares -AssetPasswordId 42
+Get-HuduPasswordShares -AssetPasswordId 42 -Id $Share.id
+Get-HuduPasswordShares -AssetPasswordId 42 -Page 2 -PageSize 25
+
+# Revoke access immediately (prompts for confirmation).
+Remove-HuduPasswordShare -AssetPasswordId 42 -Id $Share.id
+```
+
+[Get-HuduPasswordShares](Docs/Get-HuduPasswordShares.md) retrieves every page by default. [Remove-HuduPasswordShare](Docs/Remove-HuduPasswordShare.md) also accepts sharing link objects through the pipeline when `-AssetPasswordId` is supplied. Creation and removal support `-WhatIf` and `-Confirm`.
+
+These endpoints require an API key with password access. Creation requires external sharing to be enabled for the account; deletion requires destructive actions to be enabled for the API key. Optional creation fields are omitted unless supplied, and boolean fields accept both `$true` and `$false`.
 
 ## Community & Socials
 

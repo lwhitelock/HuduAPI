@@ -5,6 +5,7 @@ function Set-HuduRackStorage {
 
     .DESCRIPTION
     Calls the Hudu API to update a Rack Storage by ID. You can update any subset of properties including name, dimensions, company, or location.
+    Only explicitly supplied properties are sent. Omitted properties retain their existing values.
 
     .PARAMETER Id
     ID of the Rack Storage to update.
@@ -19,7 +20,7 @@ function Set-HuduRackStorage {
     Updated company ID associated with the Rack Storage.
 
     .PARAMETER Description
-    Optional updated description for the Rack Storage.
+    Optional updated description for the Rack Storage. Use an empty string to clear it.
 
     .PARAMETER MaxWattage
     Maximum power rating (watts) for the updated Rack Storage.
@@ -65,14 +66,24 @@ function Set-HuduRackStorage {
     )
 
     $Body = @{}
-    if ($Name)          { $Body.name = $Name }
-    if ($LocationId)    { $Body.location_id = $LocationId }
-    if ($CompanyId)     { $Body.company_id = $CompanyId }
-    if ($Description)   { $Body.description = $Description }
-    if ($MaxWattage)    { $Body.max_wattage = $MaxWattage }
-    if ($StartingUnit)  { $Body.starting_unit = $StartingUnit }
-    if ($Height)        { $Body.height = $Height }
-    if ($Width)         { $Body.width = $Width }
+    $Fields = @{
+        Name         = 'name'
+        LocationId   = 'location_id'
+        CompanyId    = 'company_id'
+        Description  = 'description'
+        MaxWattage   = 'max_wattage'
+        StartingUnit = 'starting_unit'
+        Height       = 'height'
+        Width        = 'width'
+    }
+    foreach ($ParameterName in $Fields.Keys) {
+        if ($PSBoundParameters.ContainsKey($ParameterName)) {
+            $Body[$Fields[$ParameterName]] = $PSBoundParameters[$ParameterName]
+        }
+    }
+    if ($Body.Count -eq 0) {
+        throw 'Specify at least one rack storage property to update.'
+    }
 
     $Request = @{
         Method   = 'PUT'

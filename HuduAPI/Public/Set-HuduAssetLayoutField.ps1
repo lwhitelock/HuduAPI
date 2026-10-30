@@ -11,6 +11,8 @@ function Set-HuduAssetLayoutField {
         [string]$PropertyName,
 
         [Parameter(Mandatory)]
+        [AllowNull()]
+        [AllowEmptyString()]
         $PropertyValue
     )
 
@@ -40,6 +42,13 @@ function Set-HuduAssetLayoutField {
     }
 
     # 4. Apply mutation
+    if ($PropertyName -ieq 'currency_code') {
+        if ($target.field_type -ine 'Number') {
+            throw "Currency codes can only be set on Number fields."
+        }
+        $PropertyValue = Assert-CurrencyISO4217 -CurrencyCode $PropertyValue
+        $target.number_type = 'currency'
+    }
     $target[$PropertyName] = $PropertyValue
 
     # 5. Repost the entire layout using original layout properties

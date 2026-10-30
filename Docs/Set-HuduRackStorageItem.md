@@ -14,13 +14,15 @@ Update an existing Rack Storage Item in Hudu.
 
 ```
 Set-HuduRackStorageItem [-Id] <Int32> [[-RackStorageRoleId] <Int32>] [[-AssetId] <Int32>]
- [[-StartUnit] <Int32>] [[-EndUnit] <Int32>] [[-Status] <Int32>] [[-Side] <Int32>] [[-MaxWattage] <Int32>]
+ [[-StartUnit] <Int32>] [[-EndUnit] <Int32>] [[-Status] <Int32>] [[-Side] <String>] [[-MaxWattage] <Int32>]
  [[-PowerDraw] <Int32>] [[-ReservedMessage] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Calls the Hudu API to update a Rack Storage Item using its ID.
 You can modify any of the properties such as associated asset, rack units, power draw, and reserved message.
+Only explicitly supplied properties are sent.
+Omitted properties retain their existing values.
 
 ## EXAMPLES
 
@@ -109,7 +111,8 @@ Accept wildcard characters: False
 ```
 
 ### -Status
-A status code indicating the usage or reservation state of the rack item.
+A numeric status code for the rack item (0 for reserved, 1 for used).
+Omit to leave unchanged.
 
 ```yaml
 Type: Int32
@@ -124,16 +127,18 @@ Accept wildcard characters: False
 ```
 
 ### -Side
-The side of the rack the item is on ('Front' or 'Rear').
+Rack side: Front (0) or Rear (1).
+Accepts names or numbers.
+Omit to leave unchanged.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 7
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -170,6 +175,7 @@ Accept wildcard characters: False
 
 ### -ReservedMessage
 A text message displayed when the item is reserved.
+Use an empty string to clear it.
 
 ```yaml
 Type: String

@@ -5,6 +5,7 @@ function Set-HuduRackStorageItem {
 
     .DESCRIPTION
     Calls the Hudu API to update a Rack Storage Item using its ID. You can modify any of the properties such as associated asset, rack units, power draw, and reserved message.
+    Only explicitly supplied properties are sent. Omitted properties retain their existing values.
 
     .PARAMETER Id
     The ID of the Rack Storage Item to update.
@@ -22,10 +23,10 @@ function Set-HuduRackStorageItem {
     The rack unit where this asset ends.
 
     .PARAMETER Status
-    A status code indicating the usage or reservation state of the rack item.
+    A numeric status code for the rack item (0 for reserved, 1 for used). Omit to leave unchanged.
 
     .PARAMETER Side
-    The side of the rack the item is on ('Front' or 'Rear').
+    Rack side: Front (0) or Rear (1). Accepts names or numbers. Omit to leave unchanged.
 
     .PARAMETER MaxWattage
     The maximum power capacity allowed for this item.
@@ -34,7 +35,7 @@ function Set-HuduRackStorageItem {
     The actual power draw of the asset, in watts.
 
     .PARAMETER ReservedMessage
-    A text message displayed when the item is reserved.
+    A text message displayed when the item is reserved. Use an empty string to clear it.
 
     .EXAMPLE
     Set-HuduRackStorageItem -Id 456 -StartUnit 10 -EndUnit 15 -Side "Rear" -PowerDraw 120
@@ -60,7 +61,8 @@ function Set-HuduRackStorageItem {
 
         [int]$Status,
 
-        [ValidateSet(1, 0)][int]$Side,
+        [ValidateSet('Front', 'Rear', '0', '1')]
+        [string]$Side,
 
         [int]$MaxWattage,
 
@@ -69,31 +71,33 @@ function Set-HuduRackStorageItem {
         [string]$ReservedMessage
     )
 
-    $Body = @{}
-
-    if ($RackStorageRoleId) { $Body.rack_storage_role_id = $RackStorageRoleId }
-    if ($AssetId)           { $Body.asset_id = $AssetId }
-    if ($EndUnit)           { $Body.end_unit = $EndUnit }
-    if ($MaxWattage)        { $Body.max_wattage = $MaxWattage }
-    if ($PowerDraw)         { $Body.power_draw = $PowerDraw }
-    if ($ReservedMessage)   { $Body.reserved_message = $ReservedMessage }
-
-    $existing = Get-HuduRackStorageItems -Id $Id
-
-    if (-not $PSBoundParameters.ContainsKey('StartUnit')) {
-        $StartUnit = $existing.start_unit
+    $ItemPayload = @{}
+    $Fields = @{
+        RackStorageRoleId = 'rack_storage_role_id'
+        AssetId           = 'asset_id'
+        StartUnit         = 'start_unit'
+        EndUnit           = 'end_unit'
+        Status            = 'status'
+        MaxWattage        = 'max_wattage'
+        PowerDraw         = 'power_draw'
+        ReservedMessage   = 'reserved_message'
     }
-    if (-not $PSBoundParameters.ContainsKey('Side')) {
-        $Side = if ($existing.side.ToLower() -eq "front") {0} else {1}
+    foreach ($ParameterName in $Fields.Keys) {
+        if ($PSBoundParameters.ContainsKey($ParameterName)) {
+            $ItemPayload[$Fields[$ParameterName]] = $PSBoundParameters[$ParameterName]
+        }
     }
-    if (-not $PSBoundParameters.ContainsKey('Status')) {
-        $Status = if ($existing.status.toLower() -eq "reserved") {0} else {1}
+    if ($PSBoundParameters.ContainsKey('Side')) {
+        $ItemPayload.side = if ($Side -in @('Front', '0')) { 0 } else { 1 }
+    }
+    if ($ItemPayload.Count -eq 0) {
+        throw 'Specify at least one rack storage item property to update.'
     }
 
     $HuduRequest = @{
         Method      = 'PUT'
         Resource    = "/api/v1/rack_storage_items/$Id"
-        Body        = ($Body | ConvertTo-Json -Depth 10)
+        Body        = (@{ rack_storage_item = $ItemPayload } | ConvertTo-Json -Depth 10)
     }
     Invoke-HuduRequest @HuduRequest
 }

@@ -94,6 +94,6 @@ function Get-HuduAssets {
             Method   = 'GET'
             Params   = $Params
         }
-        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -Property assets
+        Invoke-HuduRequestPaginated -HuduRequest $HuduRequest -PageSize 250 -Property assets
     }
 }
