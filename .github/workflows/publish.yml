@@ -4,29 +4,33 @@ on:
   push:
     tags: '*'
 
+permissions:
+  contents: read
+
 jobs:
-  publish:   
-    name: Publish 
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
-      - name: PowerShell script
-        uses: Amadevus/pwsh-script@v2.0.3
-        id: Build-Module
-        with:
-          script: | 
-            Install-Module ModuleBuilder -Force
-            Build-Module
-
-      - name: Update Metadata
-        uses: natescherer/update-powershell-metadata-action@v2
-        with:
-          path: .\Output\HuduAPI
-          version: ${{ github.ref_name }}
+      - name: Build PowerShell Module
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Install-Module ModuleBuilder -Repository PSGallery -Scope CurrentUser -Force
+          $version = $env:GITHUB_REF_NAME -replace '^v', ''
+          Build-Module -SemVer $version
+          Test-ModuleManifest -Path .\Output\HuduAPI\HuduAPI.psd1 | Out-Null
 
       - name: Publish PowerShell Module
-        uses: pcgeek86/publish-powershell-module-action@v20
-        with:
-          modulePath: .\Output\HuduAPI
-          NuGetApiKey: ${{ secrets.PS_GALLERY_KEY }}
+        env:
+          PS_GALLERY_KEY: ${{ secrets.PS_GALLERY_KEY }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ([string]::IsNullOrWhiteSpace($env:PS_GALLERY_KEY)) {
+            throw 'The PS_GALLERY_KEY secret is required to publish to PowerShell Gallery.'
+          }
+          Publish-Module -Path .\Output\HuduAPI -Repository PSGallery -NuGetApiKey $env:PS_GALLERY_KEY
