@@ -78,6 +78,7 @@ function Invoke-HuduRequest {
 
     # One session for every request, so calls reuse the connection instead of a new TCP and TLS handshake each time
     if (-not $Script:Int_HuduWebSession) { $Script:Int_HuduWebSession = [Microsoft.PowerShell.Commands.WebRequestSession]::new() }
+    $Script:Int_HuduWebSession.Headers.Clear()
 
     $RestMethod = @{
         Method      = $Method
@@ -113,8 +114,16 @@ function Invoke-HuduRequest {
         } elseif ($errorMessage -ilike '*Not Found*') {
             return $null
         } else {
-            if ($script:SKIP_HAPI_ERROR_RETRY -and $true -eq $script:SKIP_HAPI_ERROR_RETRY) { Write-Error "$_"; return $null }
-            if ($script:SKIP_HAPI_POST_RETRY -and $Method -eq 'POST') { Write-Error "$_"; return $null }
+            if (($script:SKIP_HAPI_ERROR_RETRY -and $true -eq $script:SKIP_HAPI_ERROR_RETRY) -or
+                ($script:SKIP_HAPI_POST_RETRY -and $Method -eq 'POST')) {
+                Write-APIErrorObject -name "$($resource ?? 'general')-$($method ?? 'unknown')" -ErrorObject @{
+                    exception = $_
+                    request = "$Method $Uri"
+                    resolution = 'Retry skipped by request options.'
+                }
+                Write-Error "$_"
+                return $null
+            }
             Write-APIErrorObject -name "$($resource ?? 'general')-$($method ?? 'unknown')" -ErrorObject @{
                 exception = $_
                 request = "$Method $Uri"

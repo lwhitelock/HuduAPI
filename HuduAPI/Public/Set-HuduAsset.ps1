@@ -37,7 +37,7 @@ function Set-HuduAsset {
     Url identifier
 
     .PARAMETER ExistingAsset
-    The asset as already returned by Get-HuduAssets. The update is built from it instead of fetching the asset again
+    The asset as already returned by Get-HuduAssets. Its id must match -Id. The update is built from it instead of fetching the asset again
 
     .EXAMPLE
     Set-HuduAsset -AssetId 1 -CompanyId 1 -Fields @(@{'field_name'='Field Value'})
@@ -81,6 +81,10 @@ function Set-HuduAsset {
 
         [object]$ExistingAsset
     )
+
+    if ($ExistingAsset -and $ExistingAsset.id -ne $Id) {
+        throw "ExistingAsset.id must match the requested asset ID ($Id)."
+    }
 
     $Object = $(if ($ExistingAsset) { $ExistingAsset } else { Get-HuduAssets -id $Id }) | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
     if ($Object) {
