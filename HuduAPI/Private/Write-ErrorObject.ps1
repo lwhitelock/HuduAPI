@@ -43,7 +43,9 @@ $stringOutput
 ==== PROPERTY DUMP ====
 $propertyDump
 "@
-    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) {Set-HapiErrorsDirectory}
+    Write-Verbose $logContent
+    # Writing the log to disk and the host is opt-in, enabled by calling Set-HapiErrorsDirectory
+    if ([string]::IsNullOrWhiteSpace($script:HAPI_ERRORS_DIRECTORY)) { return }
 
     $SafeName = ($Name -replace '[\\/:*?"<>|]', '_') -replace '\s+', ''
     if ($SafeName.Length -gt 60) {

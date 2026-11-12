@@ -36,8 +36,14 @@ function Set-HuduAsset {
     .PARAMETER Slug
     Url identifier
 
+    .PARAMETER ExistingAsset
+    The asset as already returned by Get-HuduAssets. The update is built from it instead of fetching the asset again
+
     .EXAMPLE
     Set-HuduAsset -AssetId 1 -CompanyId 1 -Fields @(@{'field_name'='Field Value'})
+
+    .EXAMPLE
+    Get-HuduAssets -CompanyId 1 -AssetLayoutId 2 | ForEach-Object { Set-HuduAsset -Id $_.id -ExistingAsset $_ -Fields @(@{'field_name'='Field Value'}) }
 
     .NOTES
     General notes
@@ -71,10 +77,12 @@ function Set-HuduAsset {
         [Alias('primary_manufacturer')]
         [string]$PrimaryManufacturer,
 
-        [string]$Slug
+        [string]$Slug,
+
+        [object]$ExistingAsset
     )
-    
-    $Object = Get-HuduAssets -id $Id | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
+
+    $Object = $(if ($ExistingAsset) { $ExistingAsset } else { Get-HuduAssets -id $Id }) | Select-Object name,asset_layout_id,company_id,slug,primary_serial,primary_model,primary_mail,id,primary_manufacturer,@{n='custom_fields';e={$_.fields | ForEach-Object {[pscustomobject]@{$_.label.replace(' ','_').tolower()= $_.value}}}}
     if ($Object) {
         $Asset = [ordered]@{asset = $Object }
         $CompanyId = $Object.company_id
